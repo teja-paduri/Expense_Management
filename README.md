@@ -3,10 +3,10 @@ This application helps the user in managing both individual and group expenses b
 
 **Team Member**
 
-Surya Teja Paduri
-Anusha Chintha
-Venkata Karthik Nakka
-Upendar Penmetcha
+Surya Teja Paduri     
+Anusha Chintha    
+Venkata Karthik Nakka     
+Upendar Penmetcha   
 
 **Tech Stack**
 
