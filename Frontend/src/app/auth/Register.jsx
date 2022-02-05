@@ -15,9 +15,9 @@ import LocaleToggle from './../locale/LocaleToggle';
 // import i18n from './../../locals/i18n';
 
 const registerValidationSchema = yup.object().shape({
-  name: yup.string().required('Name field is required').min(4, 'Name must be at most 4 character'),
+  name: yup.string().required('Name field is required').min(4, 'Name must be atleast 4 character'),
   email: yup.string().required('Email field is required').email('Email must be a valid email'),
-  password: yup.string().required('Password field is required').min(6, 'Password must be at most 6 character'),
+  password: yup.string().required('Password field is required').min(6, 'Password must be atleast 6 character'),
   confirm_password: yup.string().required('Password confirm field is required').oneOf([yup.ref('password')], 'Confirm password does not match')
 });
 
