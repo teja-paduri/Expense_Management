@@ -6,7 +6,9 @@ import { Helmet } from 'react-helmet';
 import { Card } from "primereact/card";
 import { Messages } from "primereact/messages";
 import { Button } from "primereact/button";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import { BrowserRouter as Router,  Switch, Route, Redirect,Link } from "react-router-dom";
+import AfterLogin from './AfterLogin';
 
 import LocaleToggle from './../locale/LocaleToggle';
 
@@ -17,7 +19,8 @@ import { useTracked } from './../../Store';
 
 const loginValidationSchema = yup.object().shape({
   email: yup.string().required('Email field is required.').email('Email must be a valid email.'),
-  password: yup.string().required('Password field is required.').min(6, 'Must be 6 characters.'),
+  password: yup.string().required('Password field is required.').min(6, 'Must be atleast 6 characters.'),
+
 });
 
 let messages; // For alert message
@@ -33,12 +36,17 @@ const Login = (props) => {
   const { register, handleSubmit, errors } = useForm({
     validationSchema: loginValidationSchema
   });
-
+  
   const submitLogin = (data) => {
+    console.log(data,'llllllllllllllllllll');
+    // e.preventDefault();
+    props.history.push('/AfterLogin') 
+    return ( <Redirect  to="/AfterLogin/" />)
+    /*
     messages.clear(); // Clear existing messages
     setSubmitting(true);
     axios.post(authApiEndpoints.login, JSON.stringify(data))
-      .then(response => {
+    .then(response => {
         // console.log('success');
         // console.log(response.data);
 
@@ -63,7 +71,7 @@ const Login = (props) => {
           messages.show({ severity: 'error', detail: 'Something went wrong. Try again.', sticky: true });
         }
         setSubmitting(false);
-      })
+      })*/
   };
 
   return (
@@ -79,7 +87,7 @@ const Login = (props) => {
             <div className="p-card-subtitle">Enter login credentials</div>
           </div>
 
-          <form onSubmit={handleSubmit(submitLogin)}>
+          <form onSubmit={handleSubmit(submitLogin)}> 
             <div className="p-col-12 p-fluid">
               <div className="p-inputgroup">
                 <span className="p-inputgroup-addon"><i className="pi pi-envelope" /></span>
@@ -96,6 +104,7 @@ const Login = (props) => {
             </div>
             <div className="p-col-12 p-fluid">
               <Button disabled={submitting} type="submit" label={'Sign In'} icon="pi pi-sign-in" className="p-button-raised" />
+              {/* <Link to="/AfterLogin" className="btn btn-primary">Sign up</Link> */}
             </div>
             <div className="p-grid p-nogutter p-col-12 p-justify-center">
               <Link to="/register">Register</Link>

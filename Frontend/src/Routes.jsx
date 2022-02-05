@@ -10,6 +10,7 @@ import { isLoggedIn } from './Helpers';
 import Website from "./app/landing/Website";
 import Login from './app/auth/Login';
 import Register from './app/auth/Register';
+import AfterLogin from './app/auth/AfterLogin';
 // import DashboardLayout from './app/layouts/DashboardLayout';
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -21,7 +22,8 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
       ) : (
           <Redirect
             to={{
-              pathname: '/login',
+              pathname: '/AfterLogin',
+              // pathname: '/login',
               state: { from: props.location }
             }}
           />
@@ -54,6 +56,7 @@ const Routes = () => (
       <Route exact path={'/'} component={Website} />
       <GuestRoute exact path={'/login'} component={Login} />
       <GuestRoute exact path={'/register'} component={Register} />
+      <GuestRoute exact path={'/AfterLogin'} component={AfterLogin} />
       {/* <PrivateRoute strict path={'/'} component={DashboardLayout} /> */}
     </Switch>
   </HashRouter>
