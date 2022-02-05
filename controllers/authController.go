@@ -4,15 +4,15 @@ import (
 	"strconv"
 	"time"
 
-	"expense_management/database"
+	"expenseManagement/database"
+	"expenseManagement/models"
 
-	"../models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber"
 	"golang.org/x/crypto/bcrypt"
 )
 
-const SecretKey = "s"
+const SecretKey = "secret"
 
 func Register(c *fiber.Ctx) error {
 	var data map[string]string
