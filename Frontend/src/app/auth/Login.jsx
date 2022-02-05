@@ -20,6 +20,7 @@ import { useTracked } from './../../Store';
 const loginValidationSchema = yup.object().shape({
   email: yup.string().required('Email field is required.').email('Email must be a valid email.'),
   password: yup.string().required('Password field is required.').min(6, 'Must be atleast 6 characters.'),
+
 });
 
 let messages; // For alert message
