@@ -17,7 +17,7 @@ type ExpenseStoreSQL struct {
 func (es *ExpenseStoreSQL) GetUser(inputid int) *models.User {
 	var user *models.User
 
-	rows, err := es.Query("SELECT * FROM users WHERE user_id = ?", inputid)
+	rows, err := es.Query("SELECT * FROM user WHERE id = ?", inputid)
 
 	if err != nil {
 		log.Fatalln(err)
@@ -44,7 +44,7 @@ func (es *ExpenseStoreSQL) GetUser(inputid int) *models.User {
 func NewExpenseStoreSQL() (*ExpenseStoreSQL, error) {
 	e := ExpenseStoreSQL{}
 
-	db, err := sql.Open("sqlite3", "./db/expense-tracker.db")
+	db, err := sql.Open("sqlite3", "./expense_management.db")
 	if err != nil {
 		return nil, err
 	}

@@ -18,7 +18,7 @@ type ExpenseStore interface {
 
 // ExpenseServer is an HTTP interface for Expense Tracking
 type ExpenseServer struct {
-	store ExpenseStore
+	Store ExpenseStore
 }
 
 func (es *ExpenseServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -44,7 +44,7 @@ func (es *ExpenseServer) retrieveUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user := es.store.GetUser(userID)
+	user := es.Store.GetUser(userID)
 
 	if user == nil {
 		w.WriteHeader(http.StatusNotFound)
