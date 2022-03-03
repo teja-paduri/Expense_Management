@@ -14,7 +14,7 @@ func Connect() {
 	connection, err := gorm.Open(sqlite.Open("./management.db"), &gorm.Config{})
 
 	if err != nil {
-		panic("DB connection failed !!")
+		panic("DB not connected !!")
 	}
 
 	DB = connection

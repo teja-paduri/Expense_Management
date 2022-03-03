@@ -1,10 +1,9 @@
 package controllers
 
 import (
+	"expense_management/database"
 	"strconv"
 	"time"
-
-	"expense_management/database"
 
 	"../models"
 	"github.com/dgrijalva/jwt-go"
