@@ -11,9 +11,9 @@ import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 
-import CurrencySidebar from './../common/CurrencySidebar';
-import ExpenseListItem from './../expense/ExpenseListItem';
-import IncomeListItem from './../income/IncomeListItem';
+import CurrencySidebar from '../common/CurrencySidebar';
+import ExpenseListItem from '../expense/ExpenseListItem';
+import IncomeListItem from '../income/IncomeListItem';
 
 import { expenseApiEndpoints, incomeApiEndpoints, reportApiEndpoints } from './../../API';
 import axios from './../../Axios';
@@ -43,13 +43,13 @@ const Dashboard = (props) => {
   const [monthlyIncomeSummary, setMonthlyIncomeSummary] = useState({});
   const [expenseCategories, setExpenseCategories] = useState([]);
 
-  useEffect(() => {
-    requestExpenseCategory();
-    requestExpense();
-    requestIncome();
-    requestExpenseSummary();
-    requestIncomeSummary();
-  }, []);
+  // useEffect(() => {
+  //   requestExpenseCategory();
+  //   requestExpense();
+  //   requestIncome();
+  //   requestExpenseSummary();
+  //   requestIncomeSummary();
+  // }, []);
 
 
   const requestExpenseCategory = async () => {
@@ -276,7 +276,7 @@ const Dashboard = (props) => {
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
-                      {renderSummary(monthlyExpenseSummary.expense_last_month)}
+                      {/* {renderSummary(monthlyExpenseSummary.expense_last_month)} */}
                     </div>
                   </div>
                 </div>
@@ -288,7 +288,7 @@ const Dashboard = (props) => {
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
-                      {renderSummary(monthlyExpenseSummary.expense_this_month)}
+                      {/* {renderSummary(monthlyExpenseSummary.expense_this_month)} */}
                     </div>
                   </div>
                 </div>
@@ -301,7 +301,7 @@ const Dashboard = (props) => {
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
-                      {renderSummary(monthlyIncomeSummary.income_last_month)}
+                      {/* {renderSummary(monthlyIncomeSummary.income_last_month)} */}
                     </div>
                   </div>
                 </div>
@@ -313,7 +313,7 @@ const Dashboard = (props) => {
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
-                      {renderSummary(monthlyIncomeSummary.income_this_month)}
+                      {/* {renderSummary(monthlyIncomeSummary.income_this_month)} */}
                     </div>
                   </div>
                 </div>
@@ -412,7 +412,7 @@ const Dashboard = (props) => {
             </div>
             <br />
             <div>
-              {renderRecentExpense()}
+              {/* {renderRecentExpense()} */}
             </div>
           </Card>
         </div>
