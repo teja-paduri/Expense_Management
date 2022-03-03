@@ -1,6 +1,7 @@
 package main
 
 import (
+	"expenseManagement/database"
 	"expenseManagement/models"
 	"expenseManagement/routes"
 
@@ -13,7 +14,7 @@ import (
 var DB *gorm.DB
 
 func main() {
-	// database.Connect()
+	database.Connect()
 	connection, err := gorm.Open(sqlite.Open("expense_management.db"), &gorm.Config{})
 
 	if err != nil {
