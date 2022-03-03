@@ -1,36 +1,37 @@
 package main
 
 import (
-	"expenseManagement/database"
 	"expenseManagement/models"
-	"expenseManagement/routes"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	// "gorm.io/gorm"
 )
 
-var DB *gorm.DB
+// var db *gorm.DB
 
 func main() {
-	database.Connect()
-	connection, err := gorm.Open(sqlite.Open("expense_management.db"), &gorm.Config{})
+	// database.Connect()
+	// connection, err := gorm.Open(sqlite.Open("./expense_management.db"), &gorm.Config{})
+	db, err := gorm.Open("sqlite3", "/Users/suryatejapaduri/UF/SE/Expense_Management/expense_management.db")
 
 	if err != nil {
 		panic("DB connection failed !!")
 	}
+	defer db.Close()
 
-	DB = connection
+	db.AutoMigrate(&models.User{})
 
-	connection.AutoMigrate(&models.User{})
+	// DB = connection
 
-	app := fiber.New()
+	// connection.AutoMigrate(&models.User{})
 
-	app.Use(cors.New(cors.Config{
-		AllowCredentials: true,
-	}))
-	routes.Setup(app)
+	// app := fiber.New()
 
-	app.Listen(":8000")
+	// app.Use(cors.New(cors.Config{
+	// 	AllowCredentials: true,
+	// }))
+	// routes.Setup(app)
+
+	// app.Listen(":8000")
 }

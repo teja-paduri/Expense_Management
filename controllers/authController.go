@@ -1,6 +1,9 @@
 package controllers
 
 import (
+	"encoding/json"
+	"fmt"
+	"net/http"
 	"strconv"
 	"time"
 
@@ -8,8 +11,13 @@ import (
 	"expenseManagement/models"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/gofiber/fiber"
+	// "github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
+
+	// "gorm.io/gorm"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
 const SecretKey = "secret"
@@ -123,4 +131,17 @@ func Logout(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"message": "success",
 	})
+}
+
+func getAllUsers(w http.ResponseWriter, r *http.Request) {
+	db, err := gorm.Open("sqlite3", "./expense_management.db")
+	if err != nil {
+		panic("DB connection failed !!")
+	}
+	defer db.Close()
+	var users []models.User
+	db.Find(&users)
+	fmt.Println("{}", users)
+	json.NewEncoder(w).Encode(users)
+
 }
