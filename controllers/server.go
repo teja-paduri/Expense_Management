@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"expenseManagement/models"
 	"fmt"
 	"log"
 	"net/http"
@@ -11,17 +12,8 @@ import (
 
 const contentTypeJSON = "application/json"
 
-// User represents a user
-type User struct {
-	UserID    int64  `json:"userID"`
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Email     string `json:"email"`
-}
-
-// ExpenseStore stores all expense related information about the users
 type ExpenseStore interface {
-	GetUser(id int) *User
+	GetUser(id int) *models.User
 }
 
 // ExpenseServer is an HTTP interface for Expense Tracking
