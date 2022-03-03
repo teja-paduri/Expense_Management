@@ -29,6 +29,7 @@ import PageNotFound from '../errors/404';
 import { logout } from './../../Axios';
 import { PrivateRoute } from './../../Routes';
 import { useTracked } from './../../Store';
+// import background from './../../assets/landing_logo.png';
 
 const isDesktop = () => {
   return window.innerWidth > 1024;
@@ -91,7 +92,7 @@ const DashboardLayout = (props) => {
     }
   }
 
-  let logo = state.layoutColorMode === 'dark' ? require('./../../assets/logo-sidebar.png') : require('./../../assets/logo-sidebar.png');
+  let logo = state.layoutColorMode === 'dark' ? require('./../../assets/landing_logo.png') : require('./../../assets/landing_logo.png');
   let wrapperClass = classNames('layout-wrapper', {
     'layout-overlay': state.layoutMode === 'overlay',
     'layout-static': state.layoutMode === 'static',
