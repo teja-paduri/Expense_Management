@@ -44,8 +44,6 @@ func RetrieveUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	enc := json.NewEncoder(w)
 
-	log.Printf(params["id"])
-
 	userID, err := strconv.Atoi(params["id"])
 
 	if err != nil {
@@ -68,6 +66,5 @@ func RetrieveUser(w http.ResponseWriter, r *http.Request) {
 	// user = {"Name":"teja"}
 
 	w.WriteHeader(http.StatusOK)
-	println(user.Name)
 	enc.Encode(user)
 }
