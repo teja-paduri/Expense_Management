@@ -38,8 +38,13 @@ func RetrieveUser(w http.ResponseWriter, r *http.Request) {
 		log.Printf("couldn't get UserID from URL path: '%v'", err)
 	}
 
-	w.Header().Set("content-type", contentTypeJSON)
+	// w.Header().Set("Content-Type", contentTypeJSON)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	enc := json.NewEncoder(w)
+
+	log.Printf(params["id"])
 
 	userID, err := strconv.Atoi(params["id"])
 
@@ -63,5 +68,6 @@ func RetrieveUser(w http.ResponseWriter, r *http.Request) {
 	// user = {"Name":"teja"}
 
 	w.WriteHeader(http.StatusOK)
+	println(user.Name)
 	enc.Encode(user)
 }
