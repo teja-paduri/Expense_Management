@@ -4,13 +4,13 @@ describe('login', () => {
   })
 
   it('A User logs in and sees a welcome message', () => {
-    loginWith('michael@example.com', 'passsword')
+    loginWith('upendar@example.com', 'passsword')
 
-    expect(cy.contains('Welcome back Michael')).to.exist
+    expect(cy.contains('Welcome back Upendar')).to.exist
   })
 
   it('A User logs off and sees a goodbye message', () => {
-    loginWith('michael@example.com', 'password')
+    loginWith('upendar@example.com', 'password')
     logout()
 
     expect(cy.contains('Goodbye! See you soon!'))

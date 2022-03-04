@@ -37,42 +37,38 @@ const Login = (props) => {
   });
   
   const submitLogin = (data) => {
-    // console.log(data,'llllllllllllllllllll');
-    // // e.preventDefault();
-    // props.history.push('/AfterLogin') 
-    // return ( <Redirect  to="/AfterLogin/" />)
-   
+
     messages.clear(); // Clear existing messages
     setSubmitting(true);
-    props.history.replace('/dashboard')
+    // props.history.replace('/dashboard')
 
-    // axios.post(authApiEndpoints.login, JSON.stringify(data))
-    // .then(response => {
-    //     // console.log('success');
-    //     // console.log(response.data);
+    axios.post(authApiEndpoints.login, JSON.stringify(data))
+    .then(response => {
+        console.log('success');
+        console.log(response.data);
 
-    //     // if (response.status === 200) {
-    //     //   setItem('expires_in', response.data.expires_in);
-    //     //   setItem('access_token', response.data.access_token);
-    //     //   setItem('token_created', response.data.token_created);
+        if (response.status === 200) {
+          console.log("Hello World");
+          // setItem('expires_in', response.data.expires_in);
+          // setItem('access_token', response.data.access_token);
+          // setItem('token_created', response.data.token_created);
 
-    //     //   setState(prev => ({ ...prev, user: response.data.user }));
+          // setState(prev => ({ ...prev, user: response.data.user }));
 
-    //       // props.location.state === undefined ? props.history.replace('/dashboard') : props.history.replace(props.location.state.from.pathname);
-    //     // }
-    //     props.history.replace('/dashboard')
-    //   })
-    //   .catch(error => {
-    //     // console.log('error', error.response);
+          // props.location.state === undefined ? props.history.replace('/dashboard') : props.history.replace(props.location.state.from.pathname);
+        }
+      })
+      .catch(error => {
+        // console.log('error', error.response);
 
-    //     if (error.response && error.response.status === 422) {
-    //       messages.show({ severity: 'error', detail: 'Incorrect email or password.', sticky: true });
-    //     }
-    //     else {
-    //       messages.show({ severity: 'error', detail: 'Something went wrong. Try again.', sticky: true });
-    //     }
-    //     setSubmitting(false);
-    //   })
+        if (error.response && error.response.status === 422) {
+          messages.show({ severity: 'error', detail: 'Incorrect email or password.', sticky: true });
+        }
+        else {
+          messages.show({ severity: 'error', detail: 'Something went wrong. Try again.', sticky: true });
+        }
+        setSubmitting(false);
+      })
   };
 
   return (

@@ -26,53 +26,7 @@ const Setting = (props) => {
     setItem('language', i18n.language);
   }, [i18n]);
 
-  const submitSetting = () => {
-    axios.put(currencyApiEndpoints.currency + '/' + state.user.id, JSON.stringify({ currency_id: state.currentCurrency.id }))
-      .then(response => {
-        console.log('success', response.data);
-
-        if (response.status === 200) {
-
-          setState(prev => ({ ...prev, currency_id: response.data.request.currency_id }));
-
-          messages.show({
-            severity: 'success',
-            detail: 'Current currency set to ' + state.currentCurrency.currency_code + ' (' + state.currentCurrency.currency_name + ').',
-            sticky: false,
-            closable: false,
-            life: 5000
-          });
-        }
-
-      })
-      .catch(error => {
-        console.log('error');
-        console.log(error.response);
-
-        if (error.response.status === 401) {
-          messages.clear();
-          messages.show({
-            severity: 'error',
-            detail: 'Something went wrong. Try again.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-
-        if (error.response.status === 422) {
-          messages.clear();
-          messages.show({
-            severity: 'error',
-            detail: 'Currency is same as selected. Nothing changed.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-
-      })
-  };
+  
 
   return (
     <div>
@@ -112,7 +66,7 @@ const Setting = (props) => {
             </div>
 
             <div className="p-card-footer p-fluid">
-              <Button label="Update" className="" icon="pi pi-save" onClick={() => submitSetting()} />
+              <Button label="Update" className="" icon="pi pi-save"  />
             </div>
           </Card>
         </div>

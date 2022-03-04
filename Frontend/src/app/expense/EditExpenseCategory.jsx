@@ -19,7 +19,6 @@ const expenseCategoryValidationSchema = yup.object().shape({
 const EditExpenseCategory = (props) => {
 
   useEffect(() => {
-    requestExpenseCategory();
   }, []);
 
   const { register, handleSubmit, errors, setError, setValue } = useForm({
@@ -27,71 +26,7 @@ const EditExpenseCategory = (props) => {
   });
   const [submitting, setSubmitting] = useState(false);
 
-  const requestExpenseCategory = async () => {
-    await axios.get(expenseApiEndpoints.expenseCategory + '/' + props.match.params.category_id, {})
-      .then(response => {
-        // console.log('success', response.data);
-        setValue('category_name', response.data.category_name);
-      })
-      .catch(error => {
-        console.log('error', error.response);
-
-        if (error.response.status === 401) {
-          messages.show({
-            severity: 'error',
-            detail: 'Something went wrong. Try again.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-
-      })
-  };
-
-  const submitUpdateExpenseCategory = async (data) => {
-    await axios.put(expenseApiEndpoints.expenseCategory + '/' + props.match.params.category_id, JSON.stringify(data))
-      .then(response => {
-        console.log('success', response.data.request);
-
-        if (response.status === 200) {
-          setSubmitting(false);
-
-          messages.show({
-            severity: 'success',
-            detail: 'Your expense category info updated successfully.',
-            sticky: false,
-            closable: false,
-            life: 5000
-          });
-        }
-
-      })
-      .catch(error => {
-        console.log('error', error);
-
-        setSubmitting(false);
-
-        messages.clear();
-
-        if (error.response.status === 422) {
-          let errors = Object.entries(error.response.data).map(([key, value]) => {
-            return { name: key, message: value[0] }
-          });
-          setError(errors);
-        }
-        else if (error.response.status === 401) {
-          messages.show({
-            severity: 'error',
-            detail: 'Something went wrong. Try again.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-
-      })
-  };
+ 
 
   return (
     <div>
@@ -114,7 +49,7 @@ const EditExpenseCategory = (props) => {
               <div className="p-card-subtitle">Edit selected expense category information below.</div>
             </div>
             <br />
-            <form onSubmit={handleSubmit(submitUpdateExpenseCategory)}>
+            <form onSubmit={handleSubmit()}>
               <div className="p-fluid">
                 <label>Category Name</label>
                 <div className="p-fluid">

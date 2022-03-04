@@ -66,167 +66,6 @@ const Income = (props) => {
   const [incomeCategories, setIncomeCategories] = useState([]);
   const [income, setIncome] = useState({ incomes: {}, fetching: true });
 
-  useEffect(() => {
-    requestIncomeSummary();
-    requestIncomeCategory();
-  }, []);
-
-  useEffect(() => {
-    requestIncome();
-  }, [datatable]);
-
-  const requestIncomeCategory = async () => {
-    await axios.get(incomeApiEndpoints.incomeCategory + '?sort_col=category_name&sort_order=asc', {})
-      .then(response => {
-        // console.log(response.data);
-        if (response.data.data.length > 0) {
-          setIncomeCategories(response.data.data);
-        }
-        else {
-
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  const requestIncome = async () => {
-    setIncome({ ...income, fetching: true });
-    await axios.get(incomeApiEndpoints.income + '?page=' + datatable.currentPage + '&sort_col=' + datatable.sortField + '&per_page=' + datatable.rowsPerPage + '&sort_order=' + (datatable.sortOrder > 0 ? 'asc' : 'desc'), {})
-      .then(response => {
-        // console.log('success', response.data);
-        if (response.data.data) {
-          setIncome({
-            ...income,
-            incomes: response.data,
-            fetching: false
-          });
-        }
-        else {
-          setIncome({
-            ...income,
-            fetching: false
-          });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  const requestIncomeSummary = async () => {
-    await axios.get(incomeApiEndpoints.summary, {})
-      .then(response => {
-        // console.log(response.data);
-        setIncomeSummary(response.data.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  const deleteIncome = (data) => {
-    // console.log(data);
-    StyledSwal.fire({
-      title: 'Are you sure?',
-      text: `Confirm to delete income on ${data.spent_on}.`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: '<span class="pi pi-trash p-button-icon-left"></span><span class="p-button-text">Delete</span>',
-      cancelButtonText: '<span class="pi pi-ban p-button-icon-left"></span><span class="p-button-text">No</span>',
-      // confirmButtonColor: '#f76452',
-      // cancelButtonColor: '#3085d6',
-      focusConfirm: false,
-      focusCancel: true
-    })
-      .then((result) => {
-        if (result.value) {
-          axios.delete(incomeApiEndpoints.income + '/' + data.id, {})
-            .then(response => {
-              // console.log(response.data);
-              if (response.status === 200) {
-
-                requestIncome();
-                requestIncomeSummary();
-
-                messages.show({
-                  severity: 'success',
-                  detail: 'Your income on ' + data.spent_on + ' deleted successfully.',
-                  sticky: false,
-                  closable: false,
-                  life: 5000
-                });
-              }
-
-            })
-            .catch(error => {
-              console.log('error', error.response);
-
-              if (error.response.status === 401) {
-                messages.clear();
-                messages.show({
-                  severity: 'error',
-                  detail: 'Something went wrong. Try again.',
-                  sticky: true,
-                  closable: true,
-                  life: 5000
-                });
-              }
-
-            });
-        }
-      });
-  };
-
-  const submitIncome = (data) => {
-
-    data.category_id = data.category.id;
-    data.currency_id = state.currentCurrency.id;
-    data.income_date = dayjs(data.income_date).format('YYYY-MM-DD HH:mm:ss');
-
-    axios.post(incomeApiEndpoints.income, JSON.stringify(data))
-      .then(response => {
-        // console.log('success');
-        if (response.status === 201) {
-          reset();
-          setSubmitting(false);
-          setValue('income_date', dayjs(response.data.request.income_date).toDate());
-          requestIncome();
-          requestIncomeSummary();
-
-          messages.show({
-            severity: 'success',
-            detail: 'Your income on ' + response.data.request.spent_on + ' added.',
-            sticky: false,
-            closable: false,
-            life: 5000
-          });
-        }
-      })
-      .catch(error => {
-        console.log('error', error.response);
-
-        if (error.response.status === 401) {
-          messages.clear();
-          messages.show({
-            severity: 'error',
-            detail: 'Something went wrong. Try again.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-        else if (error.response.status === 422) {
-          let errors = Object.entries(error.response.data).map(([key, value]) => {
-            return { name: key, message: value[0] }
-          });
-          setError(errors);
-        }
-
-        setSubmitting(false)
-      })
-  };
 
   const renderIncomeSummary = (data) => {
     if (data && data.length > 0) {
@@ -303,7 +142,7 @@ const Income = (props) => {
               <div className="p-card-subtitle">Add your income information below.</div>
             </div>
             <br />
-            <form onSubmit={handleSubmit(submitIncome)}>
+            <form onSubmit={handleSubmit()}>
               <div className="p-fluid">
                 <Controller
                   name="income_date"
@@ -438,7 +277,7 @@ const Income = (props) => {
                           className="p-button-raised p-button-rounded p-button-info" />
                       </Link>
                       <Button label="Delete"
-                        onClick={() => deleteIncome(rowData)}
+                        
                         icon="pi pi-trash"
                         className="p-button-raised p-button-rounded p-button-danger" />
                     </div>

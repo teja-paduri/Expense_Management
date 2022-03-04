@@ -12,9 +12,6 @@ import { DataTable } from 'primereact/datatable';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Column } from 'primereact/column';
 
-import { expenseApiEndpoints } from './../../API';
-import axios from './../../Axios';
-
 const StyledSwal = Swal.mixin({
   customClass: {
     container: 'container-class',
@@ -56,135 +53,7 @@ const ExpenseCategory = (props) => {
   });
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    requestExpenseCategories();
-  }, [datatable]);
 
-  const requestExpenseCategories = async () => {
-    setExpenseCategories({ ...expenseCategories, fetching: true });
-    await axios.get(expenseApiEndpoints.expenseCategory + '?page=' + datatable.currentPage + '&per_page=' + datatable.rowsPerPage + '&sort_col=' + datatable.sortField + '&sort_order=' + (datatable.sortOrder === 1 ? 'asc' : 'desc'), {})
-      .then(response => {
-        // console.log(response.data);
-        if (response.data.data) {
-          setExpenseCategories({
-            ...expenseCategories,
-            categories: response.data,
-            fetching: false
-          });
-        }
-        else {
-
-        }
-      })
-      .catch(error => {
-        // console.log(error);
-      });
-  };
-
-  const deleteExpenseCategory = (data) => {
-    // console.log(data);
-    StyledSwal.fire({
-      title: 'Are you sure?',
-      text: `Confirm to delete expense category ${data.category_name}.`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: '<span class="pi pi-trash p-button-icon-left"></span><span class="p-button-text">Delete</span>',
-      cancelButtonText: '<span class="pi pi-ban p-button-icon-left"></span><span class="p-button-text">No</span>',
-      // confirmButtonColor: '#f76452',
-      // cancelButtonColor: '#3085d6',
-      focusConfirm: false,
-      focusCancel: true
-    }).then((result) => {
-      if (result.value) {
-        axios.delete(expenseApiEndpoints.expenseCategory + '/' + data.id, {})
-          .then(response => {
-            // console.log(response.data);
-            if (response.status === 200) {
-
-              requestExpenseCategories();
-
-              messages.show({
-                severity: 'success',
-                detail: 'Your expense category ' + data.category_name + ' deleted successfully.',
-                sticky: false,
-                closable: false,
-                life: 5000
-              });
-            }
-
-          })
-          .catch(error => {
-            // console.log('error', error.response);
-            if (error.response.status === 404) {
-              messages.clear();
-              messages.show({
-                severity: 'error',
-                detail: 'Expense category ' + data.category_name + ' in use.',
-                sticky: true,
-                closable: true,
-                life: 5000
-              });
-            }
-
-            if (error.response.status === 401) {
-              messages.clear();
-              messages.show({
-                severity: 'error',
-                detail: 'Something went wrong. Try again.',
-                sticky: true,
-                closable: true,
-                life: 5000
-              });
-            }
-
-          });
-      }
-    });
-  };
-
-  const submitExpenseCategory = (data) => {
-    axios.post(expenseApiEndpoints.expenseCategory, JSON.stringify(data))
-      .then(response => {
-        // console.log('success', response.data);
-        if (response.status === 201) {
-
-          reset();
-          setSubmitting(false);
-          requestExpenseCategories();
-
-          messages.show({
-            severity: 'success',
-            detail: 'New expense category ' + response.data.request.category_name + ' added.',
-            sticky: false,
-            closable: false,
-            life: 5000
-          });
-        }
-
-      })
-      .catch(error => {
-        // console.log('error', error.response);
-        if (error.response.status === 401) {
-          messages.clear();
-          messages.show({
-            severity: 'error',
-            detail: 'Something went wrong. Try again.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-
-        if (error.response.status === 422) {
-          let errors = Object.entries(error.response.data).map(([key, value]) => {
-            return { name: key, message: value[0] }
-          });
-          setError(errors);
-        }
-
-        setSubmitting(false)
-      })
-  };
 
   return (
     <div>
@@ -207,7 +76,7 @@ const ExpenseCategory = (props) => {
               <div className="p-card-subtitle">Enter expense category name below.</div>
             </div>
             <br />
-            <form onSubmit={handleSubmit(submitExpenseCategory)}>
+            <form onSubmit={handleSubmit()}>
               <div className="p-fluid">
                 <input type="text" ref={register} placeholder="Category name" name="category_name" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.category_name?.message}</p>
@@ -273,7 +142,7 @@ const ExpenseCategory = (props) => {
                         icon="pi pi-pencil"
                         className="p-button-raised p-button-rounded p-button-info" /></Link>
                       <Button label="Delete"
-                        onClick={() => deleteExpenseCategory(rowData)}
+                      
                         icon="pi pi-trash"
                         className="p-button-raised p-button-rounded p-button-danger" />
                     </div>

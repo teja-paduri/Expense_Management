@@ -8,8 +8,6 @@ import { Messages } from 'primereact/messages';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 
-import { userApiEndpoints } from './../../API';
-import axios from './../../Axios';
 import { useTracked } from './../../Store';
 
 let messages;
@@ -28,70 +26,7 @@ const Profile = (props) => {
   });
   const [submitting, setSubmitting] = useState(false);
 
-  const submitChangePassword = (data) => {
-    setSubmitting(true);
-    axios.put(userApiEndpoints.password, JSON.stringify(data))
-      .then(response => {
-        // console.log('success');
-        // console.log(response.data);
-
-        if (response.status === 200) {
-
-          reset();
-          setSubmitting(false);
-
-          messages.show({
-            severity: 'success',
-            detail: 'Your password updated successfully.',
-            sticky: false,
-            closable: false,
-            life: 5000
-          });
-        }
-
-      })
-      .catch(error => {
-        console.log('error');
-        console.log(error.response);
-
-        reset();
-        setSubmitting(false);
-
-        messages.clear();
-
-        if (error.response.status === 401) {
-          messages.show({
-            severity: 'error',
-            detail: 'Something went wrong. Try again.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-
-        if (error.response.status === 422) {
-          if (error.response.data.data === 'password_mismatch') {
-            messages.show({
-              severity: 'error',
-              detail: 'Current password does not match.',
-              sticky: true,
-              closable: true,
-              life: 5000
-            });
-          }
-          else if (error.response.data.data === 'old_password') {
-            messages.show({
-              severity: 'error',
-              detail: 'Your new password is same as old password.',
-              sticky: true,
-              closable: true,
-              life: 5000
-            });
-          }
-        }
-
-      })
-  };
+  
 
   return (
     <div>
@@ -146,7 +81,7 @@ const Profile = (props) => {
             </div>
             <br />
 
-            <form onSubmit={handleSubmit(submitChangePassword)}>
+            <form onSubmit={handleSubmit()}>
               <div className="p-fluid">
                 <input type='password' name='old_password' ref={register} autoComplete="off" placeholder="Old Password" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.old_password?.message}</p>

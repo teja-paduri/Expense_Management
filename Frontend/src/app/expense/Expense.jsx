@@ -68,168 +68,6 @@ const Expense = (props) => {
   const [expenseCategories, setExpenseCategories] = useState([]);
   const [expense, setExpense] = useState({ expenses: {}, fetching: true });
 
-  useEffect(() => {
-    requestExpenseSummary();
-    requestExpenseCategory();
-  }, []);
-
-  useEffect(() => {
-    requestExpense();
-  }, [datatable]);
-
-  const requestExpenseCategory = async () => {
-    await axios.get(expenseApiEndpoints.expenseCategory + '?sort_col=category_name&sort_order=asc', {})
-      .then(response => {
-        // console.log(response.data);
-        if (response.data.data.length > 0) {
-          setExpenseCategories(response.data.data);
-        }
-        else {
-
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  const requestExpense = async () => {
-    setExpense({ ...expense, fetching: true });
-    await axios.get(expenseApiEndpoints.expense + '?page=' + datatable.currentPage + '&sort_col=' + datatable.sortField + '&per_page=' + datatable.rowsPerPage + '&sort_order=' + (datatable.sortOrder > 0 ? 'asc' : 'desc'), {})
-      .then(response => {
-        // console.log('success', response.data);
-        if (response.data.data) {
-          setExpense({
-            ...expense,
-            expenses: response.data,
-            fetching: false
-          });
-        }
-        else {
-          setExpense({
-            ...expense,
-            fetching: false
-          });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  const requestExpenseSummary = async () => {
-    await axios.get(expenseApiEndpoints.summary, {})
-      .then(response => {
-        // console.log(response.data);
-        setExpenseSummary(response.data.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  const deleteExpense = (data) => {
-    // console.log(data);
-    StyledSwal.fire({
-      title: 'Are you sure?',
-      text: `Confirm to delete expense on ${data.spent_on}.`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: '<span class="pi pi-trash p-button-icon-left"></span><span class="p-button-text">Delete</span>',
-      cancelButtonText: '<span class="pi pi-ban p-button-icon-left"></span><span class="p-button-text">No</span>',
-      // confirmButtonColor: '#f76452',
-      // cancelButtonColor: '#3085d6',
-      focusConfirm: false,
-      focusCancel: true
-    })
-      .then((result) => {
-        if (result.value) {
-          axios.delete(expenseApiEndpoints.expense + '/' + data.id, {})
-            .then(response => {
-              // console.log(response.data);
-              if (response.status === 200) {
-
-                requestExpense();
-                requestExpenseSummary();
-
-                messages.show({
-                  severity: 'success',
-                  detail: 'Your expense on ' + data.spent_on + ' deleted successfully.',
-                  sticky: false,
-                  closable: false,
-                  life: 5000
-                });
-              }
-
-            })
-            .catch(error => {
-              console.log('error', error.response);
-
-              if (error.response.status === 401) {
-                messages.clear();
-                messages.show({
-                  severity: 'error',
-                  detail: 'Something went wrong. Try again.',
-                  sticky: true,
-                  closable: true,
-                  life: 5000
-                });
-              }
-
-            });
-        }
-      });
-  };
-
-  const submitExpense = (data) => {
-
-    data.category_id = data.category.id;
-    data.currency_id = state.currentCurrency.id;
-    data.expense_date = dayjs(data.expense_date).format('YYYY-MM-DD HH:mm:ss');
-
-    axios.post(expenseApiEndpoints.expense, JSON.stringify(data))
-      .then(response => {
-        // console.log('success');
-        if (response.status === 201) {
-          reset();
-          setSubmitting(false);
-          setValue('expense_date', dayjs(response.data.request.expense_date).toDate());
-          requestExpense();
-          requestExpenseSummary();
-
-          messages.show({
-            severity: 'success',
-            detail: 'Your expense on ' + response.data.request.spent_on + ' added.',
-            sticky: false,
-            closable: false,
-            life: 5000
-          });
-        }
-      })
-      .catch(error => {
-        console.log('error', error.response);
-
-        if (error.response.status === 401) {
-          messages.clear();
-          messages.show({
-            severity: 'error',
-            detail: 'Something went wrong. Try again.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-        else if (error.response.status === 422) {
-          let errors = Object.entries(error.response.data).map(([key, value]) => {
-            return { name: key, message: value[0] }
-          });
-          setError(errors);
-        }
-
-        setSubmitting(false)
-      })
-  };
-
   const renderExpenseSummary = (data) => {
     if (data && data.length > 0) {
       return data.map((item, index) => {
@@ -305,7 +143,7 @@ const Expense = (props) => {
               <div className="p-card-subtitle">Add your expense information below.</div>
             </div>
             <br />
-            <form onSubmit={handleSubmit(submitExpense)}>
+            <form onSubmit={handleSubmit()}>
               <div className="p-fluid">
                 <Controller
                   name="expense_date"
@@ -441,7 +279,7 @@ const Expense = (props) => {
                           className="p-button-raised p-button-rounded p-button-info" />
                       </Link>
                       <Button label="Delete"
-                        onClick={() => deleteExpense(rowData)}
+                        
                         icon="pi pi-trash"
                         className="p-button-raised p-button-rounded p-button-danger" />
                     </div>

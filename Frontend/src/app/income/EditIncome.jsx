@@ -12,7 +12,6 @@ import { Dropdown } from 'primereact/dropdown';
 
 import CurrencySidebar from './../common/CurrencySidebar';
 
-import { incomeApiEndpoints } from './../../API';
 import axios from './../../Axios';
 import { useTracked } from './../../Store';
 
@@ -37,107 +36,9 @@ const EditIncome = (props) => {
   const [incomeCategories, setIncomeCategories] = useState([]);
 
   useEffect(() => {
-    requestIncomeCategory();
-    requestIncomeInfo();
+    
   }, []);
 
-  const requestIncomeCategory = async () => {
-    await axios.get(incomeApiEndpoints.incomeCategory, {})
-      .then(response => {
-        // console.log(response.data);
-        if (response.data.data.length > 0) {
-          setIncomeCategories(response.data.data);
-        }
-        else {
-
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  const requestIncomeInfo = async () => {
-    await axios.get(incomeApiEndpoints.income + '/' + props.match.params.income_id, {})
-      .then(response => {
-        console.log('success', response.data.category);
-        setValue([
-          { id: response.data.id },
-          { income_date: dayjs(response.data.transaction_date).toDate() },
-          { category: response.data.category },
-          { source: response.data.source },
-          { amount: response.data.amount },
-          { notes: response.data.remarks },
-          { currency_id: response.data.currency_id },
-        ]);
-        setState(prev => ({ ...prev, currentCurrency: response.data.currency }));
-      })
-      .catch(error => {
-        console.log('error', error.response);
-
-        if (error.response.status === 401) {
-          messages.show({
-            severity: 'error',
-            detail: 'Something went wrong. Try again.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-
-      })
-  };
-
-  const submitUpdateIncome = (data) => {
-
-    data.income_date = dayjs(data.income_date).format('YYYY-MM-DD HH:mm:ss');
-    data.category_id = data.category.id;
-    data.currency_id = state.currentCurrency.id;
-
-    console.log(data);
-
-    axios.put(incomeApiEndpoints.income + '/' + props.match.params.income_id, JSON.stringify(data))
-      .then(response => {
-        console.log('success', response.data.request);
-
-        if (response.status === 200) {
-          setSubmitting(false);
-
-          messages.show({
-            severity: 'success',
-            detail: 'Your income info updated successfully.',
-            sticky: false,
-            closable: false,
-            life: 5000
-          });
-        }
-
-      })
-      .catch(error => {
-        console.log('error', error.response);
-
-        setSubmitting(false);
-
-        messages.clear();
-
-        if (error.response.status === 422) {
-          let errors = Object.entries(error.response.data).map(([key, value]) => {
-            return { name: key, message: value[0] }
-          });
-          setError(errors);
-        }
-        else if (error.response.status === 401) {
-          messages.show({
-            severity: 'error',
-            detail: 'Something went wrong. Try again.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-
-      })
-  };
 
   return (
     <div>
@@ -162,7 +63,7 @@ const EditIncome = (props) => {
               <div className="p-card-subtitle">Edit selected income information below.</div>
             </div>
             <br />
-            <form onSubmit={handleSubmit(submitUpdateIncome)}>
+            <form onSubmit={handleSubmit()}>
               <div className="p-fluid">
                 <label>Income Date</label>
                 <Controller

@@ -12,8 +12,6 @@ import { DataTable } from 'primereact/datatable';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Column } from 'primereact/column';
 
-import { incomeApiEndpoints } from './../../API';
-import axios from './../../Axios';
 
 const StyledSwal = Swal.mixin({
   customClass: {
@@ -56,139 +54,13 @@ const IncomeCategory = (props) => {
   });
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    requestIncomeCategories();
-  }, [datatable]);
 
-  const requestIncomeCategories = async () => {
-    setIncomeCategories({...incomeCategories, fetching: true});
-    await axios.get(incomeApiEndpoints.incomeCategory + '?page=' + datatable.currentPage + '&per_page=' + datatable.rowsPerPage + '&sort_col=' + datatable.sortField + '&sort_order=' + (datatable.sortOrder > 0 ? 'asc' : 'desc'), {})
-      .then(response => {
-        // console.log(response.data);
-        if (response.data.data) {
-          setIncomeCategories({
-            ...incomeCategories,
-            categories: response.data,
-            fetching: false
-          });
-        }
-        else {
 
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+  
 
-  const deleteIncomeCategory = (data) => {
-    // console.log(data);
-    StyledSwal.fire({
-      title: 'Are you sure?',
-      text: `Confirm to delete income category ${data.category_name}.`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: '<span class="pi pi-trash p-button-icon-left"></span><span class="p-button-text">Delete</span>',
-      cancelButtonText: '<span class="pi pi-ban p-button-icon-left"></span><span class="p-button-text">No</span>',
-      // confirmButtonColor: '#f76452',
-      // cancelButtonColor: '#3085d6',
-      focusConfirm: false,
-      focusCancel: true
-    }).then((result) => {
-      if (result.value) {
-        axios.delete(incomeApiEndpoints.incomeCategory + '/' + data.id, {})
-          .then(response => {
-            // console.log(response.data);
-            if (response.status === 200) {
+  
 
-              requestIncomeCategories();
-
-              messages.show({
-                severity: 'success',
-                detail: 'Your income category ' + data.category_name + ' deleted successfully.',
-                sticky: false,
-                closable: false,
-                life: 5000
-              });
-            }
-
-          })
-          .catch(error => {
-            // console.log('error', error.response);
-            if (error.response.status === 404) {
-              messages.clear();
-              messages.show({
-                severity: 'error',
-                detail: 'Income category ' + data.category_name + ' in use.',
-                sticky: true,
-                closable: true,
-                life: 5000
-              });
-            }
-
-            if (error.response.status === 401) {
-              messages.clear();
-              messages.show({
-                severity: 'error',
-                detail: 'Something went wrong. Try again.',
-                sticky: true,
-                closable: true,
-                life: 5000
-              });
-            }
-
-          });
-      }
-    })
-  };
-
-  const submitIncomeCategory = (data) => {
-    axios.post(incomeApiEndpoints.incomeCategory, JSON.stringify(data))
-      .then(response => {
-        // console.log('success', response.data);
-
-        if (response.status === 201) {
-
-          reset();
-          setSubmitting(false);
-          requestIncomeCategories();
-
-          messages.show({
-            severity: 'success',
-            detail: 'New income category ' + response.data.request.category_name + ' added.',
-            sticky: false,
-            closable: false,
-            life: 5000
-          });
-        }
-
-      })
-      .catch(error => {
-        console.log('error');
-        console.log(error.response);
-
-        if (error.response.status === 401) {
-          messages.clear();
-          messages.show({
-            severity: 'error',
-            detail: 'Something went wrong. Try again.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-
-        if (error.response.status === 422) {
-          let errors = Object.entries(error.response.data).map(([key, value]) => {
-            return { name: key, message: value[0] }
-          });
-          setError(errors);
-        }
-
-        setSubmitting(false)
-      })
-  };
-
+  
   return (
     <div>
       <Helmet title="Income Category" />
@@ -210,7 +82,7 @@ const IncomeCategory = (props) => {
               <div className="p-card-subtitle">Enter income category name below.</div>
             </div>
             <br />
-            <form onSubmit={handleSubmit(submitIncomeCategory)}>
+            <form onSubmit={handleSubmit()}>
               <div className="p-fluid">
                 <input type="text" ref={register} placeholder="Category name" name="category_name" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.category_name?.message}</p>
@@ -276,7 +148,7 @@ const IncomeCategory = (props) => {
                         icon="pi pi-pencil"
                         className="p-button-raised p-button-rounded p-button-info" /></Link>
                       <Button label="Delete"
-                        onClick={() => deleteIncomeCategory(rowData)}
+                      
                         icon="pi pi-trash"
                         className="p-button-raised p-button-rounded p-button-danger" />
                     </div>

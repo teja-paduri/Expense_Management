@@ -36,107 +36,8 @@ const EditExpense = (props) => {
   const [currencyVisible, setCurrencyVisible] = useState(false);
   const [expenseCategories, setExpenseCategories] = useState([]);
 
-  useEffect(() => {
-    requestExpenseCategory();
-    requestExpenseInfo();
-  }, []);
+  
 
-  const requestExpenseCategory = async () => {
-    await axios.get(expenseApiEndpoints.expenseCategory, {})
-      .then(response => {
-        // console.log(response.data);
-        if (response.data.data.length > 0) {
-          setExpenseCategories(response.data.data);
-        }
-        else {
-
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
-  const requestExpenseInfo = async () => {
-    await axios.get(expenseApiEndpoints.expense + '/' + props.match.params.expense_id, {})
-      .then(response => {
-        // console.log('success', response.data);
-        setValue([
-          { id: response.data.id },
-          { expense_date: dayjs(response.data.transaction_date).toDate() },
-          { category: response.data.category },
-          { amount: response.data.amount },
-          { spent_on: response.data.spent_on },
-          { remarks: response.data.remarks },
-          { currency_id: response.data.currency_id },
-        ]);
-        setState(prev => ({ ...prev, currentCurrency: response.data.currency }));
-      })
-      .catch(error => {
-        console.log('error', error.response);
-
-        if (error.response.status === 401) {
-          messages.show({
-            severity: 'error',
-            detail: 'Something went wrong. Try again.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-
-      })
-  };
-
-  const submitUpdateExpense = (data) => {
-
-    data.expense_date = dayjs(data.expense_date).format('YYYY-MM-DD HH:mm:ss');
-    data.category_id = data.category.id;
-    data.currency_id = state.currentCurrency.id;
-
-    axios.put(expenseApiEndpoints.expense + '/' + props.match.params.expense_id, JSON.stringify(data))
-      .then(response => {
-        // console.log('success', response.data.request);
-
-        if (response.status === 200) {
-          setSubmitting(false);
-
-          messages.show({
-            severity: 'success',
-            detail: 'Your expense info updated successfully.',
-            sticky: false,
-            closable: false,
-            life: 5000
-          });
-        }
-
-      })
-      .catch(error => {
-        console.log('error');
-        console.log(error.response);
-
-        setSubmitting(false);
-
-        messages.clear();
-
-        if (error.response.status === 422) {
-          let errors = Object.entries(error.response.data).map(([key, value]) => {
-            return { name: key, message: value[0] }
-          });
-          setError(errors);
-        }
-        else if (error.response.status === 401) {
-          messages.show({
-            severity: 'error',
-            detail: 'Something went wrong. Try again.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-
-      })
-  };
 
   return (
     <div>
@@ -161,7 +62,7 @@ const EditExpense = (props) => {
               <div className="p-card-subtitle">Edit selected expense information below.</div>
             </div>
             <br />
-            <form onSubmit={handleSubmit(submitUpdateExpense)}>
+            <form onSubmit={handleSubmit()}>
               <div className="p-fluid">
                 <label>Expense Date</label>
                 <Controller

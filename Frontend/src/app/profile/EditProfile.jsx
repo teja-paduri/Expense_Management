@@ -8,7 +8,7 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 
-import { userApiEndpoints, currencyApiEndpoints } from './../../API';
+
 import axios from './../../Axios';
 import { useTracked } from './../../Store';
 
@@ -28,110 +28,15 @@ const EditProfile = (props) => {
   });
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    requestCurrencies();
-    requestProfileInfo();
-  }, []);
+  // useEffect(() => {
+  //   requestCurrencies();
+  //   requestProfileInfo();
+  // }, []);
 
-  const requestCurrencies = useCallback(async () => {
-    if (state.currencies.length === 0) {
-      await axios.get(currencyApiEndpoints.currency, {})
-        .then(response => {
-          // console.log(response.data);
-          if (response.data.data.length > 0) {
-            setState(prev => ({ ...prev, currencies: response.data.data }))
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }
-  }, [state.currencies.length]);
+
 
   const currencyTemplate = (option) => {
     return (<span><span className="color-highlight text-bold">{option.currency_code}</span> - {option.currency_name}</span>);
-  };
-
-  const requestProfileInfo = async () => {
-    await axios.get(userApiEndpoints.self, {})
-      .then(response => {
-        // console.log('success', response.data);
-        setValue([
-          { name: response.data.name },
-          { email: response.data.email },
-          { currency: response.data.currency },
-        ]);
-        let { currency, ...rest } = response.data;
-        setState(prev => ({ ...prev, user: rest }));
-      })
-      .catch(error => {
-        console.log('error', error.response);
-
-        if (error.response.status === 401) {
-          messages.show({
-            severity: 'error',
-            detail: 'Something went wrong. Try again.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-
-      })
-  };
-
-  const submitUpdateProfile = (data) => {
-
-    data.currency_id = data.currency.id;
-
-    axios.put(userApiEndpoints.profile, JSON.stringify(data))
-      .then(response => {
-        // console.log('success', response.data.request);
-        if (response.status === 200) {
-          setSubmitting(false);
-          setValue([
-            { name: response.data.request.name },
-            { email: response.data.request.email },
-            { currency: state.currencies.find(el => el.id === response.data.request.currency_id ? el : null) },
-          ]);
-
-          let { currency, ...rest } = response.data.request;
-          setState(prev => ({ ...prev, user: rest }));
-
-          messages.show({
-            severity: 'success',
-            detail: 'Your profile info updated successfully.',
-            sticky: false,
-            closable: false,
-            life: 5000
-          });
-        }
-
-      })
-      .catch(error => {
-        console.log('error', error.response);
-
-        setSubmitting(false);
-
-        messages.clear();
-
-        if (error.response.status === 422) {
-          let errors = Object.entries(error.response.data).map(([key, value]) => {
-            return { name: key, message: value[0] }
-          });
-          setError(errors);
-        }
-        else if (error.response.status === 401) {
-          messages.show({
-            severity: 'error',
-            detail: 'Something went wrong. Try again.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-
-      })
   };
 
   return (
@@ -155,7 +60,7 @@ const EditProfile = (props) => {
               <div className="p-card-subtitle">Edit current profile information below.</div>
             </div>
             <br />
-            <form onSubmit={handleSubmit(submitUpdateProfile)}>
+            <form onSubmit={handleSubmit()}>
               <div className="p-fluid">
                 <label htmlFor="name">Name</label>
                 <input type="text" name="name" ref={register} className="p-inputtext p-component p-filled" />

@@ -12,13 +12,12 @@ import axios from './../../Axios';
 import { authApiEndpoints } from './../../API';
 
 import LocaleToggle from './../locale/LocaleToggle';
-// import i18n from './../../locals/i18n';
 
 const registerValidationSchema = yup.object().shape({
   name: yup.string().required('Name field is required').min(4, 'Name must be atleast 4 character'),
   email: yup.string().required('Email field is required').email('Email must be a valid email'),
   password: yup.string().required('Password field is required').min(6, 'Password must be atleast 6 character'),
-  confirm_password: yup.string().required('Password confirm field is required').oneOf([yup.ref('password')], 'Confirm password does not match')
+  // confirm_password: yup.string().required('Password confirm field is required').oneOf([yup.ref('password')], 'Confirm password does not match')
 });
 
 let messages;  // For alert message
@@ -28,7 +27,6 @@ const Register = (props) => {
   const [submitting, setSubmitting] = useState(false);
 
   // console.log('Register', props);
-
   // Login form handle
   const { register, handleSubmit, errors, setError, reset } = useForm({
     validationSchema: registerValidationSchema
@@ -39,12 +37,12 @@ const Register = (props) => {
     axios.post(authApiEndpoints.register, JSON.stringify(data))
       .then(response => {
         console.log('response', response.data);
-
-        if (response.status === 201) {
-          messages.clear();
-          messages.show({ severity: 'success', detail: 'Registration successful. Go to login.', sticky: true });
-          reset();
-          setSubmitting(false);
+        if (response.status === 200) {
+          console.log("Hello World");
+          // messages.clear();
+          // messages.show({ severity: 'success', detail: 'Registration successful. Go to login.', sticky: true });
+          // reset();
+          // setSubmitting(false);
         }
 
       })
@@ -104,13 +102,13 @@ const Register = (props) => {
               </div>
               <p className="text-error">{errors.password?.message}</p>
             </div>
-            <div className="p-col-12 p-fluid">
+            {/* <div className="p-col-12 p-fluid">
               <div className="p-inputgroup">
                 <span className="p-inputgroup-addon"><i className="pi pi-key" /></span>
                 <input type="password" name="confirm_password" placeholder={'Confirm Password'} ref={register} className="p-inputtext p-component p-filled" />
               </div>
               <p className="text-error">{errors.confirm_password?.message}</p>
-            </div>
+            </div> */}
             <div className="p-col-12 p-fluid">
               <Button disabled={submitting} type="submit" label={'Register'} icon="pi pi-sign-in" className="p-button-raised" />
             </div>

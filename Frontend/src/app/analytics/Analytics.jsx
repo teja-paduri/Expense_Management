@@ -7,7 +7,7 @@ import { Chart } from 'primereact/chart';
 import { Dropdown } from 'primereact/dropdown';
 import { ProgressSpinner } from 'primereact/progressspinner';
 
-import { chartApiEndpoints } from './../../API';
+// import { chartApiEndpoints } from './../../API';
 import axios from './../../Axios';
 
 let messages;
@@ -29,55 +29,7 @@ const Analytics = (props) => {
     barChartDataLoading: false
   });
 
-  useEffect(() => {
-    requestIncomeExpenseCategories();
-    requestMonthWiseChartData();
-  }, []);
 
-  useEffect(() => {
-    requestCategoryWiseChartData();
-  }, [incomeExpenseCategoryId])
-
-  const requestIncomeExpenseCategories = () => {
-    axios.get(chartApiEndpoints.incomeExpenseCategories, {})
-      .then(response => {
-        // console.log(response.data);
-        setIncomeExpenseCategories(response.data);
-      })
-      .catch(error => {
-        // console.log(error);
-        setIncomeExpenseCategories([]);
-      });
-  };
-
-  const requestMonthWiseChartData = () => {
-    axios.get(chartApiEndpoints.incomeExpenseMonthWise, {})
-      .then(response => {
-        // console.log(response.data);
-        setMonthWiseChartData({ ...monthWiseChartData, barChartData: response.data.data.barChartData, barChartDataOptions: response.data.data.options, barChartDataLoading: false });
-      })
-      .catch(error => {
-        // console.log(error);
-        setMonthWiseChartData({ ...monthWiseChartData, barChartDataLoading: false });
-      });
-  };
-
-  const requestCategoryWiseChartData = () => {
-    if (incomeExpenseCategoryId) {
-      setCategoryWiseChartData({ ...categoryWiseChartData, barChartDataLoading: true })
-      axios.get(chartApiEndpoints.incomeExpenseCategoryWise, {
-        params: { category_id: incomeExpenseCategoryId }
-      })
-        .then(response => {
-          // console.log(response.data);
-          setCategoryWiseChartData({ ...categoryWiseChartData, barChartData: response.data.data.barChartData, barChartDataOptions: response.data.data.options, barChartDataLoading: false });
-        })
-        .catch(error => {
-          // console.log(error);
-          setCategoryWiseChartData({ ...categoryWiseChartData, barChartDataLoading: false });
-        });
-    }
-  };
 
   return (
     <div>

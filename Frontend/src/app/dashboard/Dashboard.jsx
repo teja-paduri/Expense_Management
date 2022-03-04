@@ -43,212 +43,19 @@ const Dashboard = (props) => {
   const [monthlyIncomeSummary, setMonthlyIncomeSummary] = useState({});
   const [expenseCategories, setExpenseCategories] = useState([]);
 
-  // useEffect(() => {
-  //   requestExpenseCategory();
-  //   requestExpense();
-  //   requestIncome();
-  //   requestExpenseSummary();
-  //   requestIncomeSummary();
-  // }, []);
 
 
-  const requestExpenseCategory = async () => {
-    await axios.get(expenseApiEndpoints.expenseCategory + '?sort_col=category_name&sort_order=asc', {})
-      .then(response => {
-        // console.log(response.data);
-        if (response.data.data.length > 0) {
-          setExpenseCategories(response.data.data);
-        }
-        else {
 
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+  
 
-  const requestExpenseSummary = async () => {
-    await axios.get(reportApiEndpoints.monthlyExpenseSummary, {})
-      .then(response => {
-        // console.log(response.data);
-        setMonthlyExpenseSummary(response.data.data)
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+  
+ 
 
-  const requestIncomeSummary = async () => {
-    await axios.get(reportApiEndpoints.monthlyIncomeSummary, {})
-      .then(response => {
-        // console.log(response.data);
-        setMonthlyIncomeSummary(response.data.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+  
 
-  const requestExpense = async () => {
-    await axios.get(expenseApiEndpoints.expense + '?per_page=5&sort_order=desc', {})
-      .then(response => {
-        // console.log(response.data);
-        setRecentExpense({
-          ...recentExpense,
-          expense: response.data.data,
-          expenseLoading: false
-        });
-      })
-      .catch(error => {
-        console.log('error', error);
-        setRecentExpense({
-          ...recentExpense,
-          expenseLoading: false
-        });
-      });
-  };
+ 
 
-  const requestIncome = async () => {
-    await axios.get(incomeApiEndpoints.income + '?per_page=5&sort_order=desc', {})
-      .then(response => {
-        // console.log(response.data);
-        setRecentIncome({
-          ...recentIncome,
-          income: response.data.data,
-          incomeLoading: false
-        });
-      })
-      .catch(error => {
-        console.log('error', error);
-        setRecentIncome({
-          ...recentIncome,
-          incomeLoading: false
-        });
-      });
-  };
-
-  const submitExpense = (data) => {
-
-    data.category_id = data.category.id;
-    data.currency_id = state.currentCurrency.id;
-    data.expense_date = dayjs(data.expense_date).format('YYYY-MM-DD HH:mm:ss');
-
-    axios.post(expenseApiEndpoints.expense, JSON.stringify(data))
-      .then(response => {
-        // console.log('success');
-        if (response.status === 201) {
-          reset();
-          setSubmitting(false);
-          setValue('expense_date', dayjs(response.data.request.expense_date).toDate());
-          requestExpense();
-          requestExpenseSummary();
-
-          messages.show({
-            severity: 'success',
-            detail: 'Your expense on ' + response.data.request.spent_on + ' added.',
-            sticky: false,
-            closable: false,
-            life: 5000
-          });
-        }
-      })
-      .catch(error => {
-        console.log('error', error.response);
-
-        if (error.response.status === 401) {
-          messages.clear();
-          messages.show({
-            severity: 'error',
-            detail: 'Something went wrong. Try again.',
-            sticky: true,
-            closable: true,
-            life: 5000
-          });
-        }
-        else if (error.response.status === 422) {
-          let errors = Object.entries(error.response.data).map(([key, value]) => {
-            return { name: key, message: value[0] }
-          });
-          setError(errors);
-        }
-
-        setSubmitting(false)
-      })
-  };
-
-  const renderRecentExpense = () => {
-    if (recentExpense.expenseLoading) {
-      return (
-        <div className="p-grid p-nogutter p-justify-center">
-          <ProgressSpinner style={{ height: '25px' }} strokeWidth={'4'} />
-        </div>
-      );
-    }
-    else {
-      if (recentExpense.expense.length > 0) {
-        return recentExpense.expense.map((item, index) => {
-          return <ExpenseListItem key={item.id} itemDetail={item} />;
-        })
-      }
-      else {
-        return (
-          <div className="p-grid p-nogutter p-justify-center">
-            <h4 className="color-subtitle">Spend some cash to see recent.</h4>
-          </div>
-        );
-      }
-    }
-  };
-
-  const renderRecentIncome = () => {
-    if (recentIncome.incomeLoading) {
-      return (
-        <div className="p-grid p-nogutter p-justify-center">
-          <ProgressSpinner style={{ height: '25px' }} strokeWidth={'4'} />
-        </div>
-      );
-    }
-    else {
-      if (recentIncome.income.length > 0) {
-        return recentIncome.income.map((item, index) => {
-          return <IncomeListItem key={item.id} itemDetail={item} />;
-        })
-      }
-      else {
-        return (
-          <div className="p-grid p-nogutter p-justify-center">
-            <h4 className="color-subtitle">Add some earnings to see recent.</h4>
-          </div>
-        );
-      }
-    }
-  };
-
-  const renderSummary = (data) => {
-    if (data && data.length > 0) {
-      return data.map((item, index) => {
-        return <div key={index}>
-          <div className="color-link text-center">{item.total.toLocaleString()} <span className="color-title">{item.currency_code + '.'}</span></div>
-          <hr />
-        </div>
-      })
-    }
-    else if (typeof data === "object" && Object.values(data).length > 0) {
-      return Object.values(data).map((item, index) => {
-        return <div key={index}>
-          <div className="color-link text-center">{item.total.toLocaleString()} <span className="color-title">{item.currency_code + '.'}</span></div>
-          <hr />
-        </div>
-      })
-    }
-    else {
-      return <div>
-        <div className="text-center">No transaction data found.</div>
-        <hr />
-      </div>
-    }
-  };
+ 
 
   return (
     <div>
@@ -333,7 +140,7 @@ const Dashboard = (props) => {
               <div className="p-card-subtitle">Enter your expense information below.</div>
             </div>
             <br />
-            <form onSubmit={handleSubmit(submitExpense)}>
+            <form onSubmit={handleSubmit()}>
               <div className="p-fluid">
                 <Controller
                   name="expense_date"
@@ -412,7 +219,7 @@ const Dashboard = (props) => {
             </div>
             <br />
             <div>
-              {/* {renderRecentExpense()} */}
+              <p>To be Updated Soon !!!</p>
             </div>
           </Card>
         </div>
@@ -424,9 +231,7 @@ const Dashboard = (props) => {
               <div className="p-card-subtitle">Here are few incomes you've added.</div>
             </div>
             <br />
-            <div>
-              {renderRecentIncome()}
-            </div>
+            <p>To be Updated Soon !!!</p>
           </Card>
         </div>
       </div>

@@ -65,13 +65,15 @@ func RetrieveUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func InsertUser(w http.ResponseWriter, r *http.Request) {
+	log.Println("Hello world")
 
 	db, err := database.NewExpenseStoreSQL()
 	utils.AddCorsHeaders(w, r)
-
+	log.Println("Hello world")
 	if err != nil {
 		log.Printf("Failed connection to the database: '%v'", err)
 	}
+	log.Println("Hello world")
 
 	keyVal := utils.ParsePostBody(r, make(map[string]string))
 	name := keyVal["Name"]
