@@ -19,7 +19,7 @@ import { useTracked } from './../../Store';
 
 const loginValidationSchema = yup.object().shape({
   email: yup.string().required('Email field is required.').email('Email must be a valid email.'),
-  password: yup.string().required('Password field is required.').min(6, 'Must be 6 characters.'),
+  password: yup.string().required('Password field is required.').min(6, 'Must be atleast 6 characters.'),
 });
 
 let messages; // For alert message
@@ -37,40 +37,42 @@ const Login = (props) => {
   });
   
   const submitLogin = (data) => {
-    console.log(data,'llllllllllllllllllll');
-    // e.preventDefault();
-    props.history.push('/AfterLogin') 
-    return ( <Redirect  to="/AfterLogin/" />)
-    /*
+    // console.log(data,'llllllllllllllllllll');
+    // // e.preventDefault();
+    // props.history.push('/AfterLogin') 
+    // return ( <Redirect  to="/AfterLogin/" />)
+   
     messages.clear(); // Clear existing messages
     setSubmitting(true);
-    axios.post(authApiEndpoints.login, JSON.stringify(data))
-    .then(response => {
-        // console.log('success');
-        // console.log(response.data);
+    props.history.replace('/dashboard')
 
-        if (response.status === 200) {
-          setItem('expires_in', response.data.expires_in);
-          setItem('access_token', response.data.access_token);
-          setItem('token_created', response.data.token_created);
+    // axios.post(authApiEndpoints.login, JSON.stringify(data))
+    // .then(response => {
+    //     // console.log('success');
+    //     // console.log(response.data);
 
-          setState(prev => ({ ...prev, user: response.data.user }));
+    //     // if (response.status === 200) {
+    //     //   setItem('expires_in', response.data.expires_in);
+    //     //   setItem('access_token', response.data.access_token);
+    //     //   setItem('token_created', response.data.token_created);
 
-          props.location.state === undefined ? props.history.replace('/dashboard') : props.history.replace(props.location.state.from.pathname);
-        }
+    //     //   setState(prev => ({ ...prev, user: response.data.user }));
 
-      })
-      .catch(error => {
-        // console.log('error', error.response);
+    //       // props.location.state === undefined ? props.history.replace('/dashboard') : props.history.replace(props.location.state.from.pathname);
+    //     // }
+    //     props.history.replace('/dashboard')
+    //   })
+    //   .catch(error => {
+    //     // console.log('error', error.response);
 
-        if (error.response && error.response.status === 422) {
-          messages.show({ severity: 'error', detail: 'Incorrect email or password.', sticky: true });
-        }
-        else {
-          messages.show({ severity: 'error', detail: 'Something went wrong. Try again.', sticky: true });
-        }
-        setSubmitting(false);
-      })*/
+    //     if (error.response && error.response.status === 422) {
+    //       messages.show({ severity: 'error', detail: 'Incorrect email or password.', sticky: true });
+    //     }
+    //     else {
+    //       messages.show({ severity: 'error', detail: 'Something went wrong. Try again.', sticky: true });
+    //     }
+    //     setSubmitting(false);
+    //   })
   };
 
   return (
@@ -90,19 +92,19 @@ const Login = (props) => {
             <div className="p-col-12 p-fluid">
               <div className="p-inputgroup">
                 <span className="p-inputgroup-addon"><i className="pi pi-envelope" /></span>
-                <input type="text" name="email" placeholder={'Email'} ref={register} className="p-inputtext p-component p-filled" />
+                <input id="emailInput"type="text" name="email" placeholder={'Email'} ref={register} className="p-inputtext p-component p-filled" />
               </div>
               <p className="text-error">{errors.email?.message}</p>
             </div>
             <div className="p-col-12 p-fluid">
               <div className="p-inputgroup">
                 <span className="p-inputgroup-addon"><i className="pi pi-key" /></span>
-                <input type="password" name="password" placeholder={'Password'} ref={register} className="p-inputtext p-component p-filled" />
+                <input id="passwordInput" type="password" name="password" placeholder={'Password'} ref={register} className="p-inputtext p-component p-filled" />
               </div>
-              <p className="text-error">{errors.password?.message}</p>
+              <p id="passwordError"className="text-error">{errors.password?.message}</p>
             </div>
             <div className="p-col-12 p-fluid">
-              <Button disabled={submitting} type="submit" label={'Sign In'} icon="pi pi-sign-in" className="p-button-raised" />
+              <Button id="loginButton" disabled={submitting} type="submit" label={'Sign In'} icon="pi pi-sign-in" className="p-button-raised" />
               {/* <Link to="/AfterLogin" className="btn btn-primary">Sign up</Link> */}
             </div>
             <div className="p-grid p-nogutter p-col-12 p-justify-center">

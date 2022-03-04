@@ -11,19 +11,19 @@ import Website from "./app/landing/Website";
 import Login from './app/auth/Login';
 import Register from './app/auth/Register';
 import AfterLogin from './app/auth/AfterLogin';
-// import DashboardLayout from './app/layouts/DashboardLayout';
+import DashboardLayout from './app/layouts/DashboardLayout';
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      isLoggedIn() ? (
+      true ? (
         <Component {...props} />
       ) : (
           <Redirect
             to={{
-              pathname: '/AfterLogin',
-              // pathname: '/login',
+              // pathname: '/AfterLogin',
+              pathname: '/login',
               state: { from: props.location }
             }}
           />
@@ -40,10 +40,10 @@ export const GuestRoute = ({ component: Component, ...rest }) => (
         <Component {...props} />
       ) : (
           <Redirect
-            // to={{
-            //   pathname: '/dashboard',
-            //   state: { from: props.location }
-            // }}
+            to={{
+              pathname: '/dashboard',
+              state: { from: props.location }
+            }}
           />
         )
     }
@@ -57,7 +57,7 @@ const Routes = () => (
       <GuestRoute exact path={'/login'} component={Login} />
       <GuestRoute exact path={'/register'} component={Register} />
       <GuestRoute exact path={'/AfterLogin'} component={AfterLogin} />
-      {/* <PrivateRoute strict path={'/'} component={DashboardLayout} /> */}
+      { <PrivateRoute strict path={'/dashboard'} component={DashboardLayout} /> }
     </Switch>
   </HashRouter>
 );
