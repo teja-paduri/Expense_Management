@@ -10,6 +10,6 @@ Upendar Penmetcha
 
 **Tech Stack**
 
-Backend Development in : GO Language
-Frontend Development in : React JS
-
+1. Go Lang.   
+2. React Js
+3. Gorm
