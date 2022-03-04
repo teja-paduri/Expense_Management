@@ -40,6 +40,25 @@ func (es *ExpenseStoreSQL) GetUser(inputid int) *models.User {
 	return user
 }
 
+func (es *ExpenseStoreSQL) CreateUser(Name string, Email string, Password string) bool {
+	stmt, err := es.Prepare("INSERT into user(ID, name, email, password) values(?,?,?,?)")
+
+	_, err1 := stmt.Exec(nil, Name, Email, Password)
+	defer stmt.Close()
+
+	if err1 != nil {
+		log.Print("Insert Unsuccessful")
+		return false
+	}
+
+	if err != nil {
+		log.Fatalln(err)
+		return false
+	}
+	return true
+
+}
+
 // NewExpenseStoreSQL returns a pointer to an initialized ExpenseStoreSQL
 func NewExpenseStoreSQL() (*ExpenseStoreSQL, error) {
 	e := ExpenseStoreSQL{}
