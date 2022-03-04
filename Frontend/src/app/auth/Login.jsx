@@ -6,9 +6,8 @@ import { Helmet } from 'react-helmet';
 import { Card } from "primereact/card";
 import { Messages } from "primereact/messages";
 import { Button } from "primereact/button";
-// import { Link } from "react-router-dom";
 import { BrowserRouter as Router,  Switch, Route, Redirect,Link } from "react-router-dom";
-import AfterLogin from './AfterLogin';
+
 
 import LocaleToggle from './../locale/LocaleToggle';
 
@@ -48,19 +47,14 @@ const Login = (props) => {
         console.log(response.data);
 
         if (response.status === 200) {
-          console.log("Hello World");
-          // setItem('expires_in', response.data.expires_in);
-          // setItem('access_token', response.data.access_token);
-          // setItem('token_created', response.data.token_created);
-
-          // setState(prev => ({ ...prev, user: response.data.user }));
-
-          // props.location.state === undefined ? props.history.replace('/dashboard') : props.history.replace(props.location.state.from.pathname);
+          setItem('expires_in', response.data.expires_in);
+          setItem('access_token', response.data.access_token);
+          setItem('token_created', response.data.token_created);
+          setState(prev => ({ ...prev, user: response.data.user }));
+          props.location.state === undefined ? props.history.replace('/dashboard') : props.history.replace(props.location.state.from.pathname);
         }
       })
       .catch(error => {
-        // console.log('error', error.response);
-
         if (error.response && error.response.status === 422) {
           messages.show({ severity: 'error', detail: 'Incorrect email or password.', sticky: true });
         }
