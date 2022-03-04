@@ -14,9 +14,9 @@ import { authApiEndpoints } from './../../API';
 import LocaleToggle from './../locale/LocaleToggle';
 
 const registerValidationSchema = yup.object().shape({
-  name: yup.string().required('Name field is required').min(4, 'Name must be atleast 4 character'),
-  email: yup.string().required('Email field is required').email('Email must be a valid email'),
-  password: yup.string().required('Password field is required').min(6, 'Password must be atleast 6 character'),
+  Name: yup.string().required('Name field is required').min(4, 'Name must be atleast 4 character'),
+  Email: yup.string().required('Email field is required').email('Email must be a valid email'),
+  Password: yup.string().required('Password field is required').min(6, 'Password must be atleast 6 character'),
   // confirm_password: yup.string().required('Password confirm field is required').oneOf([yup.ref('password')], 'Confirm password does not match')
 });
 
@@ -34,15 +34,15 @@ const Register = (props) => {
 
   const submitRegister = (data) => {
     setSubmitting(true);
-    axios.post(authApiEndpoints.register, JSON.stringify(data))
+    axios.post(authApiEndpoints.register, data)
       .then(response => {
-        console.log('response', response.data);
+        console.log('success');
+        console.log(response.data);
         if (response.status === 200) {
-          console.log("Hello World");
-          // messages.clear();
-          // messages.show({ severity: 'success', detail: 'Registration successful. Go to login.', sticky: true });
-          // reset();
-          // setSubmitting(false);
+          messages.clear();
+          messages.show({ severity: 'success', detail: 'Registration successful. Go to login.', sticky: true });
+          reset();
+          setSubmitting(false);
         }
 
       })
@@ -84,21 +84,21 @@ const Register = (props) => {
             <div className="p-col-12 p-fluid">
               <div className="p-inputgroup">
                 <span className="p-inputgroup-addon"><i className="pi pi-user" /></span>
-                <input type="text" name="name" placeholder={'Name'} ref={register} className="p-inputtext p-component p-filled" />
+                <input type="text" name="Name" placeholder={'Name'} ref={register} className="p-inputtext p-component p-filled" />
               </div>
               <p className="text-error">{errors.name?.message}</p>
             </div>
             <div className="p-col-12 p-fluid">
               <div className="p-inputgroup">
                 <span className="p-inputgroup-addon"><i className="pi pi-envelope" /></span>
-                <input type="text" name="email" placeholder={'Email'} ref={register} className="p-inputtext p-component p-filled" />
+                <input type="text" name="Email" placeholder={'Email'} ref={register} className="p-inputtext p-component p-filled" />
               </div>
               <p className="text-error">{errors.email?.message}</p>
             </div>
             <div className="p-col-12 p-fluid">
               <div className="p-inputgroup">
                 <span className="p-inputgroup-addon"><i className="pi pi-key" /></span>
-                <input type="password" name="password" placeholder={'Password'} ref={register} className="p-inputtext p-component p-filled" />
+                <input type="password" name="Password" placeholder={'Password'} ref={register} className="p-inputtext p-component p-filled" />
               </div>
               <p className="text-error">{errors.password?.message}</p>
             </div>

@@ -17,8 +17,8 @@ import { authApiEndpoints } from "./../../API";
 import { useTracked } from './../../Store';
 
 const loginValidationSchema = yup.object().shape({
-  email: yup.string().required('Email field is required.').email('Email must be a valid email.'),
-  password: yup.string().required('Password field is required.').min(6, 'Must be atleast 6 characters.'),
+  Email: yup.string().required('Email field is required.').email('Email must be a valid email.'),
+  Password: yup.string().required('Password field is required.').min(6, 'Must be atleast 6 characters.'),
 });
 
 let messages; // For alert message
@@ -82,14 +82,14 @@ const Login = (props) => {
             <div className="p-col-12 p-fluid">
               <div className="p-inputgroup">
                 <span className="p-inputgroup-addon"><i className="pi pi-envelope" /></span>
-                <input id="emailInput"type="text" name="email" placeholder={'Email'} ref={register} className="p-inputtext p-component p-filled" />
+                <input id="emailInput"type="text" name="Email" placeholder={'Email'} ref={register} className="p-inputtext p-component p-filled" />
               </div>
               <p className="text-error">{errors.email?.message}</p>
             </div>
             <div className="p-col-12 p-fluid">
               <div className="p-inputgroup">
                 <span className="p-inputgroup-addon"><i className="pi pi-key" /></span>
-                <input id="passwordInput" type="password" name="password" placeholder={'Password'} ref={register} className="p-inputtext p-component p-filled" />
+                <input id="passwordInput" type="password" name="Password" placeholder={'Password'} ref={register} className="p-inputtext p-component p-filled" />
               </div>
               <p id="passwordError"className="text-error">{errors.password?.message}</p>
             </div>
