@@ -60,17 +60,20 @@ func RetrieveUser(w http.ResponseWriter, r *http.Request) {
 func InsertUser(w http.ResponseWriter, r *http.Request) {
 
 	db, err := database.NewExpenseStoreSQL()
-
-	if err != nil {
-		log.Printf("couldn't get UserID from URL path: '%v'", err)
-	}
-
 	utils.AddCorsHeaders(w, r)
 
-	op := db.CreateUser("Anusha", "anusha@gmail.com", "12345678")
+	if err != nil {
+		log.Printf("Failed connection to the database: '%v'", err)
+	}
+
+	keyVal := utils.ParsePostBody(r, make(map[string]string))
+	name := keyVal["Name"]
+	email := keyVal["Email"]
+	password := keyVal["Password"]
+
+	op := db.CreateUser(name, email, password)
 
 	if op {
-
 		k := `Inserted User Successfully`
 		w.WriteHeader(http.StatusOK)
 		enc := json.NewEncoder(w)
