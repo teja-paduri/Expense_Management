@@ -53,6 +53,13 @@ func RetrieveUser(w http.ResponseWriter, r *http.Request) {
 
 	user := db.GetUser(userID)
 
+	if user == nil {
+		w.WriteHeader(http.StatusNotFound)
+		errorJSON := CreateErrorNotFound(fmt.Sprintf("Requested user %v not found.", userID))
+		enc.Encode(errorJSON)
+		return
+	}
+
 	w.WriteHeader(http.StatusOK)
 	enc.Encode(user)
 }
