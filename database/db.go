@@ -51,7 +51,32 @@ func (es *ExpenseStoreSQL) CreateUser(Name string, Email string, Password string
 		return false
 	}
 	return true
+}
 
+func (es *ExpenseStoreSQL) LoginUser(requestEmail string, requestPassword string) *models.User {
+	var user *models.User
+	var (
+		id       int64
+		name     string
+		email    string
+		password string
+	)
+	err := es.QueryRow("SELECT * FROM user WHERE email = ?", requestEmail).Scan(&id, &name, &email, &password)
+	if err != nil {
+		if err != sql.ErrNoRows {
+			log.Fatalln(err)
+		} else {
+			log.Println("User doesn't exist!")
+			return nil
+		}
+	} else {
+		if password != requestPassword {
+			log.Println("Incorrect password!")
+			return nil
+		}
+		user = &models.User{id, name, email, password}
+	}
+	return user
 }
 
 // NewExpenseStoreSQL returns a pointer to an initialized ExpenseStoreSQL
