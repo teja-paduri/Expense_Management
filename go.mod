@@ -8,6 +8,7 @@ require (
 	github.com/gofiber/fiber v1.14.6 // indirect
 	github.com/gofiber/fiber/v2 v2.26.0 // indirect
 	github.com/gofiber/utils v0.0.10 // indirect
+	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/gorilla/schema v1.1.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.4 // indirect
