@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"expenseManagement/database"
 	"expenseManagement/models"
+	"expenseManagement/utils"
 	"fmt"
 
 	"github.com/gorilla/mux"
@@ -30,15 +31,14 @@ type ExpenseServer struct {
 
 func RetrieveUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	// userIDString := strings.TrimPrefix(r.URL.Path, "/users/")
-	// println(userIDString)
 	db, err1 := database.NewExpenseStoreSQL()
 
 	if err1 != nil {
 		log.Printf("couldn't get UserID from URL path: '%v'", err)
 	}
 
-	w.Header().Set("content-type", contentTypeJSON)
+	utils.AddCorsHeaders(w, r)
+
 	enc := json.NewEncoder(w)
 
 	userID, err := strconv.Atoi(params["id"])
@@ -53,15 +53,44 @@ func RetrieveUser(w http.ResponseWriter, r *http.Request) {
 
 	user := db.GetUser(userID)
 
-	// if user == nil {
-	// 	w.WriteHeader(http.StatusNotFound)
-	// 	errorJSON := CreateErrorNotFound(fmt.Sprintf("Requested user %v not found.", userID))
-	// 	enc.Encode(errorJSON)
-	// 	return
-	// }
-
-	// user = {"Name":"teja"}
+	if user == nil {
+		w.WriteHeader(http.StatusNotFound)
+		errorJSON := CreateErrorNotFound(fmt.Sprintf("Requested user %v not found.", userID))
+		enc.Encode(errorJSON)
+		return
+	}
 
 	w.WriteHeader(http.StatusOK)
 	enc.Encode(user)
+}
+
+func InsertUser(w http.ResponseWriter, r *http.Request) {
+
+	db, err := database.NewExpenseStoreSQL()
+	utils.AddCorsHeaders(w, r)
+
+	if err != nil {
+		log.Printf("Failed connection to the database: '%v'", err)
+	}
+
+	keyVal := utils.ParsePostBody(r, make(map[string]string))
+	name := keyVal["Name"]
+	email := keyVal["Email"]
+	password := keyVal["Password"]
+
+	op := db.CreateUser(name, email, password)
+
+	if op {
+		k := `Inserted User Successfully`
+		w.WriteHeader(http.StatusOK)
+		enc := json.NewEncoder(w)
+		enc.Encode(k)
+
+	} else {
+		k := "User Already Exists"
+		w.WriteHeader(http.StatusBadRequest)
+		enc := json.NewEncoder(w)
+		enc.Encode(k)
+	}
+
 }

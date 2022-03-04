@@ -7,5 +7,7 @@ import (
 )
 
 func Setup(r *mux.Router) {
-	r.HandleFunc("/users/{id}", controllers.RetrieveUser).Methods("GET")
+	r.HandleFunc("/users/{id}", controllers.RetrieveUser).Methods("GET", "OPTIONS")
+	r.HandleFunc("/user/register", controllers.InsertUser).Methods("POST", "OPTIONS")
+
 }
