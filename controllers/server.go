@@ -92,5 +92,34 @@ func InsertUser(w http.ResponseWriter, r *http.Request) {
 		enc := json.NewEncoder(w)
 		enc.Encode(k)
 	}
+}
 
+func LoginUser(w http.ResponseWriter, r *http.Request) {
+	db, err := database.NewExpenseStoreSQL()
+	utils.AddCorsHeaders(w, r)
+	log.Printf("entered")
+	if err != nil {
+		log.Printf("Failed connection to the database: '%v'", err)
+	}
+
+	keyVal := utils.ParsePostBody(r, make(map[string]string))
+	email := keyVal["Email"]
+	password := keyVal["Password"]
+	log.Printf("entered e'%v'", email)
+	log.Printf("entered p'%v'", password)
+
+	output := db.LoginUser(email, password)
+	log.Printf("output '%v'", output)
+
+	if output != nil {
+		w.WriteHeader(http.StatusOK)
+		enc := json.NewEncoder(w)
+		enc.Encode(output)
+
+	} else {
+		k := "Login Error"
+		w.WriteHeader(http.StatusBadRequest)
+		enc := json.NewEncoder(w)
+		enc.Encode(k)
+	}
 }
