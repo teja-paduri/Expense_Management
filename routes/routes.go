@@ -3,14 +3,9 @@ package routes
 import (
 	"expenseManagement/controllers"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/gorilla/mux"
 )
 
-func Setup(app *fiber.App) {
-
-	// app.Post("/api/register", controllers.Register)
-	// app.Post("/api/login", controllers.Login)
-	app.Get("/api/user", controllers.User())
-	// app.Post("/api/logout", controllers.Logout)
-
+func Setup(r *mux.Router) {
+	r.HandleFunc("/users/{id}", controllers.RetrieveUser).Methods("GET")
 }
