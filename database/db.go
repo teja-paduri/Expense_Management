@@ -46,12 +46,7 @@ func (es *ExpenseStoreSQL) CreateUser(Name string, Email string, Password string
 	_, err1 := stmt.Exec(nil, Name, Email, Password)
 	defer stmt.Close()
 
-	if err1 != nil {
-		log.Print("Insert Unsuccessful")
-		return false
-	}
-
-	if err != nil {
+	if err1 != nil || err != nil {
 		log.Fatalln(err)
 		return false
 	}
