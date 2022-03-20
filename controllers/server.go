@@ -65,35 +65,36 @@ func RetrieveUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func InsertUser(w http.ResponseWriter, r *http.Request) {
-	log.Println("Hello world")
-
 	db, err := database.NewExpenseStoreSQL()
 	utils.AddCorsHeaders(w, r)
-	log.Println("Hello world")
 	if err != nil {
 		log.Printf("Failed connection to the database: '%v'", err)
 	}
-	log.Println("Hello world")
-
 	keyVal := utils.ParsePostBody(r, make(map[string]string))
-	name := keyVal["Name"]
-	email := keyVal["Email"]
-	password := keyVal["Password"]
-
-	op := db.CreateUser(name, email, password)
-
-	if op {
-		k := `Inserted User Successfully`
+	if keyVal["options"] == "true" {
 		w.WriteHeader(http.StatusOK)
-		enc := json.NewEncoder(w)
-		enc.Encode(k)
-
 	} else {
-		k := "User Already Exists"
-		w.WriteHeader(http.StatusBadRequest)
-		enc := json.NewEncoder(w)
-		enc.Encode(k)
+		name := keyVal["Name"]
+		email := keyVal["Email"]
+		password := keyVal["Password"]
+
+		op := db.CreateUser(name, email, password)
+		log.Printf("output '%v'", op)
+		if op {
+			k := `Inserted User Successfully`
+			w.WriteHeader(http.StatusOK)
+			enc := json.NewEncoder(w)
+			enc.Encode(k)
+
+		} else {
+			k := "User Already Exists"
+			w.WriteHeader(http.StatusBadRequest)
+			enc := json.NewEncoder(w)
+			enc.Encode(k)
+		}
+
 	}
+
 }
 
 func LoginUser(w http.ResponseWriter, r *http.Request) {

@@ -9,7 +9,6 @@ axios.interceptors.request.use(
   config => {
     // console.log('request interceptor');
     const url = config.url.split('/');
-
     if (url[url.length - 1] === 'login' || url[url.length - 1] === 'register') {
       delete config.headers.Authorization; // Do not send Authorization if from Login or Register
     }

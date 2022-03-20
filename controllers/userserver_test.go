@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"bytes"
-	"controllers"
 	"net/http/httptest"
 	"testing"
 

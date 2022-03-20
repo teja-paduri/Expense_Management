@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 import { Card } from "primereact/card";
 import { Messages } from "primereact/messages";
 import { Button } from "primereact/button";
-import { BrowserRouter as Router,  Switch, Route, Redirect,Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect, Link } from "react-router-dom";
 
 
 import LocaleToggle from './../locale/LocaleToggle';
@@ -34,15 +34,16 @@ const Login = (props) => {
   const { register, handleSubmit, errors } = useForm({
     validationSchema: loginValidationSchema
   });
-  
+
   const submitLogin = (data) => {
 
     messages.clear(); // Clear existing messages
     setSubmitting(true);
     // props.history.replace('/dashboard')
+    console.log("Check for loop");
 
     axios.post(authApiEndpoints.login, JSON.stringify(data))
-    .then(response => {
+      .then(response => {
         console.log('success');
         console.log(response.data);
 
@@ -78,11 +79,11 @@ const Login = (props) => {
             <div className="p-card-subtitle">Enter login credentials</div>
           </div>
 
-          <form onSubmit={handleSubmit(submitLogin)}> 
+          <form onSubmit={handleSubmit(submitLogin)}>
             <div className="p-col-12 p-fluid">
               <div className="p-inputgroup">
                 <span className="p-inputgroup-addon"><i className="pi pi-envelope" /></span>
-                <input id="emailInput"type="text" name="Email" placeholder={'Email'} ref={register} className="p-inputtext p-component p-filled" />
+                <input id="emailInput" type="text" name="Email" placeholder={'Email'} ref={register} className="p-inputtext p-component p-filled" />
               </div>
               <p className="text-error">{errors.email?.message}</p>
             </div>
@@ -91,11 +92,10 @@ const Login = (props) => {
                 <span className="p-inputgroup-addon"><i className="pi pi-key" /></span>
                 <input id="passwordInput" type="password" name="Password" placeholder={'Password'} ref={register} className="p-inputtext p-component p-filled" />
               </div>
-              <p id="passwordError"className="text-error">{errors.password?.message}</p>
+              <p id="passwordError" className="text-error">{errors.password?.message}</p>
             </div>
             <div className="p-col-12 p-fluid">
               <Button id="loginButton" disabled={submitting} type="submit" label={'Sign In'} icon="pi pi-sign-in" className="p-button-raised" />
-              {/* <Link to="/AfterLogin" className="btn btn-primary">Sign up</Link> */}
             </div>
             <div className="p-grid p-nogutter p-col-12 p-justify-center">
               <Link to="/register">Register</Link>

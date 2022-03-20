@@ -47,7 +47,7 @@ func (es *ExpenseStoreSQL) CreateUser(Name string, Email string, Password string
 	defer stmt.Close()
 
 	if err1 != nil || err != nil {
-		log.Fatalln(err)
+		// log.Fatalln(err)
 		return false
 	}
 	return true
