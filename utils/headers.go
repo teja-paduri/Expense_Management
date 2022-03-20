@@ -3,6 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -15,10 +16,20 @@ func AddCorsHeaders(w http.ResponseWriter, r *http.Request) {
 }
 
 func ParsePostBody(r *http.Request, keyVal map[string]string) map[string]string {
-	body, errRead := ioutil.ReadAll(r.Body)
-	if errRead != nil {
-		panic(errRead.Error())
+	if r.Method == "OPTIONS" {
+		//handle preflight in here
+		var colorMap = map[string]string{"options": "true"}
+		return colorMap
+	} else {
+		body, errRead := ioutil.ReadAll(r.Body)
+		bodyString := string(body)
+		log.Printf("heelo")
+		log.Print(bodyString)
+		if errRead != nil {
+			panic(errRead.Error())
+		}
+		json.Unmarshal(body, &keyVal)
+		return keyVal
 	}
-	json.Unmarshal(body, &keyVal)
-	return keyVal
+
 }
