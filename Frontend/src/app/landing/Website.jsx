@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import Image from '/Users/karthik/Documents/SE/Expense_Management/Frontend/src/Image.js';
+import Image from './../../Image';
 
 import LandingLayout from './../layouts/LandingLayout';
 
