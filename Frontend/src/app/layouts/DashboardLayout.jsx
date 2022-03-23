@@ -55,7 +55,7 @@ const menu = [
   { label: 'Analytics', url: '/analytics', icon: 'pi pi-fw pi-chart-bar', command: () => { } },
   { label: 'Settings', url: '/setting', icon: 'pi pi-fw pi-cog', command: () => { } },
   { label: 'Profile', url: '/profile', icon: 'pi pi-fw pi-user', command: () => { } },
-  { label: 'Logout', url: '', icon: 'pi pi-fw pi-power-off', command: () => logout() },
+  // { label: 'Logout', url: '', icon: 'pi pi-fw pi-power-off', command: () => logout() },
 ];
 
 const DashboardLayout = (props) => {
