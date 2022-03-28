@@ -7,7 +7,7 @@ import { Card } from "primereact/card";
 import { Messages } from "primereact/messages";
 import { Button } from "primereact/button";
 import { BrowserRouter as Router, Switch, Route, Redirect, Link } from "react-router-dom";
-
+import background from './../../assets/login_background.jpeg';
 
 import LocaleToggle from './../locale/LocaleToggle';
 
@@ -66,9 +66,19 @@ const Login = (props) => {
       })
   };
 
+  const myStyle={
+    backgroundImage:`url(${background})`,
+      height:'110vh',
+      marginTop:'-70px',
+      fontSize:'50px',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      };
+
   return (
     <div>
       <Helmet title='Login' />
+      <div style={myStyle} >
       <div className="p-grid p-nogutter p-align-center p-justify-center" style={{ height: '95vh' }}>
         <Card className="p-sm-12 p-md-6 p-lg-4" style={{ borderRadius: 5, minHeight: 65 }}>
           <div className="p-col-12 p-fluid">
@@ -103,6 +113,7 @@ const Login = (props) => {
           </form>
         </Card>
       </div>
+    </div>
     </div>
   );
 };

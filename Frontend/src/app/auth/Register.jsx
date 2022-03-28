@@ -69,7 +69,7 @@ const Register = (props) => {
   };
   const myStyle={
     backgroundImage:`url(${background})`,
-      height:'100vh',
+      height:'110vh',
       marginTop:'-70px',
       fontSize:'50px',
       backgroundSize: 'cover',
