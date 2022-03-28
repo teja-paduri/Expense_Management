@@ -18,12 +18,12 @@ describe('login', () => {
 })
 
 const visitLoginPage = () => {
-  cy.visit('http://localhost:3000')
+  cy.visit('http://localhost:3000/#/login')
 }
 
 const loginWith = (email, password) => {
-  cy.get('[name="email"]').type(email)
-  cy.get('[name="password"]').type(password)
+  cy.get('#emailInput').type(email)
+  cy.get('#passwordInput').type(password)
   cy.get('button').click()
 }
 const logout = () => {
