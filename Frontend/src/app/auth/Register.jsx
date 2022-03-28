@@ -10,8 +10,11 @@ import { Link } from 'react-router-dom';
 
 import axios from './../../Axios';
 import { authApiEndpoints } from './../../API';
+import background from './../../assets/register2.jpeg';
 
 import LocaleToggle from './../locale/LocaleToggle';
+document.body.setAttribute('style', 'background: black;');
+
 
 const registerValidationSchema = yup.object().shape({
   Name: yup.string().required('Name field is required').min(4, 'Name must be atleast 4 character'),
@@ -64,10 +67,19 @@ const Register = (props) => {
 
       })
   };
+  const myStyle={
+    backgroundImage:`url(${background})`,
+      height:'100vh',
+      marginTop:'-70px',
+      fontSize:'50px',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      };
 
   return (
     <div>
       <Helmet title='Register' />
+      <div style={myStyle} >
       <div className="p-grid p-nogutter p-align-center p-justify-center" style={{ height: '95vh' }}>
         <Card className="p-sm-12 p-md-6 p-lg-4" style={{ borderRadius: 5, minHeight: 65 }}>
           <div className="p-col-12 p-fluid">
@@ -118,6 +130,7 @@ const Register = (props) => {
           </form>
         </Card>
       </div>
+    </div>
     </div>
   );
 };
