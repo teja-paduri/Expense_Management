@@ -78,7 +78,7 @@ const Dashboard = (props) => {
             <div className="p-grid">
               <div className="p-col-6 p-md-3">
                 <div className="p-panel p-component">
-                  <div className="p-panel-titlebar"><span className="color-title text-bold">Expense Last Month</span>
+                  <div className="p-panel-titlebar"><span className="color-title text-bold">Total Expenses Last Month</span>
                   </div>
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
@@ -91,19 +91,7 @@ const Dashboard = (props) => {
 
               <div className="p-col-6 p-md-3">
                 <div className="p-panel p-component">
-                  <div className="p-panel-titlebar"><span className="color-title text-bold">Expense This Month</span></div>
-                  <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
-                    aria-labelledby="pr_id_1_label" aria-hidden="false">
-                    <div className="p-panel-content">
-                      {/* {renderSummary(monthlyExpenseSummary.expense_this_month)} */}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-col-6 p-md-3">
-                <div className="p-panel p-component">
-                  <div className="p-panel-titlebar"><span className="color-title text-bold">Income Last Month</span>
+                  <div className="p-panel-titlebar"><span className="color-title text-bold">Total Income Last Month</span>
                   </div>
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
@@ -116,7 +104,19 @@ const Dashboard = (props) => {
 
               <div className="p-col-6 p-md-3">
                 <div className="p-panel p-component">
-                  <div className="p-panel-titlebar"><span className="color-title text-bold">Income This Month</span></div>
+                  <div className="p-panel-titlebar"><span className="color-title text-bold">Total Expenses This Month</span></div>
+                  <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
+                    aria-labelledby="pr_id_1_label" aria-hidden="false">
+                    <div className="p-panel-content">
+                      {/* {renderSummary(monthlyExpenseSummary.expense_this_month)} */}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-col-6 p-md-3">
+                <div className="p-panel p-component">
+                  <div className="p-panel-titlebar"><span className="color-title text-bold">Total Income This Month</span></div>
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
@@ -136,8 +136,8 @@ const Dashboard = (props) => {
         <div className="p-col-12 p-md-6 p-lg-4">
           <Card className="rounded-border">
             <div>
-              <div className="p-card-title p-grid p-nogutter p-justify-between">Expense Info</div>
-              <div className="p-card-subtitle">Enter your expense information below.</div>
+              <div className="p-card-title p-grid p-nogutter p-justify-between">Expenses Info</div>
+              <div className="p-card-subtitle">Enter your expenses </div>
             </div>
             <br />
             <form onSubmit={handleSubmit()}>
@@ -214,8 +214,8 @@ const Dashboard = (props) => {
         <div className="p-col-12 p-md-6 p-lg-4">
           <Card className="rounded-border">
             <div>
-              <div className="p-card-title p-grid p-nogutter p-justify-between">Recent Expenses -</div>
-              <div className="p-card-subtitle">Here are few expenses you've made.</div>
+              <div className="p-card-title p-grid p-nogutter p-justify-between"> Expenses -</div>
+              <div className="p-card-subtitle">The expenses you've made.</div>
             </div>
             <br />
             <div>
@@ -227,8 +227,8 @@ const Dashboard = (props) => {
         <div className="p-col-12 p-md-6 p-lg-4">
           <Card className="rounded-border">
             <div>
-              <div className="p-card-title p-grid p-nogutter p-justify-between">Recent Incomes +</div>
-              <div className="p-card-subtitle">Here are few incomes you've added.</div>
+              <div className="p-card-title p-grid p-nogutter p-justify-between"> Incomes +</div>
+              <div className="p-card-subtitle">The incomes you've added.</div>
             </div>
             <br />
             <p>To be Updated Soon !!!</p>
