@@ -3,10 +3,10 @@ This application helps the user in managing both individual and group expenses b
 
 **Team Members**
 
-  **Backend Team:**
+  **Backend Team:**    
     Surya Teja Paduri     
     Anusha Chintha  
-  **Frontend Team:**
+  **Frontend Team:**    
     Venkata Karthik Nakka     
     Upendar Penmetcha   
 
