@@ -10,6 +10,7 @@ import { isLoggedIn } from './Helpers';
 import Website from "./app/landing/Website";
 import Login from './app/auth/Login';
 import Register from './app/auth/Register';
+import Profile from './app/profile/Profile'
 import DashboardLayout from './app/layouts/DashboardLayout';
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -55,6 +56,7 @@ const Routes = () => (
       <Route exact path={'/'} component={Website} />
       <GuestRoute exact path={'/login'} component={Login} />
       <GuestRoute exact path={'/register'} component={Register} />
+      <GuestRoute exact path={'/profile'} component={Profile} />
       
       { <PrivateRoute strict path={'/dashboard'} component={DashboardLayout} /> }
     </Switch>

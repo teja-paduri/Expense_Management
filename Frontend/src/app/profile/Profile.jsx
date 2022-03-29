@@ -9,6 +9,7 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 
 import { useTracked } from './../../Store';
+document.body.setAttribute('style', 'background: white;');
 
 let messages;
 
@@ -40,28 +41,27 @@ const Profile = (props) => {
         </div>
       </div>
 
-      <div className="p-grid">
+      <div className="p-grid p-nogutter p-align-center p-justify-center" style={{ height: '50vh' }}>
 
         <div className="p-col-12 p-md-6">
           <Card className="rounded-border">
             <div>
-              <div className="p-card-title p-grid p-nogutter p-justify-between">Profile Info</div>
-              <div className="p-card-subtitle">Detail of your current account information.</div>
+              <div className="p-card-title" style={{ color: "black" }}>Profile Info</div>
             </div>
             <div className="p-grid p-nogutter p-justify-between">
-              <h3 className="color-title p-col-6">
+              <h3 className="color-title p-col-6" style={{ color: "black" }}>
                 Name:
                 </h3>
               <h3 className="color-highlight p-col-6">
-                {state.user.name}
+                {/* {state.user.name} */}
               </h3>
             </div>
             <div className="p-grid p-nogutter p-justify-between">
-              <h3 className="color-title p-col-6">
+              <h3 className="color-title p-col-6" style={{ color: "black" }}>
                 Email:
                 </h3>
               <h3 className="color-highlight p-col-6">
-                {state.user.email}
+                {/* {state.user.email} */}
               </h3>
             </div>
 
@@ -72,12 +72,15 @@ const Profile = (props) => {
             </div>
           </Card>
         </div>
+        </div>
+      
+      <div className="p-grid p-nogutter p-align-center p-justify-center" style={{ height: '10vh' }}>
 
         <div className="p-col-12 p-md-6">
           <Card className="rounded-border">
             <div>
-              <div className="p-card-title p-grid p-nogutter p-justify-between">Password Info</div>
-              <div className="p-card-subtitle">Manage your current password here.</div>
+              <div className="p-card-title" style={{ color: "black" }}>Password Info</div>
+              <div className="p-card-subtitle" style={{ color: "black" }}>Manage your current password here.</div>
             </div>
             <br />
 
@@ -100,9 +103,8 @@ const Profile = (props) => {
               </div>
             </form>
           </Card>
-        </div>
-
-      </div>
+        </div>  
+        </div> 
     </div>
 
   )
