@@ -6,6 +6,7 @@ This application helps the user in managing both individual and group expenses b
   **Backend Team:**    
     Surya Teja Paduri     
     Anusha Chintha  
+    
   **Frontend Team:**    
     Venkata Karthik Nakka     
     Upendar Penmetcha   
