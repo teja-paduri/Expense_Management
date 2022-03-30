@@ -42,7 +42,8 @@ const Setting = (props) => {
         </div>
       </div>
 
-      <div className="p-grid">
+      
+      <div className="p-grid p-nogutter p-align-center p-justify-center" style={{ height: '50vh' }}>
 
         <div className="p-col-12 p-md-6">
           <Card className="rounded-border">
@@ -70,14 +71,18 @@ const Setting = (props) => {
             </div>
           </Card>
         </div>
-
+</div>
+<div className="p-grid p-nogutter p-align-center p-justify-center" style={{ height: '10vh' }}>
         <div className="p-col-12 p-md-6">
+        
+
           <Card className="rounded-border">
             <div>
-              <div className="p-card-title p-grid p-nogutter p-justify-between">Interface Setting</div>
+              <div className="p-card-title p-grid p-nogutter p-justify-between">INTERFACE SETTINGS</div>
               <div className="p-card-subtitle">Below are the current setup for this UI.</div>
             </div>
             <br />
+
             <div className="p-grid p-nogutter p-justify-between">
               <h3 className="color-title p-col-4">
                 Menu Color:
@@ -94,6 +99,7 @@ const Setting = (props) => {
                   }} />
               </h3>
             </div>
+
             <div className="p-grid p-nogutter p-justify-between">
               <h3 className="color-title p-col-4">
                 Menu Mode:
@@ -124,11 +130,12 @@ const Setting = (props) => {
                   onClick={(e) => toggleLanguage()} />
               </h3>
             </div>
+           
           </Card>
         </div>
-
+</div>
       </div>
-    </div>
+  
 
   )
 }
