@@ -7,9 +7,10 @@ import * as yup from "yup";
 import { Messages } from 'primereact/messages';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
+import background from './../../assets/login_background.jpeg';
 
 import { useTracked } from './../../Store';
-document.body.setAttribute('style', 'background: white;');
+document.body.setAttribute('style', 'background: black;');
 
 let messages;
 
@@ -27,11 +28,19 @@ const Profile = (props) => {
   });
   const [submitting, setSubmitting] = useState(false);
 
-  
+  const myStyle={
+    backgroundImage:`url(${background})`,
+      height:'110vh',
+      marginTop:'-70px',
+      fontSize:'50px',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      };
 
   return (
     <div>
       <Helmet title="Profile" />
+      <div style={myStyle} >
 
       <div className="p-grid p-nogutter">
         <div className="p-col-12">
@@ -105,6 +114,8 @@ const Profile = (props) => {
           </Card>
         </div>  
         </div> 
+    </div>
+
     </div>
 
   )

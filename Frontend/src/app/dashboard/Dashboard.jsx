@@ -44,19 +44,6 @@ const Dashboard = (props) => {
   const [expenseCategories, setExpenseCategories] = useState([]);
 
 
-
-
-  
-
-  
- 
-
-  
-
- 
-
- 
-
   return (
     <div>
       <Helmet title="Dashboard" />
@@ -131,9 +118,9 @@ const Dashboard = (props) => {
         </div>
       </div>
 
-      <div className="p-grid">
+      <div className="p-grid p-nogutter p-align-center p-justify-center" style={{ height: '50vh' }}>
 
-        <div className="p-col-12 p-md-6 p-lg-4">
+        <div className="p-col-12 p-md-10 p-lg-4">
           <Card className="rounded-border">
             <div>
               <div className="p-card-title p-grid p-nogutter p-justify-between">Expenses Info</div>
@@ -210,8 +197,8 @@ const Dashboard = (props) => {
             </form>
           </Card>
         </div>
-
-        <div className="p-col-12 p-md-6 p-lg-4">
+        
+        {/* <div className="p-col-12 p-md-6 p-lg-4" style={{ left: '-80px', height: '100vh' }} >
           <Card className="rounded-border">
             <div>
               <div className="p-card-title p-grid p-nogutter p-justify-between"> Expenses -</div>
@@ -224,7 +211,7 @@ const Dashboard = (props) => {
           </Card>
         </div>
 
-        <div className="p-col-12 p-md-6 p-lg-4">
+        <div className="p-col-12 p-md-6 p-lg-4" style={{ height: '100vh' }} >
           <Card className="rounded-border">
             <div>
               <div className="p-card-title p-grid p-nogutter p-justify-between"> Incomes +</div>
@@ -233,7 +220,7 @@ const Dashboard = (props) => {
             <br />
             <p>To be Updated Soon !!!</p>
           </Card>
-        </div>
+        </div> */}
       </div>
     </div>
   )
