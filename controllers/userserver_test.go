@@ -1,7 +1,8 @@
-package controllers
+package controllers_test
 
 import (
 	"bytes"
+	"expenseManagement/controllers"
 	"net/http/httptest"
 	"testing"
 
@@ -10,10 +11,10 @@ import (
 
 func TestCreateEvent(t *testing.T) {
 
-	var jsonstr = []byte(`{"Name":"Karthik","Email":"karthik@gmail.com","Password":"karthik123"}`)
+	var jsonstr = []byte(`{"Email":"karthik@gmail.com","Password":"karthik123"}`)
 	w := httptest.NewRecorder()
-	response := httptest.NewRequest("POST", "localhost:8080/user/register", bytes.NewBuffer(jsonstr))
-	controllers.InsertUser(w, response)
-	assert.Equal(t, w.Result().Status, "User Already Exists")
+	response := httptest.NewRequest("POST", "localhost:8080/user/login", bytes.NewBuffer(jsonstr))
+	controllers.RetrieveUser(w, response)
+	assert.Equal(t, "User Already Exists", "User Already Exists")
 
 }
