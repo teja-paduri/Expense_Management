@@ -5,13 +5,15 @@ import {
   Switch,
   Redirect
 } from 'react-router-dom';
-import { isLoggedIn } from './Helpers';
 
+import Profile from './app/profile/Profile'
+import DashboardLayout from './app/layouts/DashboardLayout';
+import Setting from './app/setting/Setting';
 import Website from "./app/landing/Website";
 import Login from './app/auth/Login';
 import Register from './app/auth/Register';
-import Profile from './app/profile/Profile'
-import DashboardLayout from './app/layouts/DashboardLayout';
+import { isLoggedIn } from './Helpers';
+
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -54,9 +56,12 @@ const Routes = () => (
   <HashRouter>
     <Switch>
       <Route exact path={'/'} component={Website} />
-      <GuestRoute exact path={'/login'} component={Login} />
       <GuestRoute exact path={'/register'} component={Register} />
+      <GuestRoute exact path={'/login'} component={Login} />
       <GuestRoute exact path={'/profile'} component={Profile} />
+      <GuestRoute exact path={'/setting'} component={Setting} />
+     
+
       
       { <PrivateRoute strict path={'/dashboard'} component={DashboardLayout} /> }
     </Switch>
