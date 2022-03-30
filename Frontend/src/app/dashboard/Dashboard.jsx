@@ -197,30 +197,6 @@ const Dashboard = (props) => {
             </form>
           </Card>
         </div>
-        
-        {/* <div className="p-col-12 p-md-6 p-lg-4" style={{ left: '-80px', height: '100vh' }} >
-          <Card className="rounded-border">
-            <div>
-              <div className="p-card-title p-grid p-nogutter p-justify-between"> Expenses -</div>
-              <div className="p-card-subtitle">The expenses you've made.</div>
-            </div>
-            <br />
-            <div>
-              <p>To be Updated Soon !!!</p>
-            </div>
-          </Card>
-        </div>
-
-        <div className="p-col-12 p-md-6 p-lg-4" style={{ height: '100vh' }} >
-          <Card className="rounded-border">
-            <div>
-              <div className="p-card-title p-grid p-nogutter p-justify-between"> Incomes +</div>
-              <div className="p-card-subtitle">The incomes you've added.</div>
-            </div>
-            <br />
-            <p>To be Updated Soon !!!</p>
-          </Card>
-        </div> */}
       </div>
     </div>
   )

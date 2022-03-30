@@ -8,8 +8,9 @@ import { Messages } from 'primereact/messages';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import background from './../../assets/login_background.jpeg';
-
+import { authApiEndpoints } from "./../../API";
 import { useTracked } from './../../Store';
+import axios from './../../Axios';
 document.body.setAttribute('style', 'background: black;');
 
 let messages;
@@ -27,7 +28,22 @@ const Profile = (props) => {
     validationSchema: passwordValidationSchema
   });
   const [submitting, setSubmitting] = useState(false);
+  const profileData = (data) => {
+    axios.post(authApiEndpoints.userData+"userID", JSON.stringify(data))
+      .then(response => {
+        if (response.status === 200) {
 
+        }
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 422) {
+          messages.show({ severity: 'error', detail: 'Incorrect email or password.', sticky: true });
+        }
+        else {
+          messages.show({ severity: 'error', detail: 'Something went wrong. Try again.', sticky: true });
+        }
+      })
+  };
   const myStyle={
     backgroundImage:`url(${background})`,
       height:'110vh',

@@ -48,9 +48,6 @@ const Login = (props) => {
         console.log(response.data);
 
         if (response.status === 200) {
-          setItem('expires_in', response.data.expires_in);
-          setItem('access_token', response.data.access_token);
-          setItem('token_created', response.data.token_created);
           setState(prev => ({ ...prev, user: response.data.user }));
           props.location.state === undefined ? props.history.replace('/dashboard') : props.history.replace(props.location.state.from.pathname);
         }
