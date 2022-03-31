@@ -21,18 +21,19 @@ const passwordValidationSchema = yup.object().shape({
   confirm_password: yup.string().required('This field is required').oneOf([yup.ref('new_password')], 'Confirm password does not match')
 });
 
-const Profile = (props) => {
+const Profile = () => {
 
-  const [state] = useTracked();
   const { register, handleSubmit, errors, reset } = useForm({
     validationSchema: passwordValidationSchema
   });
   const [submitting, setSubmitting] = useState(false);
+  const [userDetails ,setUserDetails]=useState({})
   const profileData = (data) => {
-    axios.post(authApiEndpoints.userData+"userID", JSON.stringify(data))
+    ///Retrieve from store userid
+    axios.post(authApiEndpoints.userData +"", JSON.stringify(data))//Need to add userID
       .then(response => {
         if (response.status === 200) {
-
+          setUserDetails(response.data)
         }
       })
       .catch(error => {
@@ -78,7 +79,7 @@ const Profile = (props) => {
                 Name:
                 </h3>
               <h3 className="color-highlight p-col-6">
-                {/* {state.user.name} */}
+                { userDetails.name }
               </h3>
             </div>
             <div className="p-grid p-nogutter p-justify-between">
@@ -86,7 +87,7 @@ const Profile = (props) => {
                 Email:
                 </h3>
               <h3 className="color-highlight p-col-6">
-                {/* {state.user.email} */}
+                {userDetails.email}
               </h3>
             </div>
 
