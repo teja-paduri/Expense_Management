@@ -63,7 +63,7 @@ const Profile = () => {
                 Name:
                 </h3>
               <h3 className="color-highlight p-col-6">
-                {localStorage.getItem('name') }
+                { localStorage.email }
               </h3>
             </div>
             <div className="p-grid p-nogutter p-justify-between">
@@ -71,7 +71,7 @@ const Profile = () => {
                 Email:
                 </h3>
               <h3 className="color-highlight p-col-6">
-                {localStorage.getItem('email')}
+                {localStorage.email}
               </h3>
             </div>
 
