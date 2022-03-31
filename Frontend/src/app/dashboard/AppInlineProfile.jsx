@@ -11,7 +11,7 @@ const AppInlineProfile = (props) => {
         <img src={require('./../../assets/user.png')} alt="logo" />
       </div>
       <a href="#" className="profile-link" onClick={e => e.preventDefault()}>
-        {/* <span className="username">{state.user.name}</span> */}
+        <span className="username" style={{ color: '#D735C6' }}>{"User"}</span>
       </a>
     </div>
   );

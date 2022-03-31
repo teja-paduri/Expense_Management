@@ -41,28 +41,30 @@ const Dashboard = (props) => {
   const [recentIncome, setRecentIncome] = useState({ income: [], incomeLoading: true });
   const [monthlyExpenseSummary, setMonthlyExpenseSummary] = useState({});
   const [monthlyIncomeSummary, setMonthlyIncomeSummary] = useState({});
-  const [expenseCategories, setExpenseCategories] = useState([]);
+  const [expenseCategories, setExpenseCategories] = useState(["Shopping", "Travel", "Food", "Leisure"]);
+
+  // setExpenseCategories(["Shopping","Travel","Food","Miscellaneous"])
+
+
 
 
   return (
-    <div>
+    <div style={{ background:"white"  }}>
       <Helmet title="Dashboard" />
+      {/* <CurrencySidebar visible={currencyVisible} onHide={(e) => setCurrencyVisible(false)} /> */}
 
-      <CurrencySidebar visible={currencyVisible} onHide={(e) => setCurrencyVisible(false)} />
-
-      <div className="p-grid p-nogutter">
+      {/* <div className="p-grid p-nogutter">
         <div className="p-col-12">
           <div className="p-fluid">
             <Messages ref={(el) => messages = el} />
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="p-grid">
         <div className="p-col-12">
           <div className="p-fluid">
-
-            <div className="p-grid">
+            <div className="p-grid" >
               <div className="p-col-6 p-md-3">
                 <div className="p-panel p-component">
                   <div className="p-panel-titlebar"><span className="color-title text-bold">Total Expenses Last Month</span>
@@ -70,6 +72,7 @@ const Dashboard = (props) => {
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
+                      <p>0</p>
                       {/* {renderSummary(monthlyExpenseSummary.expense_last_month)} */}
                     </div>
                   </div>
@@ -83,6 +86,7 @@ const Dashboard = (props) => {
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
+                    <p>0</p>
                       {/* {renderSummary(monthlyIncomeSummary.income_last_month)} */}
                     </div>
                   </div>
@@ -95,6 +99,7 @@ const Dashboard = (props) => {
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
+                    <p>0</p>
                       {/* {renderSummary(monthlyExpenseSummary.expense_this_month)} */}
                     </div>
                   </div>
@@ -107,6 +112,7 @@ const Dashboard = (props) => {
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
+                    <p>0</p>
                       {/* {renderSummary(monthlyIncomeSummary.income_this_month)} */}
                     </div>
                   </div>
@@ -118,8 +124,7 @@ const Dashboard = (props) => {
         </div>
       </div>
 
-      <div className="p-grid p-nogutter p-align-center p-justify-center" style={{ height: '50vh' }}>
-
+      <div className="p-grid p-nogutter p-align-center p-justify-center" >
         <div className="p-col-12 p-md-10 p-lg-4">
           <Card className="rounded-border">
             <div>
@@ -180,9 +185,8 @@ const Dashboard = (props) => {
                 <div className="p-inputgroup">
                   <input type="number" step="0.00" ref={register} keyfilter="money" placeholder="Amount" name="amount" className="p-inputtext p-component p-filled" />
                   <Button
-                    label={`${state.currencies.length === 0 ? 'loading' : state.currentCurrency.currency_code}`}
-                    type="button"
-                    onClick={(e) => setCurrencyVisible(true)} />
+                    label={"$"}
+                    type="button" />
                 </div>
                 <p className="text-error">{errors.amount?.message}</p>
               </div>

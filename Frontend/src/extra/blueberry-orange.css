@@ -9,7 +9,7 @@
   --color-danger: #ff858e;
   --color-info: #28c8fa;
   --color-warn: #ffcf51;
-  --color-title: #78a4e7;
+  --color-title: #246cd7;
   --color-subtitle: rgba(87, 21, 165, 0.8);
   --primary-color: #6e15c1;
   --secondary-color: #f8f2f2;
@@ -50,11 +50,11 @@
 }
 
 body a {
-  color: #e38cb7;
+  color: #151214;
 }
 
 body a:hover {
-  color: #d6619c;
+  color: #6190d6;
 }
 
 /*Input*/
