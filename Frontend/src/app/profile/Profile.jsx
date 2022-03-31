@@ -21,14 +21,29 @@ const passwordValidationSchema = yup.object().shape({
   confirm_password: yup.string().required('This field is required').oneOf([yup.ref('new_password')], 'Confirm password does not match')
 });
 
-const Profile = () => {
+const Profile = (props) => {
 
+  const [state] = useTracked();
   const { register, handleSubmit, errors, reset } = useForm({
     validationSchema: passwordValidationSchema
   });
   const [submitting, setSubmitting] = useState(false);
-  const [userDetails ,setUserDetails]=useState({})
+  const profileData = (data) => {
+    axios.post(authApiEndpoints.userData+"userID", JSON.stringify(data))
+      .then(response => {
+        if (response.status === 200) {
 
+        }
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 422) {
+          messages.show({ severity: 'error', detail: 'Incorrect email or password.', sticky: true });
+        }
+        else {
+          messages.show({ severity: 'error', detail: 'Something went wrong. Try again.', sticky: true });
+        }
+      })
+  };
   const myStyle={
     backgroundImage:`url(${background})`,
       height:'110vh',
@@ -63,8 +78,8 @@ const Profile = () => {
                 Name:
                 </h3>
               <h3 className="color-highlight p-col-6">
-                 {/* {state.user.name} */}
-                 {localStorage.getItem('name')}
+                {/* {state.user.name} */}
+                {localStorage.getItem('name')}
               </h3>
             </div>
             <div className="p-grid p-nogutter p-justify-between">
@@ -72,8 +87,8 @@ const Profile = () => {
                 Email:
                 </h3>
               <h3 className="color-highlight p-col-6">
-                 {/* {state.user.name} */}
-                 {localStorage.getItem('email')}
+                {/* {state.user.email} */}
+                {localStorage.getItem('email')}
               </h3>
             </div>
 
