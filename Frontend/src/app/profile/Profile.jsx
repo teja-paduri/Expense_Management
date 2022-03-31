@@ -28,23 +28,7 @@ const Profile = () => {
   });
   const [submitting, setSubmitting] = useState(false);
   const [userDetails ,setUserDetails]=useState({})
-  const profileData = (data) => {
-    ///Retrieve from store userid
-    axios.post(authApiEndpoints.userData +"", JSON.stringify(data))//Need to add userID
-      .then(response => {
-        if (response.status === 200) {
-          setUserDetails(response.data)
-        }
-      })
-      .catch(error => {
-        if (error.response && error.response.status === 422) {
-          messages.show({ severity: 'error', detail: 'Incorrect email or password.', sticky: true });
-        }
-        else {
-          messages.show({ severity: 'error', detail: 'Something went wrong. Try again.', sticky: true });
-        }
-      })
-  };
+
   const myStyle={
     backgroundImage:`url(${background})`,
       height:'110vh',
@@ -79,7 +63,7 @@ const Profile = () => {
                 Name:
                 </h3>
               <h3 className="color-highlight p-col-6">
-                { userDetails.name }
+                { localStorage.email }
               </h3>
             </div>
             <div className="p-grid p-nogutter p-justify-between">
@@ -87,7 +71,7 @@ const Profile = () => {
                 Email:
                 </h3>
               <h3 className="color-highlight p-col-6">
-                {userDetails.email}
+                {localStorage.email}
               </h3>
             </div>
 
