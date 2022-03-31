@@ -48,7 +48,9 @@ const Login = (props) => {
         console.log(response.data);
 
         if (response.status === 200) {
-          setState(prev => ({ ...prev, user: response.data.user }));
+          localStorage.setItem("name",response.data.name);
+          localStorage.setItem("email",response.data.email);
+          setState(prev => ({ ...prev, user: response.data.user}));
           props.location.state === undefined ? props.history.replace('/dashboard') : props.history.replace(props.location.state.from.pathname);
         }
       })
@@ -106,7 +108,7 @@ const Login = (props) => {
             </div>
             <div className="p-grid p-nogutter p-col-12 p-justify-center">
               <Link to="/register">Register</Link>
-            </div>
+            </div> 
           </form>
         </Card>
       </div>
