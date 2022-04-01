@@ -90,9 +90,21 @@ func (es *ExpenseStoreSQL) CreateExpense(expenseObj map[string]string) bool {
 	return true
 }
 
-func (es *ExpenseStoreSQL) RecordPayment(expenseObj map[string]string) bool {
+func (es *ExpenseStoreSQL) RecordPayment(paymentObj map[string]string) bool {
 	stmt, err := es.Prepare("INSERT into expense(ID, name, description, category_id, amount) values(?,?,?,?,?)")
-	_, err1 := stmt.Exec(nil, expenseObj["name"], expenseObj["description"], expenseObj["category_id"], expenseObj["amount"])
+	_, err1 := stmt.Exec(nil, paymentObj["name"], paymentObj["description"], paymentObj["category_id"], paymentObj["amount"])
+	defer stmt.Close()
+	// log.Fatalln(err)
+	log.Println(err, err1)
+	if err != nil || err1 != nil {
+		return false
+	}
+	return true
+}
+
+func (es *ExpenseStoreSQL) DeletePaymentRecord(paymentID string) bool {
+	stmt, err := es.Prepare("DELETE from expense(ID, name, description, category_id, amount) where ?")
+	_, err1 := stmt.Exec(paymentID)
 	defer stmt.Close()
 	// log.Fatalln(err)
 	log.Println(err, err1)
