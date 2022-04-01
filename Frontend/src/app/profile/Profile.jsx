@@ -77,16 +77,18 @@ const Profile = (props) => {
               <h3 className="color-title p-col-6" style={{ color: "black" }}>
                 Name:
                 </h3>
-              <h3 className="color-highlight p-col-6">
+              <h3 className="p-col-6">
                 {/* {state.user.name} */}
+                {localStorage.getItem('name')}
               </h3>
             </div>
             <div className="p-grid p-nogutter p-justify-between">
               <h3 className="color-title p-col-6" style={{ color: "black" }}>
                 Email:
                 </h3>
-              <h3 className="color-highlight p-col-6">
+              <h3 className="p-col-6">
                 {/* {state.user.email} */}
+                {localStorage.getItem('email')}
               </h3>
             </div>
 

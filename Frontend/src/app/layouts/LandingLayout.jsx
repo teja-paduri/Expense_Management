@@ -2,12 +2,9 @@ import React from 'react';
 
 const LandingLayout = (props) => {
   return (
-    
-    <div className="layout-main" style= {{backgroundColor:'black'}}>
+    <div className="layout-main" style= {{backgroundColor:'#8DC1ED'}}>
       {props.children}
-      <footer>
-  <p>Author: Hege Refsnes</p>
-  <p><a href="mailto:hege@example.com">hege@example.com</a></p>
+      <footer>  
 </footer>
     </div>
     
