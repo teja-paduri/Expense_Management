@@ -63,8 +63,6 @@ const Routes = () => (
       <GuestRoute exact path={'/setting'} component={Setting} />
       <GuestRoute exact path={'/profile/edit'} component={EditProfile} />
 
-     
-
       
       { <PrivateRoute strict path={'/dashboard'} component={DashboardLayout} /> }
     </Switch>

@@ -16,10 +16,8 @@ const updateProfileValidationSchema = yup.object().shape({
   email: yup.string().required('Email field is required').min(6, 'Email must be at most 6 character'),
   currency: yup.object().required('Currency field is required'),
 });
-
 let messages;
 const EditProfile = (props) => {
-
   const [state, setState] = useTracked();
   const { register, handleSubmit, errors, setValue, setError, control } = useForm({
     validationSchema: updateProfileValidationSchema
