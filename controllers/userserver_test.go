@@ -26,12 +26,22 @@ func TestCreateEvent2(t *testing.T) {
 	assert.Equal(t, w.Result().Status, "User Does not Exists")
 
 }
+
 func TestCreateEvent3(t *testing.T) {
 
 	var jsonstr = []byte(`{"Name":"springbreak","category":"food","userid":"4","amount":"100"}`)
 	w := httptest.NewRecorder()
-	response := httptest.NewRequest("POST", "localhost:8080/expense/get", bytes.NewBuffer(jsonstr))
-	GetExpense(w, response)
+	response := httptest.NewRequest("POST", "localhost:8080/expense", bytes.NewBuffer(jsonstr))
+	InsertExpense(w, response)
 	assert.Equal(t, w.Result().Status, "Expense Created")
+
+}
+func TestCreateEvent4(t *testing.T) {
+
+	var jsonstr = []byte(`{"Name":"springbreak","category":"food","userid":"4","amount":"100"}`)
+	w := httptest.NewRecorder()
+	response := httptest.NewRequest("POST", "localhost:8080/expense", bytes.NewBuffer(jsonstr))
+	InsertExpense(w, response)
+	assert.Equal(t, w.Result().Status, "Expense Already exists")
 
 }
