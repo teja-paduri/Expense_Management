@@ -45,3 +45,12 @@ func TestCreateEvent4(t *testing.T) {
 	assert.Equal(t, w.Result().Status, "Expense Already exists")
 
 }
+func TestCreateEvent5(t *testing.T) {
+
+	var jsonstr = []byte(`{"Name":"springbreak","amount":"200"}`)
+	w := httptest.NewRecorder()
+	response := httptest.NewRequest("POST", "localhost:8080/expense/update", bytes.NewBuffer(jsonstr))
+	UpdateExpense(w, response)
+	assert.Equal(t, w.Result().Status, "Expense updated")
+
+}
