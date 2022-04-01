@@ -54,3 +54,12 @@ func TestCreateEvent5(t *testing.T) {
 	assert.Equal(t, w.Result().Status, "Expense updated")
 
 }
+func TestCreateEvent6(t *testing.T) {
+
+	var jsonstr = []byte(`{"Name":"springbreak"}`)
+	w := httptest.NewRecorder()
+	response := httptest.NewRequest("POST", "localhost:8080/expense/remove", bytes.NewBuffer(jsonstr))
+	DeleteExpense(w, response)
+	assert.Equal(t, w.Result().Status, "Expense Deleted")
+
+}
