@@ -50,6 +50,7 @@ const Login = (props) => {
         if (response.status === 200) {
           localStorage.setItem("name",response.data.name);
           localStorage.setItem("email",response.data.email);
+          localStorage.setItem("id",response.data.id);
           setState(prev => ({ ...prev, user: response.data.user}));
           props.location.state === undefined ? props.history.replace('/dashboard') : props.history.replace(props.location.state.from.pathname);
         }
