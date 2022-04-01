@@ -23,7 +23,6 @@ func ParsePostBody(r *http.Request, keyVal map[string]string) map[string]string 
 	} else {
 		body, errRead := ioutil.ReadAll(r.Body)
 		bodyString := string(body)
-		log.Printf("heelo")
 		log.Print(bodyString)
 		if errRead != nil {
 			panic(errRead.Error())
