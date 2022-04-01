@@ -23,6 +23,15 @@ func TestCreateEvent2(t *testing.T) {
 	w := httptest.NewRecorder()
 	response := httptest.NewRequest("POST", "localhost:8080/user/register", bytes.NewBuffer(jsonstr))
 	InsertUser(w, response)
-	assert.Equal(t, w.Result().Status, "200 OK")
+	assert.Equal(t, w.Result().Status, "User Does not Exists")
+
+}
+func TestCreateEvent3(t *testing.T) {
+
+	var jsonstr = []byte(`{"Name":"springbreak","category":"food","userid":"4","amount":"100"}`)
+	w := httptest.NewRecorder()
+	response := httptest.NewRequest("POST", "localhost:8080/expense/get", bytes.NewBuffer(jsonstr))
+	GetExpense(w, response)
+	assert.Equal(t, w.Result().Status, "Expense Created")
 
 }
