@@ -87,7 +87,7 @@ func InsertExpense(w http.ResponseWriter, r *http.Request) {
 }
 
 func DeleteExpense(w http.ResponseWriter, r *http.Request) {
-	log.Printf("Inside insert expense")
+	log.Printf("Inside Delete expense")
 	db, err := database.NewExpenseStoreSQL()
 	utils.AddCorsHeaders(w, r)
 	if err != nil {
