@@ -140,8 +140,8 @@ func GetExpense(w http.ResponseWriter, r *http.Request) {
 		name := keyVal["Name"]
 		category := keyVal["Category"]
 		description := keyVal["Description"]
-		amount := keyVal["Amount"]
-		op := db.CreateUser(name, category, description, amount)
+		// amount := keyVal["Amount"]
+		op := db.CreateUser(name, category, description)
 		log.Printf("output '%v'", op)
 		if op {
 			k := `Inserted Expense Successfully`
