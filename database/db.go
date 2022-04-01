@@ -47,7 +47,6 @@ func (es *ExpenseStoreSQL) CreateUser(Name string, Email string, Password string
 	defer stmt.Close()
 
 	if err1 != nil || err != nil {
-		// log.Fatalln(err)
 		return false
 	}
 	return true
@@ -77,6 +76,18 @@ func (es *ExpenseStoreSQL) LoginUser(requestEmail string, requestPassword string
 		user = &models.User{id, name, email, password}
 	}
 	return user
+}
+
+func (es *ExpenseStoreSQL) CreateExpense(expenseObj map[string]string) bool {
+	stmt, err := es.Prepare("INSERT into expense(ID, name, description, category_id, amount) values(?,?,?,?,?)")
+	_, err1 := stmt.Exec(nil, expenseObj["name"], expenseObj["description"], expenseObj["category_id"], expenseObj["amount"])
+	defer stmt.Close()
+	// log.Fatalln(err)
+	log.Println(err, err1)
+	if err != nil || err1 != nil {
+		return false
+	}
+	return true
 }
 
 // NewExpenseStoreSQL returns a pointer to an initialized ExpenseStoreSQL

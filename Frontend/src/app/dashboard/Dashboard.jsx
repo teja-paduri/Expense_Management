@@ -41,7 +41,14 @@ const Dashboard = (props) => {
   const [recentIncome, setRecentIncome] = useState({ income: [], incomeLoading: true });
   const [monthlyExpenseSummary, setMonthlyExpenseSummary] = useState({});
   const [monthlyIncomeSummary, setMonthlyIncomeSummary] = useState({});
-  const [expenseCategories, setExpenseCategories] = useState(["Shopping", "Travel", "Food", "Leisure"]);
+  const [expenseCategories, setExpenseCategories] = useState({});
+  const category = [
+    {name: 'Food', code: 'food'},
+    {name: 'Travel', code: 'travel'},
+    {name: 'Rent', code: 'rent'},
+    {name: 'Miscellaneous', code: 'misc'},
+    {name: 'Allowance', code: 'allowance'}
+];
 
   // setExpenseCategories(["Shopping","Travel","Food","Miscellaneous"])
 
@@ -168,10 +175,10 @@ const Dashboard = (props) => {
                       filterPlaceholder="Search here"
                       showClear={true}
                       filterInputAutoFocus={false}
-                      options={expenseCategories}
+                      options={category}
                       style={{ width: '100%' }}
                       placeholder="Expense Category"
-                      optionLabel="category_name"
+                      optionLabel="name"
                     />
                   }
                 />
