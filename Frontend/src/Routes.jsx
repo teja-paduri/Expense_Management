@@ -13,6 +13,7 @@ import Website from "./app/landing/Website";
 import Login from './app/auth/Login';
 import Register from './app/auth/Register';
 import { isLoggedIn } from './Helpers';
+import EditProfile from './app/profile/EditProfile';
 
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -60,6 +61,8 @@ const Routes = () => (
       <GuestRoute exact path={'/login'} component={Login} />
       <GuestRoute exact path={'/profile'} component={Profile} />
       <GuestRoute exact path={'/setting'} component={Setting} />
+      <GuestRoute exact path={'/profile/edit'} component={EditProfile} />
+
      
 
       
