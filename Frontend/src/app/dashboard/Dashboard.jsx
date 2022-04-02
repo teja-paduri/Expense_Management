@@ -11,9 +11,9 @@ import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 
-import CurrencySidebar from '../common/CurrencySidebar';
-import ExpenseListItem from '../expense/ExpenseListItem';
-import IncomeListItem from '../income/IncomeListItem';
+// import CurrencySidebar from '../common/CurrencySidebar';
+// import ExpenseListItem from '../expense/ExpenseListItem';
+// import IncomeListItem from '../income/IncomeListItem';
 import { authApiEndpoints } from './../../API';
 import { expenseApiEndpoints, incomeApiEndpoints, reportApiEndpoints,  } from './../../API';
 import axios from './../../Axios';
@@ -86,10 +86,13 @@ const Dashboard = (props) => {
       })
   };
 
+  const uname = localStorage.getItem('name');
+  const uid = localStorage.getItem('id');
+
 
 
   return (
-    <div style={{ background:"white"  }}>
+    <div style={{ background:"black"  }}>
       <Helmet title="Dashboard" />
       {/* <CurrencySidebar visible={currencyVisible} onHide={(e) => setCurrencyVisible(false)} /> */}
 
@@ -173,17 +176,21 @@ const Dashboard = (props) => {
             </div>
             <br />
             <form onSubmit={handleSubmit(submitExpense)}>
-            <div className="p-grid p-nogutter p-justify-between">
+            {/* <div className="p-grid p-nogutter p-justify-between">
               <h3 className="color-title p-col-6" style={{ color: "black" }}>
                 uid:
                 </h3>
               <h3 className="p-col-6">
                  {localStorage.getItem('id')}
               </h3>
-            </div>
+            </div> */}
+            <div className="p-fluid">
+                <input type="text" ref={register} placeholder="name" name="name" value= {uname} className="p-inputtext p-component p-filled" />
+                <p className="text-error">{errors.description?.message}</p>
+              </div>
 
             <div className="p-fluid">
-                <input type="text" ref={register} placeholder="userid" name="userid" className="p-inputtext p-component p-filled" />
+                <input type="text" ref={register} placeholder="userid" name="userid" value= {uid} className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
               </div>
               <div className="p-fluid">
