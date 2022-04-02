@@ -66,13 +66,17 @@ The frontend requires Node JS (version 14.17.1 and above) installed in your envi
 
 * `npm install` 
 
+* `npm start`
+
 The npm install command installs the required packages, dependencies and creates a react app.
-To run the app you can simply execute this command npm start then a local server that hosts the react app is started.
+To run the app, you can simply execute the npm start command, then a local server that hosts the react app is started.
 
 ## To run Back-End
 
  Now in the directory where you cloned this repository open a terminal and run the following commands
 * `go run main.go`
+
+Once you run the command, the backend application will start running on the local port 8080 [link](http://localhost:8080/)
 
 ## To run cypress Tests for Front-End
 
