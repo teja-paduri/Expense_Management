@@ -100,6 +100,13 @@ Create Expense:
 
 ![expense POST](https://github.com/teja-paduri/Expense_Management/blob/main/Screenshots/create_expense.png)
 
+Get Expense:
+
+![expense_GET](https://github.com/teja-paduri/Expense_Management/blob/main/Screenshots/get_exp.png)
+
+Get Expense(Fail):
+
+![expense_GET_FAILED](https://github.com/teja-paduri/Expense_Management/blob/main/Screenshots/get_exp1.png)
  
 
 
