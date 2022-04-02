@@ -94,6 +94,11 @@ To install cypress on your local environment refer installation page
 
 * `npx cypress open`
 
+## Screenshot of working of Backend APIs
+
+Create Expense:
+
+![expense POST](https://github.com/teja-paduri/Expense_Management/blob/main/Screenshots/create_expense.png)
 
  
 
