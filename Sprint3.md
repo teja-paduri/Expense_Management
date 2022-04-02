@@ -26,9 +26,15 @@ This application helps the user in managing both individual and group expenses b
 
 ## Back-End
 
+ * Modified the errors occured while running user API test cases
  * Added new test cases for User Login and Authentication APIs.
  * Created Expense Database schema.
  * Created Payments Database schema.
+ * Established connection between user and new database schemas.
+ * Implemented Create, Retrieve, Update, Delete API functionalities for User Expenses.
+ * Used Go Lang testing package for implementing Unit Test cases.
+ * Added all valid and invalid unit test cases for the implemented Expense APIs.
+ * Implemented Insert and Delete API functionalities for user payments and added unit test cases for these functionalities
 
  
 
