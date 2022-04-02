@@ -49,6 +49,14 @@ The frontend requires Node JS (version 14.17.1 and above) installed in your envi
 
 ## Back-End
 
+The backend application requires the following packages to run.
+
+* Go Lang must be installed in your system. It can be installed using [Go Lang](https://go.dev/doc/install).
+* Currently we are using go version `go1.17.3 darwin/amd64`.
+* Along with Go Lang, we are using **Gorm** to integrate our application to the SQLite Database.
+* And, we **mux** must be installed to access the router objects and send http requests to the frontend.
+* For testing APIs locally, Postman application is being used.
+
 ## Steps to run the Project
 ## Cloning the Repository
 
@@ -76,7 +84,7 @@ To run the app, you can simply execute the npm start command, then a local serve
  Now in the directory where you cloned this repository open a terminal and run the following commands
 * `go run main.go`
 
-Once you run the command, the backend application will start running on the local port 8080 [link](http://localhost:8080/)
+Once you run the command, the backend application will start running on the local port 8080 [localhost:8080](http://localhost:8080/)
 
 ## To run cypress Tests for Front-End
 
