@@ -93,6 +93,31 @@ func (es *ExpenseStoreSQL) CreateExpense(expenseObj map[string]string) bool {
 	return true
 }
 
+func (es *ExpenseStoreSQL) RetrieveExpense(reqName string, reqCategory string, reqDesc string) *models.Expense {
+	var expense *models.Expense
+	var (
+		id          int64
+		name        string
+		category    string
+		description string
+		amount      float64
+		userid      int64
+	)
+	err := es.QueryRow("SELECT * from expense WHERE name = ? and category = ? and description = ?", reqName, reqCategory, reqDesc).Scan(&id, &name, &category, &description, &amount, &userid)
+	if err != nil {
+		log.Println(err)
+		if err != sql.ErrNoRows {
+			log.Println(err)
+		} else {
+			log.Println("No expense record exist")
+			return nil
+		}
+	} else {
+		expense = &models.Expense{id, userid, name, category, description, amount}
+	}
+	return expense
+}
+
 func (es *ExpenseStoreSQL) RecordPayment(paymentObj map[string]string) bool {
 	stmt, err := es.Prepare("INSERT into expense(ID, name, description, category_id, amount) values(?,?,?,?,?)")
 	_, err1 := stmt.Exec(nil, paymentObj["name"], paymentObj["description"], paymentObj["category_id"], paymentObj["amount"])
