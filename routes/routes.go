@@ -16,4 +16,8 @@ func Setup(r *mux.Router) {
 	r.HandleFunc("/expense", controllers.InsertExpense).Methods("POST", "OPTIONS")
 	r.HandleFunc("/expense/update", controllers.UpdateExpense).Methods("PUT", "OPTIONS")
 	r.HandleFunc("/expense/remove", controllers.DeleteExpense).Methods("DELETE", "OPTIONS")
+
+	//Payment routes
+	r.HandleFunc("/expense/insertpayment", controllers.InsertPaymentRecord).Methods("POST", "OPTIONS")
+	r.HandleFunc("/expense/deletepayment", controllers.DeletePayment).Methods("DELETE", "OPTIONS")
 }
