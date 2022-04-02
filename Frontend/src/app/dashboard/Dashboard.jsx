@@ -14,8 +14,8 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import CurrencySidebar from '../common/CurrencySidebar';
 import ExpenseListItem from '../expense/ExpenseListItem';
 import IncomeListItem from '../income/IncomeListItem';
-
-import { expenseApiEndpoints, incomeApiEndpoints, reportApiEndpoints } from './../../API';
+import { authApiEndpoints } from './../../API';
+import { expenseApiEndpoints, incomeApiEndpoints, reportApiEndpoints,  } from './../../API';
 import axios from './../../Axios';
 import { useTracked } from './../../Store';
 
@@ -23,10 +23,10 @@ let messages;
 
 const addExpenseValidationSchema = yup.object().shape({
   expense_date: yup.string().required('Expense date field is required'),
-  category: yup.object().required('Expense category field is required'),
+  category: yup.string().required('Expense category field is required'),
   amount: yup.string().required('Expense amount field is required'),
   spent_on: yup.string().required('Spent on field is required').max(100, 'Spent on must be at most 100 characters'),
-  remarks: yup.string().max(200, 'Remarks must be at most 200 characters'),
+  // remarks: yup.string().max(200, 'Remarks must be at most 200 characters'),
 });
 
 const Dashboard = (props) => {
@@ -42,16 +42,49 @@ const Dashboard = (props) => {
   const [monthlyExpenseSummary, setMonthlyExpenseSummary] = useState({});
   const [monthlyIncomeSummary, setMonthlyIncomeSummary] = useState({});
   const [expenseCategories, setExpenseCategories] = useState({});
-  const category = [
-    {name: 'Food', code: 'food'},
-    {name: 'Travel', code: 'travel'},
-    {name: 'Rent', code: 'rent'},
-    {name: 'Miscellaneous', code: 'misc'},
-    {name: 'Allowance', code: 'allowance'}
-];
+//   const category = [
+//     {name: 'Food'},
+//     // {name: 'Travel', code: 'travel'},
+//     // {name: 'Rent', code: 'rent'},
+//     // {name: 'Miscellaneous', code: 'misc'},
+//     // {name: 'Allowance', code: 'allowance'}
+// ];
 
   // setExpenseCategories(["Shopping","Travel","Food","Miscellaneous"])
 
+
+  const submitExpense = (data) => {
+    setSubmitting(true);
+    axios.post(authApiEndpoints.expense,data)
+      .then(response => {
+        console.log('success');
+        console.log(response.data);
+        if (response.status === 200) {
+          messages.clear();
+          messages.show({ severity: 'success', detail: '', sticky: true });
+          reset();
+          setSubmitting(false);
+        }
+
+      })
+      .catch(error => {
+        console.log('error', error.response);
+
+        if (error.response.status === 422) {
+          // Set validation errors returned from backend
+          let errors = Object.entries(error.response.data).map(([key, value]) => {
+            return { name: key, message: value[0] }
+          });
+          setError(errors);
+        }
+        else {
+          messages.show({ severity: 'error', detail: 'Something went wrong. Try again.', sticky: true });
+        }
+
+        setSubmitting(false);
+
+      })
+  };
 
 
 
@@ -139,7 +172,20 @@ const Dashboard = (props) => {
               <div className="p-card-subtitle">Enter your expenses </div>
             </div>
             <br />
-            <form onSubmit={handleSubmit()}>
+            <form onSubmit={handleSubmit(submitExpense)}>
+            <div className="p-grid p-nogutter p-justify-between">
+              <h3 className="color-title p-col-6" style={{ color: "black" }}>
+                uid:
+                </h3>
+              <h3 className="p-col-6">
+                 {localStorage.getItem('id')}
+              </h3>
+            </div>
+
+            <div className="p-fluid">
+                <input type="text" ref={register} placeholder="userid" name="userid" className="p-inputtext p-component p-filled" />
+                <p className="text-error">{errors.description?.message}</p>
+              </div>
               <div className="p-fluid">
                 <Controller
                   name="expense_date"
@@ -162,7 +208,7 @@ const Dashboard = (props) => {
                 />
                 <p className="text-error">{errors.expense_date?.message}</p>
               </div>
-              <div className="p-fluid">
+              {/* <div className="p-fluid">
                 <Controller
                   name="category"
                   onChange={([e]) => {
@@ -177,16 +223,20 @@ const Dashboard = (props) => {
                       filterInputAutoFocus={false}
                       options={category}
                       style={{ width: '100%' }}
-                      placeholder="Expense Category"
+                      placeholder="category"
                       optionLabel="name"
                     />
                   }
                 />
                 <p className="text-error">{errors.category?.message}</p>
+              </div> */}
+              <div className="p-fluid">
+                <input type="text" ref={register} placeholder="category" name="category" className="p-inputtext p-component p-filled" />
+                <p className="text-error">{errors.category?.message}</p>
               </div>
               <div className="p-fluid">
-                <input type="text" ref={register} placeholder="Spent On" name="spent_on" className="p-inputtext p-component p-filled" />
-                <p className="text-error">{errors.spent_on?.message}</p>
+                <input type="text" ref={register} placeholder="description" name="spent_on" className="p-inputtext p-component p-filled" />
+                <p className="text-error">{errors.description?.message}</p>
               </div>
               <div className="p-fluid">
                 <div className="p-inputgroup">
@@ -196,10 +246,6 @@ const Dashboard = (props) => {
                     type="button" />
                 </div>
                 <p className="text-error">{errors.amount?.message}</p>
-              </div>
-              <div className="p-fluid">
-                <textarea ref={register} rows={5} placeholder="Remarks" name="remarks" className="p-inputtext p-inputtextarea p-component p-inputtextarea-resizable" />
-                <p className="text-error">{errors.remarks?.message}</p>
               </div>
               <div className="p-fluid">
                 <Button disabled={submitting} type="submit" label="Add Expense" icon="pi pi-plus"
