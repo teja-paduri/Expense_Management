@@ -7,7 +7,7 @@ import (
 	"expenseManagement/utils"
 
 	// "github.com/gorilla/mux"
-
+	"fmt"
 	"log"
 	"net/http"
 )
@@ -24,6 +24,8 @@ var expense models.Expense
 func GetExpense(w http.ResponseWriter, r *http.Request) {
 	db, err := database.NewExpenseStoreSQL()
 	utils.AddCorsHeaders(w, r)
+	enc := json.NewEncoder(w)
+
 	if err != nil {
 		log.Printf("Failed connection to the database: '%v'", err)
 	}
@@ -31,23 +33,22 @@ func GetExpense(w http.ResponseWriter, r *http.Request) {
 	if keyVal["options"] == "true" {
 		w.WriteHeader(http.StatusOK)
 	} else {
-		name := keyVal["Name"]
-		category := keyVal["Category"]
-		description := keyVal["Description"]
-		// amount := keyVal["Amount"]
-		op := db.CreateUser(name, category, description)
-		log.Printf("output '%v'", op)
-		if op {
-			k := `Inserted Expense Successfully`
-			w.WriteHeader(http.StatusOK)
-			enc := json.NewEncoder(w)
-			enc.Encode(k)
+		log.Println("KEY VAL HERE")
+		log.Println(keyVal)
+		name := keyVal["name"]
+		category := keyVal["category"]
+		description := keyVal["description"]
 
+		op := db.RetrieveExpense(name, category, description)
+		log.Printf("GetExpense output: '%v'", op)
+
+		if op == nil {
+			w.WriteHeader(http.StatusNotFound)
+			errorJSON := CreateErrorNotFound(fmt.Sprintf("Requested expense %v not found.", name))
+			enc.Encode(errorJSON)
 		} else {
-			k := "Error"
-			w.WriteHeader(http.StatusBadRequest)
-			enc := json.NewEncoder(w)
-			enc.Encode(k)
+			w.WriteHeader(http.StatusOK)
+			enc.Encode(op)
 		}
 
 	}
