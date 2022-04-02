@@ -52,7 +52,7 @@ The frontend requires Node JS (version 14.17.1 and above) installed in your envi
 The backend application requires the following packages to run.
 
 * Go Lang must be installed in your system. It can be installed using [Go Lang](https://go.dev/doc/install).
-* Currently we are using go version `go1.17.3 darwin/amd64`.
+* Currently we are using go version `go1.17.3 darwin/amd64`. Check Go version using the command `go version`.
 * Along with Go Lang, we are using **Gorm** to integrate our application to the SQLite Database.
 * And, we **mux** must be installed to access the router objects and send http requests to the frontend.
 * For testing APIs locally, Postman application is being used.
