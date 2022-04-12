@@ -42,15 +42,6 @@ const Dashboard = (props) => {
   const [monthlyExpenseSummary, setMonthlyExpenseSummary] = useState({});
   const [monthlyIncomeSummary, setMonthlyIncomeSummary] = useState({});
   const [expenseCategories, setExpenseCategories] = useState({});
-//   const category = [
-//     {name: 'Food'},
-//     // {name: 'Travel', code: 'travel'},
-//     // {name: 'Rent', code: 'rent'},
-//     // {name: 'Miscellaneous', code: 'misc'},
-//     // {name: 'Allowance', code: 'allowance'}
-// ];
-
-  // setExpenseCategories(["Shopping","Travel","Food","Miscellaneous"])
 
 
   const submitExpense = (data) => {
@@ -61,7 +52,7 @@ const Dashboard = (props) => {
         console.log(response.data);
         if (response.status === 200) {
           messages.clear();
-          messages.show({ severity: 'success', detail: '', sticky: true });
+          messages.show({ severity: 'success', detail: "Expense Added Successfully", sticky: true });
           reset();
           setSubmitting(false);
         }
@@ -96,13 +87,13 @@ const Dashboard = (props) => {
       <Helmet title="Dashboard" />
       {/* <CurrencySidebar visible={currencyVisible} onHide={(e) => setCurrencyVisible(false)} /> */}
 
-      {/* <div className="p-grid p-nogutter">
+      <div className="p-grid p-nogutter">
         <div className="p-col-12">
           <div className="p-fluid">
             <Messages ref={(el) => messages = el} />
           </div>
         </div>
-      </div> */}
+      </div>
 
       <div className="p-grid">
         <div className="p-col-12">
@@ -176,14 +167,6 @@ const Dashboard = (props) => {
             </div>
             <br />
             <form onSubmit={handleSubmit(submitExpense)}>
-            {/* <div className="p-grid p-nogutter p-justify-between">
-              <h3 className="color-title p-col-6" style={{ color: "black" }}>
-                uid:
-                </h3>
-              <h3 className="p-col-6">
-                 {localStorage.getItem('id')}
-              </h3>
-            </div> */}
             <div className="p-fluid">
                 <input type="text" ref={register} placeholder="name" name="name" value= {uname} className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
@@ -215,28 +198,6 @@ const Dashboard = (props) => {
                 />
                 <p className="text-error">{errors.expense_date?.message}</p>
               </div>
-              {/* <div className="p-fluid">
-                <Controller
-                  name="category"
-                  onChange={([e]) => {
-                    return e.value
-                  }}
-                  control={control}
-                  as={
-                    <Dropdown
-                      filter={true}
-                      filterPlaceholder="Search here"
-                      showClear={true}
-                      filterInputAutoFocus={false}
-                      options={category}
-                      style={{ width: '100%' }}
-                      placeholder="category"
-                      optionLabel="name"
-                    />
-                  }
-                />
-                <p className="text-error">{errors.category?.message}</p>
-              </div> */}
               <div className="p-fluid">
                 <input type="text" ref={register} placeholder="category" name="category" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.category?.message}</p>
@@ -247,7 +208,7 @@ const Dashboard = (props) => {
               </div>
               <div className="p-fluid">
                 <div className="p-inputgroup">
-                  <input type="number" step="0.00" ref={register} keyfilter="money" placeholder="Amount" name="amount" className="p-inputtext p-component p-filled" />
+                  <input type="number" step="0.00" id='amountInputExpense' ref={register} keyfilter="money" placeholder="Amount" name="amount" className="p-inputtext p-component p-filled" />
                   <Button
                     label={"$"}
                     type="button" />

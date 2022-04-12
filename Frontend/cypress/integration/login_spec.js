@@ -5,7 +5,6 @@ describe('login', () => {
 
   it('A User logs in and sees a welcome message', () => {
     loginWith('upendar@example.com', 'passsword')
-    
     expect(cy.contains('Welcome back Upendar')).to.exist
   })
 
