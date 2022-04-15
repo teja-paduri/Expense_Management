@@ -17,6 +17,21 @@ SNO | Name                          | Github username| Type of development|
 3. SQLite Database
 4. Gorm
 
+# Project Description
+
+The following functions are implemented int the final version of the project.
+1. Registeration
+2. Login 
+3. Logout
+4. Keep track of the expenses
+5. Keep track of the income
+6. Keep track of the balance
+7. Split the money that user paid
+8. Monitor the amount you owe.
+9. Monitor the amount you are owed. 
+10. Dark and light mode.
+11. Updating the user account details
+
 ## How to run the app?
 
 ### Start Backend
