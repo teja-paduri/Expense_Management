@@ -24,8 +24,6 @@ import TransactionCalendar from '../calendar/TransactionCalendar';
 import Setting from '../setting/Setting';
 import ScrollToTop from '../dashboard/ScrollToTop';
 import PageNotFound from '../errors/404';
-
-import { logout } from './../../Axios';
 import { PrivateRoute } from './../../Routes';
 import { useTracked } from './../../Store';
 // import background from './../../assets/landing_logo.png';
@@ -44,7 +42,7 @@ const menu = [
     ]
   },
   {
-    label: 'Income', url: '', icon: 'pi pi-fw pi-money-bill',
+    label: 'Income', url: '/income', icon: 'pi pi-fw pi-money-bill',
     items: [
       { label: 'Manage', url: '/income', icon: 'pi pi-fw pi-plus', command: () => { } },
       { label: 'Category', url: '/income/category', icon: 'pi pi-fw pi-list', command: () => { } },
