@@ -102,33 +102,6 @@ const Income = (props) => {
         <div className="p-col-12">
           <div className="p-fluid">
 
-            <div className="p-grid">
-              <div className="p-col-6">
-                <div className="p-panel p-component">
-                  <div className="p-panel-titlebar"><span className="color-title text-bold">Income This Month</span>
-                  </div>
-                  <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
-                    aria-labelledby="pr_id_1_label" aria-hidden="false">
-                    <div className="p-panel-content">
-                      {renderIncomeSummary(incomeSummary.income_month)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-col-6">
-                <div className="p-panel p-component">
-                  <div className="p-panel-titlebar"><span className="color-title text-bold">Income Today</span></div>
-                  <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
-                    aria-labelledby="pr_id_1_label" aria-hidden="false">
-                    <div className="p-panel-content">
-                      {renderIncomeSummary(incomeSummary.income_today)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>
@@ -210,83 +183,6 @@ const Income = (props) => {
                   className="p-button-raised" />
               </div>
             </form>
-          </Card>
-        </div>
-
-        <div className="p-col-12 p-md-6">
-          <Card className="rounded-border">
-            <div className='p-grid'>
-              <div className='p-col-6'>
-                <div className="p-card-title p-grid p-nogutter p-justify-between">View Incomes</div>
-                <div className="p-card-subtitle">Here are few incomes you've added.</div>
-              </div>
-              <div className="p-col-6" align="right">
-                {income.fetching ? <ProgressSpinner style={{ height: '25px', width: '25px' }} strokeWidth={'4'} /> : ''}
-              </div>
-            </div>
-            <br />
-            <DataTable
-              value={income.incomes.data}
-              sortField={datatable.sortField}
-              sortOrder={datatable.sortOrder}
-              responsive={true}
-              paginator={true}
-              rows={datatable.rowsPerPage}
-              rowsPerPageOptions={[5, 10, 20]}
-              totalRecords={income.incomes.total}
-              lazy={true}
-              first={income.incomes.from - 1}
-              onPage={(e) => {
-                // console.log(e);
-                setDatatable({
-                  ...datatable,
-                  currentPage: (e.page + 1),
-                  rowsPerPage: e.rows,
-                });
-              }}
-              onSort={e => {
-                // console.log(e);
-                setDatatable({
-                  ...datatable,
-                  sortField: e.sortField,
-                  sortOrder: e.sortOrder,
-                });
-              }}
-              className="text-center"
-            >
-              <Column field="id" header="Serial" sortable={true} />
-              <Column field="source" header="Source" sortable={true} />
-              <Column field="amount" header="Amount" sortable={true}
-                body={(rowData, column) => {
-                  return rowData.amount.toLocaleString() + ' ' + rowData.currency_name
-                }}
-              />
-              <Column field="income_date" header="Date" sortable={true}
-                body={(rowData, column) => {
-                  return dayjs(rowData.income_date).format('YYYY-MM-DD hh:mm a')
-                }}
-              />
-              <Column
-                body={(rowData, column) => {
-                  // console.log(rowData);
-                  return (
-                    <div>
-                      <Link to={`/income/${rowData.id}/edit`}>
-                        <Button label="Edit" value={rowData.id}
-                          icon="pi pi-pencil"
-                          className="p-button-raised p-button-rounded p-button-info" />
-                      </Link>
-                      <Button label="Delete"
-                        
-                        icon="pi pi-trash"
-                        className="p-button-raised p-button-rounded p-button-danger" />
-                    </div>
-                  )
-                }}
-                header="Action"
-                style={{ textAlign: 'center', width: '8em' }}
-              />
-            </DataTable>
           </Card>
         </div>
 
