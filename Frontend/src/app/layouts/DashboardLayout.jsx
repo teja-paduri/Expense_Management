@@ -37,15 +37,13 @@ const menu = [
   {
     label: 'Expense', url: '', icon: 'pi pi-fw pi-dollar',
     items: [
-      { label: 'Manage', url: '/expense', icon: 'pi pi-fw pi-plus', command: () => { } },
-      { label: 'Category', url: '/expense/category', icon: 'pi pi-fw pi-list', command: () => { } },
+      { label: 'View Expenses', url: '/expense', icon: 'pi pi-fw pi-plus', command: () => { } },
     ]
   },
   {
     label: 'Income', url: '/income', icon: 'pi pi-fw pi-money-bill',
     items: [
       { label: 'Manage', url: '/income', icon: 'pi pi-fw pi-plus', command: () => { } },
-      { label: 'Category', url: '/income/category', icon: 'pi pi-fw pi-list', command: () => { } },
     ]
   },
   { label: 'Settings', url: '/setting', icon: 'pi pi-fw pi-cog', command: () => { } },
@@ -116,7 +114,7 @@ const DashboardLayout = (props) => {
           <PrivateRoute exact strict path={'/dashboard'} component={Dashboard} />
           <PrivateRoute exact strict path={'/expense'} component={Expense} />
           <PrivateRoute exact strict path={'/expense/:expense_id/edit'} component={EditExpense} />
-          <PrivateRoute exact strict path={'/expense/category'} component={ExpenseCategory} />
+          <PrivateRoute exact strict path={'/expenseCategory'} component={ExpenseCategory} />
           <PrivateRoute exact strict path={'/expense/category/:category_id/edit'} component={EditExpenseCategory} />
           <PrivateRoute exact strict path={'/income'} component={Income} />
           <PrivateRoute exact strict path={'/income/:income_id/edit'} component={EditIncome} />
