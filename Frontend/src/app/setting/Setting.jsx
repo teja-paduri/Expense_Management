@@ -41,37 +41,6 @@ const Setting = (props) => {
           </div>
         </div>
       </div>
-
-      
-      <div className="p-grid p-nogutter p-align-center p-justify-center" style={{ height: '50vh' }}>
-
-        <div className="p-col-12 p-md-6">
-          <Card className="rounded-border">
-            <div>
-              <div className="p-card-title p-grid p-nogutter p-justify-between">App Settings</div>
-              <div className="p-card-subtitle">Below are the current setup for this app.</div>
-            </div>
-            <br />
-            <div className="p-grid p-nogutter p-justify-between">
-              <h3 className="color-title p-col-4">
-                Current Currency:
-                </h3>
-              <h3 className="color-highlight p-col-4">
-                {state.currencies.length === 0 ? 'loading' : state.currentCurrency.currency_code + ' (' + state.currentCurrency.currency_name + ')'}
-              </h3>
-              <h3>
-                <Button label="Change" icon="pi pi-refresh"
-                  className="p-button-rounded p-button-raised p-button-secondary" type="button"
-                  onClick={(e) => setVisible(true)} />
-              </h3>
-            </div>
-
-            <div className="p-card-footer p-fluid">
-              <Button label="Update" className="" icon="pi pi-save"  />
-            </div>
-          </Card>
-        </div>
-</div>
 <div className="p-grid p-nogutter p-align-center p-justify-center" style={{ height: '10vh' }}>
         <div className="p-col-12 p-md-6">
         

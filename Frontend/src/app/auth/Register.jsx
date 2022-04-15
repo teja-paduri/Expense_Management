@@ -13,7 +13,7 @@ import { authApiEndpoints } from './../../API';
 import background from './../../assets/register2.jpeg';
 
 import LocaleToggle from './../locale/LocaleToggle';
-document.body.setAttribute('style', 'background: black;');
+document.body.setAttribute('style', 'background: ;');
 
 
 const registerValidationSchema = yup.object().shape({
