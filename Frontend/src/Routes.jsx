@@ -15,6 +15,7 @@ import Register from './app/auth/Register';
 import { isLoggedIn } from './Helpers';
 import EditProfile from './app/profile/EditProfile';
 import Income from './app/income/Income';
+import Expense from './app/expense/Expense';
 
 
 
@@ -65,6 +66,7 @@ const Routes = () => (
       <GuestRoute exact path={'/setting'} component={Setting} />
       <GuestRoute exact path={'/profile/edit'} component={EditProfile} />
       <GuestRoute exact path={'/income'} component={Income} />
+      <GuestRoute exact path={'/expense'} component={Expense} />
 
       
       { <PrivateRoute strict path={'/dashboard'} component={DashboardLayout} /> }
