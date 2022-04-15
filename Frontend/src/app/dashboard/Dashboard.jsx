@@ -18,6 +18,7 @@ import { authApiEndpoints } from './../../API';
 import { expenseApiEndpoints, incomeApiEndpoints, reportApiEndpoints,  } from './../../API';
 import axios from './../../Axios';
 import { useTracked } from './../../Store';
+import background from './../../assets/login_background.jpeg';
 
 let messages;
 
@@ -80,10 +81,19 @@ const Dashboard = (props) => {
   const uname = localStorage.getItem('name');
   const uid = localStorage.getItem('id');
 
+  const myStyle={
+    backgroundImage:`url(${background})`,
+      height:'110vh',
+      marginTop:'-70px',
+      fontSize:'50px',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      };
 
 
   return (
-    <div style={{ background:"black"  }}>
+    <div>
+    
       <Helmet title="Dashboard" />
       {/* <CurrencySidebar visible={currencyVisible} onHide={(e) => setCurrencyVisible(false)} /> */}
 
@@ -98,7 +108,7 @@ const Dashboard = (props) => {
       <div className="p-grid">
         <div className="p-col-12">
           <div className="p-fluid">
-            <div className="p-grid" >
+            {/* <div className="p-grid" >
               <div className="p-col-6 p-md-3">
                 <div className="p-panel p-component">
                   <div className="p-panel-titlebar"><span className="color-title text-bold">Total Expenses Last Month</span>
@@ -107,25 +117,11 @@ const Dashboard = (props) => {
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
                       <p>0</p>
-                      {/* {renderSummary(monthlyExpenseSummary.expense_last_month)} */}
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="p-col-6 p-md-3">
-                <div className="p-panel p-component">
-                  <div className="p-panel-titlebar"><span className="color-title text-bold">Total Income Last Month</span>
-                  </div>
-                  <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
-                    aria-labelledby="pr_id_1_label" aria-hidden="false">
-                    <div className="p-panel-content">
-                    <p>0</p>
-                      {/* {renderSummary(monthlyIncomeSummary.income_last_month)} */}
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               <div className="p-col-6 p-md-3">
                 <div className="p-panel p-component">
@@ -134,25 +130,11 @@ const Dashboard = (props) => {
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
                     <p>0</p>
-                      {/* {renderSummary(monthlyExpenseSummary.expense_this_month)} */}
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div className="p-col-6 p-md-3">
-                <div className="p-panel p-component">
-                  <div className="p-panel-titlebar"><span className="color-title text-bold">Total Income This Month</span></div>
-                  <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
-                    aria-labelledby="pr_id_1_label" aria-hidden="false">
-                    <div className="p-panel-content">
-                    <p>0</p>
-                      {/* {renderSummary(monthlyIncomeSummary.income_this_month)} */}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </div> */}
 
           </div>
         </div>
@@ -224,6 +206,7 @@ const Dashboard = (props) => {
         </div>
       </div>
     </div>
+    
   )
 }
 
