@@ -15,7 +15,7 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 // import ExpenseListItem from '../expense/ExpenseListItem';
 // import IncomeListItem from '../income/IncomeListItem';
 import { authApiEndpoints } from './../../API';
-import { expenseApiEndpoints, incomeApiEndpoints, reportApiEndpoints,  } from './../../API';
+import { expenseApiEndpoints, incomeApiEndpoints, reportApiEndpoints, } from './../../API';
 import axios from './../../Axios';
 import { useTracked } from './../../Store';
 
@@ -43,10 +43,16 @@ const Dashboard = (props) => {
   const [monthlyIncomeSummary, setMonthlyIncomeSummary] = useState({});
   const [expenseCategories, setExpenseCategories] = useState({});
 
-
+  const category = [
+    {name: 'Food', code: 'food'},
+    {name: 'Travel', code: 'travel'},
+    {name: 'Rent', code: 'rent'},
+    {name: 'Miscellaneous', code: 'misc'},
+    {name: 'Allowance', code: 'allowance'}
+];
   const submitExpense = (data) => {
     setSubmitting(true);
-    axios.post(authApiEndpoints.expense,data)
+    axios.post(authApiEndpoints.expense, data)
       .then(response => {
         console.log('success');
         console.log(response.data);
@@ -77,13 +83,38 @@ const Dashboard = (props) => {
       })
   };
 
+  const renderSummary = (data) => {
+    if (false) {
+      return data.map((item, index) => {
+        return <div key={index}>
+          <div className="color-link text-center">{item.total.toLocaleString()} <span className="color-title">{item.currency_code + '.'}</span></div>
+          <hr />
+        </div>
+      })
+    }
+    else if (false) {
+      return Object.values(data).map((item, index) => {
+        return <div key={index}>
+          <div className="color-link text-center">{item.total.toLocaleString()} <span className="color-title">{item.currency_code + '.'}</span></div>
+          <hr />
+        </div>
+      })
+    }
+    else {
+      return <div>
+        <div className="text-center">No transaction data found.</div>
+        <hr />
+      </div>
+    }
+  };
+
   const uname = localStorage.getItem('name');
   const uid = localStorage.getItem('id');
 
 
 
   return (
-    <div style={{ background:"black"  }}>
+    <div style={{ background: "black" }}>
       <Helmet title="Dashboard" />
       {/* <CurrencySidebar visible={currencyVisible} onHide={(e) => setCurrencyVisible(false)} /> */}
 
@@ -106,8 +137,7 @@ const Dashboard = (props) => {
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
-                      <p>0</p>
-                      {/* {renderSummary(monthlyExpenseSummary.expense_last_month)} */}
+                      {renderSummary(monthlyExpenseSummary.expense_last_month)}
                     </div>
                   </div>
                 </div>
@@ -120,8 +150,7 @@ const Dashboard = (props) => {
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
-                    <p>0</p>
-                      {/* {renderSummary(monthlyIncomeSummary.income_last_month)} */}
+                      {renderSummary(monthlyIncomeSummary.income_last_month)}
                     </div>
                   </div>
                 </div>
@@ -133,8 +162,7 @@ const Dashboard = (props) => {
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
-                    <p>0</p>
-                      {/* {renderSummary(monthlyExpenseSummary.expense_this_month)} */}
+                      {renderSummary(monthlyExpenseSummary.expense_this_month)}
                     </div>
                   </div>
                 </div>
@@ -146,8 +174,7 @@ const Dashboard = (props) => {
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
-                    <p>0</p>
-                      {/* {renderSummary(monthlyIncomeSummary.income_this_month)} */}
+                      {renderSummary(monthlyIncomeSummary.income_this_month)}
                     </div>
                   </div>
                 </div>
@@ -167,13 +194,13 @@ const Dashboard = (props) => {
             </div>
             <br />
             <form onSubmit={handleSubmit(submitExpense)}>
-            <div className="p-fluid">
-                <input type="text" ref={register} placeholder="name" name="name" value= {uname} className="p-inputtext p-component p-filled" />
+              <div className="p-fluid">
+                <input type="text" ref={register} placeholder="name" name="name" value={uname} className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
               </div>
 
-            <div className="p-fluid">
-                <input type="text" ref={register} placeholder="userid" name="userid" value= {uid} className="p-inputtext p-component p-filled" />
+              <div className="p-fluid">
+                <input type="text" ref={register} placeholder="userid" name="userid" value={uid} className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
               </div>
               <div className="p-fluid">
@@ -205,6 +232,28 @@ const Dashboard = (props) => {
               <div className="p-fluid">
                 <input type="text" ref={register} placeholder="description" name="spent_on" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
+              </div>
+              <div className="p-fluid">
+                <Controller
+                  name="category"
+                  onChange={([e]) => {
+                    return e.value
+                  }}
+                  control={control}
+                  as={
+                    <Dropdown
+                      filter={true}
+                      filterPlaceholder="Search here"
+                      showClear={true}
+                      filterInputAutoFocus={false}
+                      options={category}
+                      style={{ width: '100%' }}
+                      placeholder="Expense Category"
+                      optionLabel="name"
+                    />
+                  }
+                />
+                <p className="text-error">{errors.category?.message}</p>
               </div>
               <div className="p-fluid">
                 <div className="p-inputgroup">
