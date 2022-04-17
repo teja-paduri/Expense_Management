@@ -19,6 +19,9 @@ SNO | Name                          | Github username| Type of development|
 
 # Project Description
 
+Expense management has multiple applications and services. One part of it allows its users to keep track of one's expenses and the balance amount left.
+The primary application of the Expense management keeps track of the money that is owed to the user and the money that user owes to others. 
+
 The following functions are implemented int the final version of the project.
 1. Registeration
 2. Login 
