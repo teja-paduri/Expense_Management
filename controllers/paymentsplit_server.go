@@ -24,17 +24,17 @@ func InsertPaymentSplitRecord(w http.ResponseWriter, r *http.Request) {
 	if keyVal["options"] == "true" {
 		w.WriteHeader(http.StatusOK)
 	} else {
-		output := db.RecordPayment(keyVal)
+		output := db.RecordPaymentSplit(keyVal)
 
-		log.Printf("output '%v'", output)
+		log.Printf("Output '%v'", output)
 		if output {
-			k := `Payment record created Successfully`
+			k := `PaymentSplit record created Successfully`
 			w.WriteHeader(http.StatusOK)
 			enc := json.NewEncoder(w)
 			enc.Encode(k)
 
 		} else {
-			k := "Failied creating Payment record"
+			k := "Failied creating PaymentSplit record"
 			w.WriteHeader(http.StatusBadRequest)
 			enc := json.NewEncoder(w)
 			enc.Encode(k)
