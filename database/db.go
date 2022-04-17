@@ -167,3 +167,14 @@ func NewExpenseStoreSQL() (*ExpenseStoreSQL, error) {
 
 	return &e, nil
 }
+func (es *ExpenseStoreSQL) UpdatePassword(paymentObj map[string]string) bool {
+	stmt, err := es.Prepare("UPDATE into user(ID, name, description, category_id, amount) values(?,?,?,?,?)")
+	_, err1 := stmt.Exec(nil, paymentObj["name"], paymentObj["description"], paymentObj["category_id"], paymentObj["amount"])
+	defer stmt.Close()
+	// log.Fatalln(err)
+	log.Println(err, err1)
+	if err != nil || err1 != nil {
+		return false
+	}
+	return true
+}
