@@ -43,3 +43,7 @@ func InsertPaymentSplitRecord(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+func DeletePaymentSplit(w http.ResponseWriter, r *http.Request) {
+	log.Printf("Inside delete paymentsplit method")
+}

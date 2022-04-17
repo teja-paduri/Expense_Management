@@ -21,7 +21,12 @@ func Setup(r *mux.Router) {
 	//Payment routes
 	r.HandleFunc("/expense/insertpayment", controllers.InsertPaymentRecord).Methods("POST", "OPTIONS")
 	r.HandleFunc("/expense/deletepayment", controllers.DeletePayment).Methods("DELETE", "OPTIONS")
+
 	//Income routes
 	r.HandleFunc("/expense/insertincome", controllers.InsertIncome).Methods("POST", "OPTIONS")
 	r.HandleFunc("/expense/updateincome", controllers.UpdateIncome).Methods("DELETE", "OPTIONS")
+
+	//PaymentSplit routes
+	r.HandleFunc("/expense/insertpaymentsplit", controllers.InsertPaymentSplitRecord).Methods("POST", "OPTIONS")
+	r.HandleFunc("/expense/deletepaymentsplit", controllers.DeletePaymentSplit).Methods("DELETE", "OPTIONS")
 }
