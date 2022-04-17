@@ -22,6 +22,7 @@ import IncomeCategory from '../income/IncomeCategory';
 import EditIncomeCategory from '../income/EditIncomeCategory';
 import TransactionCalendar from '../calendar/TransactionCalendar';
 import Setting from '../setting/Setting';
+import Splitwise from '../Splitwise/Splitwise';
 import ScrollToTop from '../dashboard/ScrollToTop';
 import PageNotFound from '../errors/404';
 import { PrivateRoute } from './../../Routes';
@@ -46,6 +47,7 @@ const menu = [
       { label: 'Manage', url: '/income', icon: 'pi pi-fw pi-plus', command: () => { } },
     ]
   },
+  { label: 'Splitwise', url: '/splitwise', icon: 'pi pi-fw pi-dollar', command: () => { } },
   { label: 'Settings', url: '/setting', icon: 'pi pi-fw pi-cog', command: () => { } },
   { label: 'Profile', url: '/profile', icon: 'pi pi-fw pi-user', command: () => { } },
 ];
@@ -122,6 +124,7 @@ const DashboardLayout = (props) => {
           <PrivateRoute exact strict path={'/income/category/:category_id/edit'} component={EditIncomeCategory} />
           <PrivateRoute exact strict path={'/calendar'} component={TransactionCalendar} />
           <PrivateRoute exact strict path={'/setting'} component={Setting} />
+          <PrivateRoute exact strict path={'/splitwise'} component={Splitwise} />
           <PrivateRoute exact strict path={'/profile'} component={Profile} />
           <PrivateRoute exact strict path={'/profile/edit'} component={EditProfile} />
           <Route render={props => <PageNotFound {...props} />} />
