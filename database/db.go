@@ -78,6 +78,11 @@ func (es *ExpenseStoreSQL) LoginUser(requestEmail string, requestPassword string
 	return user
 }
 
+func (es *ExpenseStoreSQL) GetUsers() []*models.User {
+	var usersArr []*models.User
+	return usersArr
+}
+
 func (es *ExpenseStoreSQL) CreateExpense(expenseObj map[string]string) bool {
 	stmt, err := es.Prepare("INSERT into expense(ID, name, description, category, amount, userid) values(?,?,?,?,?,?)")
 	_, err1 := stmt.Exec(nil, expenseObj["name"], expenseObj["spent_on"], expenseObj["category"], expenseObj["amount"], expenseObj["userid"])

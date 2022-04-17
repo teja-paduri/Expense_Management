@@ -14,8 +14,6 @@ import (
 	"strconv"
 )
 
-const contentTypeJSON = "application/json"
-
 var user models.User
 
 var Store, err = database.NewExpenseStoreSQL()
@@ -112,6 +110,30 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	log.Printf("entered p'%v'", password)
 
 	output := db.LoginUser(email, password)
+	log.Printf("output '%v'", output)
+
+	if output != nil {
+		w.WriteHeader(http.StatusOK)
+		enc := json.NewEncoder(w)
+		enc.Encode(output)
+
+	} else {
+		k := "Login Error"
+		w.WriteHeader(http.StatusBadRequest)
+		enc := json.NewEncoder(w)
+		enc.Encode(k)
+	}
+}
+
+func GetAllUsers(w http.ResponseWriter, r *http.Request) {
+	db, err := database.NewExpenseStoreSQL()
+	utils.AddCorsHeaders(w, r)
+	log.Printf("entered GetAllUsers")
+	if err != nil {
+		log.Printf("Failed connection to the database: '%v'", err)
+	}
+
+	output := db.GetUsers()
 	log.Printf("output '%v'", output)
 
 	if output != nil {
