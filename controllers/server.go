@@ -139,7 +139,7 @@ func UpdateUserPassword(w http.ResponseWriter, r *http.Request) {
 		email := keyVal["Email"]
 		password := keyVal["Password"]
 
-		op := db.UpdatePassword(email, password)
+		op := db.UpdatePassword(password)
 		log.Printf("output '%v'", op)
 		if op {
 			k := `Password updated Successfully`
