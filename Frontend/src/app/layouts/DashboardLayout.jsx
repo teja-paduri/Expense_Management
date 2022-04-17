@@ -46,7 +46,13 @@ const menu = [
       { label: 'Manage', url: '/income', icon: 'pi pi-fw pi-plus', command: () => { } },
     ]
   },
-  { label: 'Splitwise', url: '/splitwise', icon: 'pi pi-fw pi-dollar', command: () => { } },
+  {
+    label: 'Splitwise', url: '/splitwise', icon: 'pi pi-fw pi-money-bill',
+    items: [
+      { label: 'Manage', url: '/splitwise', icon: 'pi pi-fw pi-dollar', command: () => { } },
+      { label: 'Owe and Owed', url: '/split', icon: 'pi pi-fw pi-plus', command: () => { } },
+    ]
+  },
   { label: 'Settings', url: '/setting', icon: 'pi pi-fw pi-cog', command: () => { } },
   { label: 'Profile', url: '/profile', icon: 'pi pi-fw pi-user', command: () => { } },
 ];
