@@ -23,7 +23,7 @@ func InsertIncome(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	} else {
 
-		output := db.RecordPayment(keyVal)
+		output := db.RecordIncome(keyVal)
 
 		log.Printf("output '%v'", output)
 		if output {
@@ -55,7 +55,7 @@ func UpdateIncome(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	} else {
 
-		output := db.DeletePaymentRecord(keyVal["payment_id"])
+		output := db.UpdateIncomeRecord(keyVal)
 
 		log.Printf("output '%v'", output)
 		if output {

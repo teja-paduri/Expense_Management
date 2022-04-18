@@ -118,7 +118,7 @@ func (es *ExpenseStoreSQL) RetrieveExpense(reqName string, reqCategory string, r
 	return expense
 }
 
-func (es *ExpenseStoreSQL) RecordPayment(incomeObj map[string]string) bool {
+func (es *ExpenseStoreSQL) RecordIncome(incomeObj map[string]string) bool {
 	stmt, err := es.Prepare("INSERT into income(ID, income_source, amount, description, user_id, timestamp) values(?,?,?,?,?,?)")
 	_, err1 := stmt.Exec(nil, incomeObj["income_source"], incomeObj["amount"], incomeObj["description"], incomeObj["user_id"], incomeObj["timestamp"])
 	defer stmt.Close()
@@ -133,6 +133,17 @@ func (es *ExpenseStoreSQL) RecordPayment(incomeObj map[string]string) bool {
 func (es *ExpenseStoreSQL) DeletePaymentRecord(paymentID string) bool {
 	stmt, err := es.Prepare("DELETE from payment(ID, name, description, category_id, amount) where ?")
 	_, err1 := stmt.Exec(paymentID)
+	defer stmt.Close()
+	// log.Fatalln(err)
+	log.Println(err, err1)
+	if err != nil || err1 != nil {
+		return false
+	}
+	return true
+}
+func (es *ExpenseStoreSQL) UpdateIncomeRecord(IncomeID map[string]string) bool {
+	stmt, err := es.Prepare("UPDATE income set amount=? where ID=?")
+	_, err1 := stmt.Exec(IncomeID["amount"], IncomeID["ID"])
 	defer stmt.Close()
 	// log.Fatalln(err)
 	log.Println(err, err1)
