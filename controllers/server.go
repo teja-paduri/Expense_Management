@@ -127,34 +127,34 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// func UpdateUserPassword(w http.ResponseWriter, r *http.Request) {
-// 	db, err := database.NewExpenseStoreSQL()
-// 	utils.AddCorsHeaders(w, r)
-// 	if err != nil {
-// 		log.Printf("Failed connection to the database: '%v'", err)
-// 	}
-// 	keyVal := utils.ParsePostBody(r, make(map[string]string))
-// 	if keyVal["options"] == "true" {
-// 		w.WriteHeader(http.StatusOK)
-// 	} else {
-// 		email := keyVal["Email"]
-// 		password := keyVal["Password"]
+func UpdateUserPassword(w http.ResponseWriter, r *http.Request) {
+	db, err := database.NewExpenseStoreSQL()
+	utils.AddCorsHeaders(w, r)
+	if err != nil {
+		log.Printf("Failed connection to the database: '%v'", err)
+	}
+	keyVal := utils.ParsePostBody(r, make(map[string]string))
+	if keyVal["options"] == "true" {
+		w.WriteHeader(http.StatusOK)
+	} else {
+		email := keyVal["email"]
+		password := keyVal["Password"]
 
-// 		op := db.UpdatePassword(password)
-// 		log.Printf("output '%v'", op)
-// 		if op {
-// 			k := `Password updated Successfully`
-// 			w.WriteHeader(http.StatusOK)
-// 			enc := json.NewEncoder(w)
-// 			enc.Encode(k)
+		op := db.UpdatePassword(email, password)
+		log.Printf("output '%v'", op)
+		if op {
+			k := `Password updated Successfully`
+			w.WriteHeader(http.StatusOK)
+			enc := json.NewEncoder(w)
+			enc.Encode(k)
 
-// 		} else {
-// 			k := "User Does not exists"
-// 			w.WriteHeader(http.StatusBadRequest)
-// 			enc := json.NewEncoder(w)
-// 			enc.Encode(k)
-// 		}
+		} else {
+			k := "User Does not exists"
+			w.WriteHeader(http.StatusBadRequest)
+			enc := json.NewEncoder(w)
+			enc.Encode(k)
+		}
 
-// 	}
+	}
 
-// }
+}
