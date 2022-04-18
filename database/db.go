@@ -79,7 +79,22 @@ func (es *ExpenseStoreSQL) LoginUser(requestEmail string, requestPassword string
 }
 
 func (es *ExpenseStoreSQL) GetUsers() []*models.User {
-	var usersArr []*models.User
+	log.Print("hei hi heloo")
+	rows, err := es.Query("SELECT * FROM user")
+	if err != nil {
+		return nil
+	}
+	defer rows.Close()
+	usersArr := []*models.User{}
+	for rows.Next() {
+		var i *models.User
+		err = rows.Scan(&i.Id, &i.Name)
+		if err != nil {
+			return nil
+		}
+		usersArr = append(usersArr, i)
+	}
+	log.Println(usersArr)
 	return usersArr
 }
 
@@ -123,9 +138,9 @@ func (es *ExpenseStoreSQL) RetrieveExpense(reqName string, reqCategory string, r
 	return expense
 }
 
-func (es *ExpenseStoreSQL) RecordPayment(paymentObj map[string]string) bool {
-	stmt, err := es.Prepare("INSERT into expense(ID, name, description, category_id, amount) values(?,?,?,?,?)")
-	_, err1 := stmt.Exec(nil, paymentObj["name"], paymentObj["description"], paymentObj["category_id"], paymentObj["amount"])
+func (es *ExpenseStoreSQL) RecordIncome(incomeObj map[string]string) bool {
+	stmt, err := es.Prepare("INSERT into income(ID, income_source, amount, description, user_id, timestamp) values(?,?,?,?,?,?)")
+	_, err1 := stmt.Exec(nil, incomeObj["income_source"], incomeObj["amount"], incomeObj["description"], incomeObj["user_id"], incomeObj["timestamp"])
 	defer stmt.Close()
 	// log.Fatalln(err)
 	log.Println(err, err1)
@@ -136,7 +151,7 @@ func (es *ExpenseStoreSQL) RecordPayment(paymentObj map[string]string) bool {
 }
 
 func (es *ExpenseStoreSQL) DeletePaymentRecord(paymentID string) bool {
-	stmt, err := es.Prepare("DELETE from expense(ID, name, description, category_id, amount) where ?")
+	stmt, err := es.Prepare("DELETE from payment(ID, name, description, category_id, amount) where ?")
 	_, err1 := stmt.Exec(paymentID)
 	defer stmt.Close()
 	// log.Fatalln(err)
@@ -146,10 +161,45 @@ func (es *ExpenseStoreSQL) DeletePaymentRecord(paymentID string) bool {
 	}
 	return true
 }
+func (es *ExpenseStoreSQL) UpdateIncomeRecord(IncomeObj map[string]string) bool {
+	log.Println(IncomeObj)
+	_, err := es.Exec("UPDATE income SET amount = ? where ID = ?", IncomeObj["amount"], IncomeObj["ID"])
+
+	log.Println(err)
+	if err != nil {
+		return false
+	}
+	return true
+}
 
 func (es *ExpenseStoreSQL) RecordPaymentSplit(paymentsplitObj map[string]string) bool {
 	stmt, err := es.Prepare("INSERT into payment_split(ID, borrowers, amount, user_id, expense_id, timestamp) values(?,?,?,?,?,?)")
 	_, err1 := stmt.Exec(nil, paymentsplitObj["borrowers"], paymentsplitObj["amount"], paymentsplitObj["user_id"], paymentsplitObj["expense_id"], paymentsplitObj["timestamp"])
+	defer stmt.Close()
+	// log.Fatalln(err)
+	log.Println(err, err1)
+	if err != nil || err1 != nil {
+		return false
+	}
+	return true
+}
+
+func (es *ExpenseStoreSQL) DeletePaymentSplitRecord(paymentID int) bool {
+	stmt, err := es.Prepare("DELETE from payment_split where ID=?")
+	_, err1 := stmt.Exec(paymentID)
+
+	log.Println(err, err1)
+	if err != nil || err1 != nil {
+		return false
+	}
+
+	defer stmt.Close()
+	return true
+}
+
+func (es *ExpenseStoreSQL) UpdatePassword(paymentObj map[string]string) bool {
+	stmt, err := es.Prepare("UPDATE into user(ID, name, description, category_id, amount) values(?,?,?,?,?)")
+	_, err1 := stmt.Exec(nil, paymentObj["name"], paymentObj["description"], paymentObj["category_id"], paymentObj["amount"])
 	defer stmt.Close()
 	// log.Fatalln(err)
 	log.Println(err, err1)
@@ -171,15 +221,4 @@ func NewExpenseStoreSQL() (*ExpenseStoreSQL, error) {
 	e.DB = db
 
 	return &e, nil
-}
-func (es *ExpenseStoreSQL) UpdatePassword(paymentObj map[string]string) bool {
-	stmt, err := es.Prepare("UPDATE into user(ID, name, description, category_id, amount) values(?,?,?,?,?)")
-	_, err1 := stmt.Exec(nil, paymentObj["name"], paymentObj["description"], paymentObj["category_id"], paymentObj["amount"])
-	defer stmt.Close()
-	// log.Fatalln(err)
-	log.Println(err, err1)
-	if err != nil || err1 != nil {
-		return false
-	}
-	return true
 }

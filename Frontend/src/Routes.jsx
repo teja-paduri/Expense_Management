@@ -9,6 +9,8 @@ import {
 import Profile from './app/profile/Profile'
 import DashboardLayout from './app/layouts/DashboardLayout';
 import Setting from './app/setting/Setting';
+import Splitwise from './app/Splitwise/Splitwise';
+import Split from './app/Splitwise/Split';
 import Website from "./app/landing/Website";
 import Login from './app/auth/Login';
 import Register from './app/auth/Register';
@@ -64,9 +66,11 @@ const Routes = () => (
       <GuestRoute exact path={'/login'} component={Login} />
       <GuestRoute exact path={'/profile'} component={Profile} />
       <GuestRoute exact path={'/setting'} component={Setting} />
+      <GuestRoute exact path={'/splitwise'} component={Splitwise} />
       <GuestRoute exact path={'/profile/edit'} component={EditProfile} />
       <GuestRoute exact path={'/income'} component={Income} />
       <GuestRoute exact path={'/expense'} component={Expense} />
+      <GuestRoute exact path={'/split'} component={Split} />
 
       
       { <PrivateRoute strict path={'/dashboard'} component={DashboardLayout} /> }
