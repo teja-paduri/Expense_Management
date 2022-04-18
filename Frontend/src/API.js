@@ -6,3 +6,7 @@ export const authApiEndpoints = {
   expense : 'http://localhost:8080/expense',
   // userData:'http://localhost:8080/users/'
 };
+
+export const incomeApiEndpoints ={
+  insertIncome:'http://localhost:8080/expense/insertincome',
+}
