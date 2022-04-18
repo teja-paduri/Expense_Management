@@ -35,6 +35,15 @@ const Dashboard = (props) => {
   const { register, handleSubmit, setValue, errors, setError, reset, control } = useForm({
     validationSchema: addExpenseValidationSchema
   });
+
+  const addExpenseValidationSchema = yup.object().shape({
+    expense_date: yup.string().required('Expense date field is required'),
+    category: yup.object().required('Expense category field is required'),
+    amount: yup.string().required('Expense amount field is required'),
+    spent_on: yup.string().required('Spent on field is required').max(100, 'Spent on must be at most 100 characters'),
+    remarks: yup.string().max(200, 'Remarks must be at most 200 characters'),
+  });
+
   const [submitting, setSubmitting] = useState(false);
   const [currencyVisible, setCurrencyVisible] = useState(false);
   const [recentExpense, setRecentExpense] = useState({ expense: [], expenseLoading: true });
@@ -50,7 +59,11 @@ const Dashboard = (props) => {
     {name: 'Miscellaneous', code: 'misc'},
     {name: 'Allowance', code: 'allowance'}
 ];
+
   const submitExpense = (data) => {
+    data.category_id = data.category.id;
+    data.currency_id = state.currentCurrency.id;
+    data.expense_date = dayjs(data.expense_date).format('YYYY-MM-DD HH:mm:ss');
     setSubmitting(true);
     axios.post(authApiEndpoints.expense, data)
       .then(response => {
