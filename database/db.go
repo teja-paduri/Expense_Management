@@ -118,9 +118,9 @@ func (es *ExpenseStoreSQL) RetrieveExpense(reqName string, reqCategory string, r
 	return expense
 }
 
-func (es *ExpenseStoreSQL) RecordPayment(paymentObj map[string]string) bool {
-	stmt, err := es.Prepare("INSERT into expense(ID, name, description, category_id, amount) values(?,?,?,?,?)")
-	_, err1 := stmt.Exec(nil, paymentObj["name"], paymentObj["description"], paymentObj["category_id"], paymentObj["amount"])
+func (es *ExpenseStoreSQL) RecordPayment(incomeObj map[string]string) bool {
+	stmt, err := es.Prepare("INSERT into income(ID, income_source, amount, description, user_id, timestamp) values(?,?,?,?,?,?)")
+	_, err1 := stmt.Exec(nil, incomeObj["income_source"], incomeObj["amount"], incomeObj["description"], incomeObj["user_id"], incomeObj["timestamp"])
 	defer stmt.Close()
 	// log.Fatalln(err)
 	log.Println(err, err1)
