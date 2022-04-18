@@ -155,9 +155,7 @@ func (es *ExpenseStoreSQL) RecordPaymentSplit(paymentsplitObj map[string]string)
 }
 
 func (es *ExpenseStoreSQL) DeletePaymentSplitRecord(paymentID int) bool {
-	log.Println("payment id -- ")
-	log.Println(paymentID)
-	stmt, err := es.Prepare("DELETE from payment_split(ID, borrowers, amount, user_id, expense_id, timestamp) where ?")
+	stmt, err := es.Prepare("DELETE from payment_split where ID=?")
 	_, err1 := stmt.Exec(paymentID)
 
 	log.Println(err, err1)
