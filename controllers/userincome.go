@@ -4,10 +4,14 @@ import (
 	"encoding/json"
 	"expenseManagement/database"
 
+	"github.com/gorilla/mux"
+
 	//"expenseManagement/models"
 	"expenseManagement/utils"
+	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 func InsertIncome(w http.ResponseWriter, r *http.Request) {
@@ -72,4 +76,41 @@ func UpdateIncome(w http.ResponseWriter, r *http.Request) {
 		}
 
 	}
+}
+func DeleteIncome(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	log.Printf("Inside delete income method")
+	db, err := database.NewExpenseStoreSQL()
+
+	if err != nil {
+		log.Printf("Failed connection to the database: '%v'", err)
+	}
+
+	utils.AddCorsHeaders(w, r)
+	enc := json.NewEncoder(w)
+	incomeID, err1 := strconv.Atoi(params["id"])
+
+	if err1 != nil {
+		log.Printf("couldn't get incomeID from URL path: '%v'", err)
+		w.WriteHeader(http.StatusNotFound)
+		errorJSON := CreateErrorNotFound(fmt.Sprintf("Couldn't get incomeID from URL path: %v", incomeID))
+		enc.Encode(errorJSON)
+		return
+	}
+
+	output := db.DeleteIncomeRecord(incomeID)
+
+	log.Printf("output '%v'", output)
+
+	if output {
+		k := `Income record deleted!`
+		w.WriteHeader(http.StatusOK)
+		enc.Encode(k)
+
+	} else {
+		k := "Income record deletion failed"
+		w.WriteHeader(http.StatusBadRequest)
+		enc.Encode(k)
+	}
+
 }
