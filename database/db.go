@@ -141,13 +141,12 @@ func (es *ExpenseStoreSQL) DeletePaymentRecord(paymentID string) bool {
 	}
 	return true
 }
-func (es *ExpenseStoreSQL) UpdateIncomeRecord(IncomeID map[string]string) bool {
-	stmt, err := es.Prepare("UPDATE income set amount=? where ID=?")
-	_, err1 := stmt.Exec(IncomeID["amount"], IncomeID["ID"])
-	defer stmt.Close()
-	// log.Fatalln(err)
-	log.Println(err, err1)
-	if err != nil || err1 != nil {
+func (es *ExpenseStoreSQL) UpdateIncomeRecord(IncomeObj map[string]string) bool {
+	log.Println(IncomeObj)
+	_, err := es.Exec("UPDATE income SET amount = ? where ID = ?", IncomeObj["amount"], IncomeObj["ID"])
+
+	log.Println(err)
+	if err != nil {
 		return false
 	}
 	return true
