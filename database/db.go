@@ -131,7 +131,7 @@ func (es *ExpenseStoreSQL) RecordPayment(paymentObj map[string]string) bool {
 }
 
 func (es *ExpenseStoreSQL) DeletePaymentRecord(paymentID string) bool {
-	stmt, err := es.Prepare("DELETE from expense(ID, name, description, category_id, amount) where ?")
+	stmt, err := es.Prepare("DELETE from payment(ID, name, description, category_id, amount) where ?")
 	_, err1 := stmt.Exec(paymentID)
 	defer stmt.Close()
 	// log.Fatalln(err)
@@ -145,6 +145,18 @@ func (es *ExpenseStoreSQL) DeletePaymentRecord(paymentID string) bool {
 func (es *ExpenseStoreSQL) RecordPaymentSplit(paymentsplitObj map[string]string) bool {
 	stmt, err := es.Prepare("INSERT into payment_split(ID, borrowers, amount, user_id, expense_id, timestamp) values(?,?,?,?,?,?)")
 	_, err1 := stmt.Exec(nil, paymentsplitObj["borrowers"], paymentsplitObj["amount"], paymentsplitObj["user_id"], paymentsplitObj["expense_id"], paymentsplitObj["timestamp"])
+	defer stmt.Close()
+	// log.Fatalln(err)
+	log.Println(err, err1)
+	if err != nil || err1 != nil {
+		return false
+	}
+	return true
+}
+
+func (es *ExpenseStoreSQL) DeletePaymentSplitRecord(paymentID int) bool {
+	stmt, err := es.Prepare("DELETE from payment_split(ID, borrowers, amount, user_id, expense_id, timestamp) where ?")
+	_, err1 := stmt.Exec(paymentID)
 	defer stmt.Close()
 	// log.Fatalln(err)
 	log.Println(err, err1)
