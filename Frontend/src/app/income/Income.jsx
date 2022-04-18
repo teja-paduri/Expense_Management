@@ -143,6 +143,7 @@ const Income = (props) => {
         </div>
       </div>
 
+      
       <div className="p-grid">
 
         <div className="p-col-12 p-md-6">
@@ -180,10 +181,12 @@ const Income = (props) => {
                 <p className="text-error">{errors.income_date?.message}</p>
               </div>
               
-             < div className="p-fluid">
-                <input type="text" ref={register} placeholder="Income Category" name="income_source" className="p-inputtext p-component p-filled" />
+              
+              <div className="p-fluid">
+                <Dropdown optionLabel="label" name='income_source' value={incomeCategory} options={[{ label: 'Stocks', value: 'STK' }, { label: 'Rent', value: 'R' }, { label: 'Salary', value: 'SL' }]} onChange={(e) => setIncomeCategoryFun(e.value)} placeholder="Select Category Of Income" />
                 <p className="text-error">{errors.category?.message}</p>
               </div>
+              
               <div className="p-fluid">
                 <input type="text" ref={register} placeholder="Income Source" name="source" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.source?.message}</p>
