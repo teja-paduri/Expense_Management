@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
-import { useTranslation } from 'react-i18next';
+import { useSSR, useTranslation } from 'react-i18next';
 
 import { Messages } from 'primereact/messages';
 import { Card } from 'primereact/card';
@@ -49,6 +49,9 @@ const { register, handleSubmit, setValue, errors, setError, reset, control } = u
   });
     const [state, setState] = useTracked();
     const [visible, setVisible] = useState(false);
+    const [noUsers,setNoUsers] = useState([]);
+    const [expenseData,setExpenseData] = useState([]);
+    const [noUsersObj,setNoUsersObj] = useState(1);
     const [t, i18n] = useTranslation();
   
     const toggleLanguage = useCallback(() => {
@@ -56,6 +59,36 @@ const { register, handleSubmit, setValue, errors, setError, reset, control } = u
       setItem('language', i18n.language);
     }, [i18n]);
 
+    const handleUsers=(e)=>{
+      setNoUsersObj(e);
+      var temp=[];
+      for(var i=0;i<e;i++)temp.push(i);
+      setNoUsers(temp);
+    }
+    const setUserName=(e,i)=>{
+      const temp ={
+        ...expenseData[i],
+        name:e.target.value,
+        toPay:uid
+      }
+      var expData = [...expenseData];
+      expData[i]=temp;
+      setExpenseData(expData);
+    }
+    const setUserAmount = (e,i)=>{
+      const temp ={
+        ...expenseData[i],
+        amount:e.target.value,
+        toPay:uid
+      }
+      var expData = [...expenseData];
+      expData[i]=temp;
+      setExpenseData(expData);
+    }
+    const submitFormData =(e)=>{
+      e.preventDefault();
+      console.log(expenseData);
+    }
 return(
 <div>
 <div className="p-grid p-nogutter p-align-center p-justify-center" >
@@ -66,17 +99,19 @@ return(
               <div className="p-card-subtitle">Enter the Split Amount and Names </div>
             </div>
             <br />
-            <form>
+            <form >
             <div className="p-fluid">
                 <input type="text" ref={register} placeholder="name" name="name" value= {uname} className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
               </div>
+           
+            <Dropdown optionLabel="label" value={noUsersObj} options={[{label: '1', value: '1'},{label: '2', value: '2'},{label: '3', value: '3'}]} onChange={(e) => handleUsers(e.value)} placeholder="Select number of users" />
 
-            <div className="p-fluid">
+            {/* <div className="p-fluid">
                 <input type="text" ref={register} placeholder="userid" name="userid" value= {uid} className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
-              </div>
-              <div className="p-fluid">
+              </div> */}
+              {/* <div className="p-fluid">
                 <Controller
                   name="expense_date"
                   defaultValue={new Date()}
@@ -97,28 +132,28 @@ return(
                   }
                 />
                 <p className="text-error">{errors.expense_date?.message}</p>
-              </div>
-              <div className="p-fluid">
-                <input type="text" ref={register} placeholder="Enter the people names" name="category" className="p-inputtext p-component p-filled" />
+              </div> */}
+              {noUsers.map((eachUser,index)=>{return <div><div className="p-fluid" style={{"display":"inline-block",width:"40%",marginRight:"10px"}}>
+                <input type="text" ref={register} placeholder="Enter the people names" name="category" className="p-inputtext p-component p-filled" onChange={(e)=>{setUserName(e,index)}}/>
                 <p className="text-error">{errors.category?.message}</p>
               </div>
-              <div className="p-fluid">
+              <div className="p-fluid" style={{"display":"inline-block",width:"50%"}}>
                 <div className="p-inputgroup">
-                  <input type="number" step="0.00" id='amountInputExpense' ref={register} keyfilter="money" placeholder="Amount" name="amount" className="p-inputtext p-component p-filled" />
+                  <input type="number" step="0.00" id='amountInputExpense' ref={register} keyfilter="money" placeholder="Amount" name="amount" className="p-inputtext p-component p-filled" onChange={(e)=>{setUserAmount(e,index)}}/>
                   <Button
                     label={"$"}
                     type="button" />
                 </div>
                 <p className="text-error">{errors.amount?.message}</p>
-              </div>
+              </div></div>})}
               <div className="p-fluid">
                 <input type="text" ref={register} placeholder="description" name="spent_on" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
               </div>
               
               <div className="p-fluid">
-                <Button type="submit" label="Add Expense" icon="pi pi-plus"
-                  className="p-button-raised" />
+                <Button label="Add Expense" icon="pi pi-plus"
+                  className="p-button-raised" onClick={(e)=>{submitFormData(e)}}/>
               </div>
             </form>
           </Card>
