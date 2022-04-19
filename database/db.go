@@ -164,9 +164,9 @@ func (es *ExpenseStoreSQL) DeleteIncomeRecord(incomeID int) bool {
 	return true
 }
 
-func (es *ExpenseStoreSQL) RecordPaymentSplit(borrowers string, amount float64, user_id string, description string, timestamp string) bool {
-	stmt, err := es.Prepare("INSERT into payment_split(ID, borrowers, amount, user_id, description, timestamp) values(?,?,?,?,?,?)")
-	_, err1 := stmt.Exec(nil, borrowers, amount, user_id, description, timestamp)
+func (es *ExpenseStoreSQL) RecordPaymentSplit(borrowers string, amount float64, user_id string, username string, description string, timestamp string) bool {
+	stmt, err := es.Prepare("INSERT into payment_split(ID, borrowers, amount, user_id, username, description, timestamp) values(?,?,?,?,?,?,?)")
+	_, err1 := stmt.Exec(nil, borrowers, amount, user_id, username, description, timestamp)
 	defer stmt.Close()
 	// log.Fatalln(err)
 	log.Println(err, err1)
