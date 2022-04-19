@@ -137,10 +137,7 @@ func UpdateUserPassword(w http.ResponseWriter, r *http.Request) {
 	if keyVal["options"] == "true" {
 		w.WriteHeader(http.StatusOK)
 	} else {
-		email := keyVal["email"]
-		password := keyVal["password"]
-
-		op := db.UpdatePassword(email, password)
+		op := db.UpdatePassword(keyVal)
 		log.Printf("output '%v'", op)
 		if op {
 			k := `Password updated Successfully`

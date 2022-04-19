@@ -164,9 +164,9 @@ func (es *ExpenseStoreSQL) DeleteIncomeRecord(incomeID int) bool {
 	return true
 }
 
-func (es *ExpenseStoreSQL) RecordPaymentSplit(paymentsplitObj map[string]string) bool {
+func (es *ExpenseStoreSQL) RecordPaymentSplit(borrowers string, amount string, user_id string, expense_id string, timestamp string) bool {
 	stmt, err := es.Prepare("INSERT into payment_split(ID, borrowers, amount, user_id, expense_id, timestamp) values(?,?,?,?,?,?)")
-	_, err1 := stmt.Exec(nil, paymentsplitObj["borrowers"], paymentsplitObj["amount"], paymentsplitObj["user_id"], paymentsplitObj["expense_id"], paymentsplitObj["timestamp"])
+	_, err1 := stmt.Exec(nil, borrowers, amount, user_id, expense_id, timestamp)
 	defer stmt.Close()
 	// log.Fatalln(err)
 	log.Println(err, err1)
@@ -202,9 +202,9 @@ func NewExpenseStoreSQL() (*ExpenseStoreSQL, error) {
 
 	return &e, nil
 }
-func (es *ExpenseStoreSQL) UpdatePassword(email string, password string) bool {
+func (es *ExpenseStoreSQL) UpdatePassword(incomeObj map[string]string) bool {
 	stmt, err := es.Prepare("UPDATE user SET password=? where email=?")
-	_, err1 := stmt.Exec(password, email)
+	_, err1 := stmt.Exec(incomeObj["userid"], incomeObj["password"])
 	defer stmt.Close()
 	// log.Fatalln(err)
 	log.Println(err, err1)
