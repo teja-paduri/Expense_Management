@@ -30,17 +30,21 @@ func InsertPaymentSplitRecord(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	} else {
 
-		amount := keyVal["amount"]
 		user_id := keyVal["user_id"]
 		expense_id := keyVal["expense_id"]
 		timestamp := keyVal["timestamp"]
 		borrowers := keyVal["borrowers"]
+		amount, err := strconv.Atoi(keyVal["amount"])
+		if err != nil {
+			log.Printf("Failed during converting amount " + err.Error())
+			return
+		}
 
 		borr_arr := strings.Split(borrowers, "-")
 
 		for i := 0; i < len(borr_arr); i++ {
 
-			output := db.RecordPaymentSplit(borr_arr[i], amount, user_id, expense_id, timestamp)
+			output := db.RecordPaymentSplit(borr_arr[i], float64(amount)/float64(len(borr_arr)), user_id, expense_id, timestamp)
 			log.Printf("Output '%v'", output)
 			if output {
 				k := `PaymentSplit record created Successfully`
