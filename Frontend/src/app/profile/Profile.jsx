@@ -92,11 +92,11 @@ const Profile = (props) => {
               </h3>
             </div>
 
-            <div className="p-card-footer p-fluid">
+            {/* <div className="p-card-footer p-fluid">
               <Link to={'/profile/edit'}>
                 <Button label="Edit" className="" icon="pi pi-pencil" />
               </Link>
-            </div>
+            </div> */}
           </Card>
         </div>
         </div>
@@ -112,10 +112,6 @@ const Profile = (props) => {
             <br />
 
             <form onSubmit={handleSubmit()}>
-              <div className="p-fluid">
-                <input type='password' name='old_password' ref={register} autoComplete="off" placeholder="Old Password" className="p-inputtext p-component p-filled" />
-                <p className="text-error">{errors.old_password?.message}</p>
-              </div>
               <div className="p-fluid">
                 <input type='password' name='new_password' ref={register} autoComplete="off" placeholder="New Password" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.new_password?.message}</p>
