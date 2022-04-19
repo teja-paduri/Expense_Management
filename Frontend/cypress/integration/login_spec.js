@@ -3,15 +3,17 @@ describe('login Page', () => {
     visitLoginPage()
   })
 
-  it('A User logs in and sees a welcome message', () => {
+it('User logs in  successfully and sees a Dashboard', () => {
     loginWith('karthik@gmail.com', 'karthik123')
     cy.url().should('eq', 'http://localhost:3000/#/dashboard')
-  })
+})
+
   it("should validate email",()=>{
     cy.get('#emailInput')
   .type('fake@email.com')
   .should('have.value', 'fake@email.com')
 })
+
 it("password should not be empty",()=>{
     cy.get('#passwordInput')
   .type('hello')
@@ -23,6 +25,19 @@ it("Validating Logout button",()=>{
   logout()
   cy.url().should('eq', 'http://localhost:3000/#/register')
 
+})
+
+it("To check Valid Login Page or Not",()=>{
+  
+  cy.url().should('eq', 'http://localhost:3000/#/login')
+  cy.contains('Login').should('exist')
+  cy.contains('Enter login credentials').should('exist')
+})
+
+it("Validating the sign up link, which redirects to register page ",()=>{
+  cy.get('#r1').click()
+  cy.url().should('eq', 'http://localhost:3000/#/register')
+  
 })
 
 })

@@ -18,11 +18,11 @@ const AppTopbar = (props) => {
     <div>
       <ToolsSidebar visible={sidebarVisible} position="right" onHide={() => setSidebarVisible(false)}/>
       <div className="layout-topbar clearfix">
-        <a className="layout-menu-button" onClick={props.onToggleMenu}>
+        <a  id='menubutton'className="layout-menu-button" onClick={props.onToggleMenu}>
           <span className="pi pi-bars" />
         </a>
         <div className="layout-topbar-icons">
-          <Button label = "Logout" icon="pi pi-fw pi-power-off" onClick={logOut}></Button> 
+          <Button id='logout' label = "Logout" icon="pi pi-fw pi-power-off" onClick={logOut}></Button> 
           <a onClick={() => setSidebarVisible(true)}>
             <span className="layout-topbar-item-text">Tools</span>
             <span className="layout-topbar-icon pi pi-briefcase" />

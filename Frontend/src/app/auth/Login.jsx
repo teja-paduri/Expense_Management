@@ -108,7 +108,7 @@ const Login = (props) => {
               <Button id="loginButton" disabled={submitting} type="submit" label={'Sign In'} icon="pi pi-sign-in" className="p-button-raised" />
             </div>
             <div className="p-grid p-nogutter p-col-12 p-justify-center">
-              <Link to="/register">Register</Link>
+              <Link id='r1' to="/register">Register</Link>
             </div> 
           </form>
         </Card>

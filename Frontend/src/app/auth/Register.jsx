@@ -60,7 +60,7 @@ const Register = (props) => {
           setError(errors);
         }
         else {
-          messages.show({ severity: 'error', detail: 'Something went wrong. Try again.', sticky: true });
+          messages.show({ severity: 'error', detail: 'Hey, This User already exists', sticky: true });
         }
 
         setSubmitting(false);
@@ -96,21 +96,21 @@ const Register = (props) => {
             <div className="p-col-12 p-fluid">
               <div className="p-inputgroup">
                 <span className="p-inputgroup-addon"><i className="pi pi-user" /></span>
-                <input type="text" name="Name" placeholder={'Name'} ref={register} className="p-inputtext p-component p-filled" />
+                <input type="text" id='rname' name="Name" placeholder={'Name'} ref={register} className="p-inputtext p-component p-filled" />
               </div>
               <p className="text-error">{errors.name?.message}</p>
             </div>
             <div className="p-col-12 p-fluid">
               <div className="p-inputgroup">
                 <span className="p-inputgroup-addon"><i className="pi pi-envelope" /></span>
-                <input type="text" name="Email" placeholder={'Email'} ref={register} className="p-inputtext p-component p-filled" />
+                <input type="text" id='remail' name="Email" placeholder={'Email'} ref={register} className="p-inputtext p-component p-filled" />
               </div>
               <p className="text-error">{errors.email?.message}</p>
             </div>
             <div className="p-col-12 p-fluid">
               <div className="p-inputgroup">
                 <span className="p-inputgroup-addon"><i className="pi pi-key" /></span>
-                <input type="password" name="Password" placeholder={'Password'} ref={register} className="p-inputtext p-component p-filled" />
+                <input type="password" id='rpassword' name="Password" placeholder={'Password'} ref={register} className="p-inputtext p-component p-filled" />
               </div>
               <p className="text-error">{errors.password?.message}</p>
             </div>
@@ -122,10 +122,10 @@ const Register = (props) => {
               <p className="text-error">{errors.confirm_password?.message}</p>
             </div> */}
             <div className="p-col-12 p-fluid">
-              <Button disabled={submitting} type="submit" label={'Register'} icon="pi pi-sign-in" className="p-button-raised" />
+              <Button disabled={submitting} id='registerbutton' type="submit" label={'Register'} icon="pi pi-sign-in" className="p-button-raised" />
             </div>
             <div className="p-grid p-nogutter p-col-12 p-justify-center">
-              <Link to="/login">Login</Link>
+              <Link id='l1' to="/login">Login</Link>
             </div>
           </form>
         </Card>
