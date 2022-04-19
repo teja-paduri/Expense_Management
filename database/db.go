@@ -202,9 +202,9 @@ func NewExpenseStoreSQL() (*ExpenseStoreSQL, error) {
 
 	return &e, nil
 }
-func (es *ExpenseStoreSQL) UpdatePassword(email string, password string) bool {
-	stmt, err := es.Prepare("UPDATE user SET password=? where email=?")
-	_, err1 := stmt.Exec(password, email)
+func (es *ExpenseStoreSQL) UpdatePassword(incomeObj map[string]string) bool {
+	stmt, err := es.Prepare("UPDATE user SET password=? where ID=?")
+	_, err1 := stmt.Exec(incomeObj["password"], incomeObj["userid"])
 	defer stmt.Close()
 	// log.Fatalln(err)
 	log.Println(err, err1)
