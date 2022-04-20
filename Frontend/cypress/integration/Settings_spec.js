@@ -1,18 +1,22 @@
 describe('Setting Page Test Cases Suite', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:3000/#/setting')  
+        cy.visit('http://localhost:3000/#/dashboard')  
     })
 
     it("To check Valid Settings Page or Not",()=>{
   
-        cy.url().should('eq', 'http://localhost:3000/#/setting')
+      cy.get('#menubutton').click()
+      cy.get('a[href*="/setting"]').click()
+      cy.url().should('eq', 'http://localhost:3000/#/setting')
         cy.contains('INTERFACE SETTINGS').should('exist')
         cy.contains('Below are the current setup for this UI.').should('exist')
       })
 
-      it("To check Title for Settings Page is present",()=>{
+      it("To check for Titles present in Settings Page ",()=>{
   
-        cy.visit('http://localhost:3000/#/setting')
+        cy.get('#menubutton').click()
+        cy.get('a[href*="/setting"]').click()
+        cy.url().should('eq', 'http://localhost:3000/#/setting')
         cy.get('div').contains('INTERFACE SETTINGS').should('exist')
         cy.get('div').contains('Below are the current setup for this UI.').should('exist')
        

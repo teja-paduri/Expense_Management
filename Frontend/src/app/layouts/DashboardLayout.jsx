@@ -54,7 +54,7 @@ const menu = [
     ]
   },
   { label: 'Settings', url: '/setting', icon: 'pi pi-fw pi-cog', command: () => { } },
-  { label: 'Profile', url: '/profile', icon: 'pi pi-fw pi-user', command: () => { } },
+  { label: 'Profile', id:'bprofile',url: '/profile', icon: 'pi pi-fw pi-user', command: () => { } },
 ];
 
 const DashboardLayout = (props) => {

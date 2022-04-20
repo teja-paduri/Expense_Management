@@ -4,15 +4,19 @@ describe('Income Page Test Cases Suite', () => {
     })
 
     it("To check Valid Income Page or Not",()=>{
-  
+        cy.visit('http://localhost:3000/#/dashboard')
+        cy.get('#menubutton').click()
+        cy.get('a[href*="/income"]').click()
         cy.url().should('eq', 'http://localhost:3000/#/income')
         cy.contains('Add Income').should('exist')
         cy.contains("Add your income information below.").should('exist')
       })
 
       it("To check Title for Income page is present",()=>{
-  
-        cy.visit('http://localhost:3000/#/income')
+        cy.visit('http://localhost:3000/#/dashboard')
+        cy.get('#menubutton').click()
+        cy.get('a[href*="/income"]').click()
+        cy.url().should('eq', 'http://localhost:3000/#/income')
         cy.get('div').contains('Add Income').should('exist')
         cy.get('div').contains('Add your income information below.').should('exist')
        

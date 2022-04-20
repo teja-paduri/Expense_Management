@@ -1,11 +1,14 @@
 describe('Expense Page Test Cases Suite', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:3000/#/expense')  
+        cy.visit('http://localhost:3000/#/dashboard')  
     })
 
     it("To check Valid Expense Page or Not",()=>{
   
-        cy.url().should('eq', 'http://localhost:3000/#/expense')
+      cy.get('#menubutton').click()
+      //cy.get('a[href*="#/"]').click()
+      cy.get('a[href*="/expense"]').click()
+      cy.url().should('eq', 'http://localhost:3000/#/expense')
         cy.contains('View Expenses').should('exist')
         cy.contains('Here are few expenses').should('exist')
         cy.contains("you've added").should('exist')
@@ -13,7 +16,10 @@ describe('Expense Page Test Cases Suite', () => {
 
       it("To check Title for Expense page is present",()=>{
   
-        cy.visit('http://localhost:3000/#/expense')
+        cy.get('#menubutton').click()
+        cy.get('a[href*="/"]').click()
+        cy.get('a[href*="/expense"]').click()
+        cy.url().should('eq', 'http://localhost:3000/#/expense')
         cy.get('div').contains('View Expenses').should('exist')
        
        
