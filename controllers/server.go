@@ -150,6 +150,7 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 
 func UpdateUserPassword(w http.ResponseWriter, r *http.Request) {
 	db, err := database.NewExpenseStoreSQL()
+	fmt.Println("outside")
 	utils.AddCorsHeaders(w, r)
 	if err != nil {
 		log.Printf("Failed connection to the database: '%v'", err)
@@ -158,6 +159,7 @@ func UpdateUserPassword(w http.ResponseWriter, r *http.Request) {
 	if keyVal["options"] == "true" {
 		w.WriteHeader(http.StatusOK)
 	} else {
+		fmt.Println("In update password")
 		op := db.UpdatePassword(keyVal)
 		log.Printf("output '%v'", op)
 		if op {

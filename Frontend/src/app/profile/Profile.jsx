@@ -55,7 +55,7 @@ const Profile = (props) => {
 
       const updatePwd = (data) => {
         setSubmitting(true);
-        axios.post(authApiEndpoints.updatePwd,data)
+        axios.put(authApiEndpoints.updatePwd,data)
           .then(response => {
             console.log('success');
             console.log(response.data);

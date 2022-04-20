@@ -60,7 +60,7 @@ const Login = (props) => {
           messages.show({ severity: 'error', detail: 'Incorrect email or password.', sticky: true });
         }
         else {
-          messages.show({ severity: 'error', detail: 'Something went wrong. Try again.', sticky: true });
+          messages.show({ severity: 'error', detail: 'Incorrect email or password.', sticky: true });
         }
         setSubmitting(false);
       })

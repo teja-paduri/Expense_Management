@@ -60,7 +60,7 @@ const Setting = (props) => {
                 {state.layoutColorMode === 'dark' ? 'Dark' : 'Light'}
               </h3>
               <h3>
-                <Button label="Toggle" icon="pi pi-refresh"
+                <Button id='menucolor' label="Toggle" icon="pi pi-refresh"
                   className="p-button-rounded p-button-raised p-button-secondary"
                   type="button"
                   onClick={(e) => {
@@ -77,7 +77,7 @@ const Setting = (props) => {
                 {state.layoutMode === 'static' ? 'Static' : 'Overlay'}
               </h3>
               <h3>
-                <Button label="Toggle" icon="pi pi-refresh"
+                <Button id='menumode' label="Toggle" icon="pi pi-refresh"
                   className="p-button-rounded p-button-raised p-button-secondary"
                   type="button"
                   onClick={(e) => {
@@ -93,7 +93,7 @@ const Setting = (props) => {
                 {i18n.language === 'en' ? 'English' : 'বাংলা'}
               </h3>
               <h3>
-                <Button label="Toggle" icon="pi pi-refresh"
+                <Button id='language' label="Toggle" icon="pi pi-refresh"
                   className="p-button-rounded p-button-raised p-button-secondary"
                   type="button"
                   onClick={(e) => toggleLanguage()} />
