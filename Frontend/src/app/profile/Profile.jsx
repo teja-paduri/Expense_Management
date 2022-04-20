@@ -146,19 +146,19 @@ const Profile = (props) => {
 
             <form onSubmit={handleSubmit(updatePwd)}>
             <div className="p-fluid">
-                <input type="text" ref={register} placeholder="userid" name="userid" value= {uid} className="p-inputtext p-component p-filled" />
+                <input type="text" ref={register} placeholder="userid" id='puserid' name="userid" value= {uid} className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
               </div>
               <div className="p-fluid">
-                <input type='password' name='new_password' ref={register} autoComplete="off" placeholder="New Password" className="p-inputtext p-component p-filled" />
+                <input type='password' name='new_password' ref={register} id='pnewpassword' autoComplete="off" placeholder="New Password" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.new_password?.message}</p>
               </div>
               <div className="p-fluid">
-                <input type='password' name='password' ref={register} autoComplete="off" placeholder="Confirm Password" className="p-inputtext p-component p-filled" />
+                <input type='password' name='password' ref={register} id='pconfirmpassword'autoComplete="off" placeholder="Confirm Password" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.confirm_password?.message}</p>
               </div>
               <div className="p-fluid">
-                <Button disabled={submitting} type="submit" label="Change Password" icon="pi pi-key"
+                <Button id='pchangepassword' disabled={submitting} type="submit" label="Change Password" icon="pi pi-key"
                   className="p-button-raised" />
               </div>
             </form>
