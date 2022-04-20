@@ -155,11 +155,12 @@ const Income = (props) => {
             <br />
             <form onSubmit={handleSubmit(sendIncome)}>
             <div className="p-fluid">
-                <input type="text" ref={register} placeholder="userid" name="user_id" value= {uid} className="p-inputtext p-component p-filled" />
+                <input type="text" ref={register} placeholder="userid" id='iuserid' name="user_id" value= {uid} className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
               </div>
               <div className="p-fluid">
                 <Controller
+                id='itimestamp'
                   name="timestamp"
                   defaultValue={new Date()}
                   onChange={([e]) => {
@@ -183,17 +184,17 @@ const Income = (props) => {
               
               
               <div className="p-fluid">
-                <Dropdown optionLabel="label" name='income_source' value={incomeCategory} options={[{ label: 'Stocks', value: 'STK' }, { label: 'Rent', value: 'R' }, { label: 'Salary', value: 'SL' }]} onChange={(e) => setIncomeCategoryFun(e.value)} placeholder="Select Category Of Income" />
+                <Dropdown optionLabel="label" id='icategory' name='income_source' value={incomeCategory} options={[{ label: 'Stocks', value: 'STK' }, { label: 'Rent', value: 'R' }, { label: 'Salary', value: 'SL' }]} onChange={(e) => setIncomeCategoryFun(e.value)} placeholder="Select Category Of Income" />
                 <p className="text-error">{errors.category?.message}</p>
               </div>
               
               <div className="p-fluid">
-                <input type="text" ref={register} placeholder="Income Source" name="source" className="p-inputtext p-component p-filled" />
+                <input type="text" ref={register} placeholder="Income Source" name="source" id='isource' className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.source?.message}</p>
               </div>
               <div className="p-fluid">
                 <div className="p-inputgroup">
-                  <input type="number" step="0.00" ref={register} keyfilter="money" placeholder="Amount" name="amount" className="p-inputtext p-component p-filled" />
+                  <input type="number" step="0.00" ref={register} keyfilter="money" id='iamount' placeholder="Amount" name="amount" className="p-inputtext p-component p-filled" />
                   <Button
                     label={`${state.currencies.length === 0 ? 'loading' : state.currentCurrency.currency_code}`}
                     type="button"
@@ -202,11 +203,11 @@ const Income = (props) => {
                 <p className="text-error">{errors.amount?.message}</p>
               </div>
               <div className="p-fluid">
-                <textarea ref={register} rows={5} placeholder="Income Notes" name="description" className="p-inputtext p-inputtextarea p-component p-inputtextarea-resizable" />
+                <textarea ref={register} rows={5} placeholder="Income Notes" id='inotes'name="description" className="p-inputtext p-inputtextarea p-component p-inputtextarea-resizable" />
                 <p className="text-error">{errors.notes?.message}</p>
               </div>
               <div className="p-fluid">
-                <Button disabled={submitting} type="submit" label="Add Income" icon="pi pi-plus"
+                <Button id='iaddincome' disabled={submitting} type="submit" label="Add Income" icon="pi pi-plus"
                   className="p-button-raised" />
               </div>
             </form>
