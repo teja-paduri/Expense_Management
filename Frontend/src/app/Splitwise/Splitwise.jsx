@@ -6,37 +6,25 @@ import { Messages } from 'primereact/messages';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 
-import CurrencySidebar from './../common/CurrencySidebar';
 
-import { currencyApiEndpoints } from './../../API';
 import { setItem } from './../../Helpers';
 import { useTracked } from './../../Store';
 
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
-import * as dayjs from 'dayjs';
 
-import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
-import { ProgressSpinner } from 'primereact/progressspinner';
-
-// import CurrencySidebar from '../common/CurrencySidebar';
-// import ExpenseListItem from '../expense/ExpenseListItem';
-// import IncomeListItem from '../income/IncomeListItem';
 import { authApiEndpoints } from './../../API';
 import { expenseApiEndpoints, incomeApiEndpoints, reportApiEndpoints,  } from './../../API';
 import axios from './../../Axios';
-import background from './../../assets/login_background.jpeg';
 
 
 let messages; // For alert message
 
 const addExpenseValidationSchema = yup.object().shape({
-    //expense_date: yup.string().required('Expense date field is required'),
-    //category: yup.string().required('Expense category field is required'),
     amount: yup.string().required('Expense amount field is required'),
     spent_on: yup.string().required('Spent on field is required').max(100, 'Spent on must be at most 100 characters'),
-    // remarks: yup.string().max(200, 'Remarks must be at most 200 characters'),
+    
   });
 
 
@@ -65,7 +53,7 @@ const { register, handleSubmit, setValue, errors, setError, reset, control } = u
           console.log(response.data);
           if (response.status === 200) {
             messages.clear();
-            messages.show({ severity: 'success', detail: "Income Added Successfully", sticky: true });
+            messages.show({ severity: 'success', detail: "split Added Successfully", sticky: true });
             reset();
             setSubmitting(false);
           }
@@ -75,7 +63,6 @@ const { register, handleSubmit, setValue, errors, setError, reset, control } = u
           console.log('error', error.response);
   
           if (error.response.status === 422) {
-            // Set validation errors returned from backend
             let errors = Object.entries(error.response.data).map(([key, value]) => {
               return { name: key, message: value[0] }
             });
