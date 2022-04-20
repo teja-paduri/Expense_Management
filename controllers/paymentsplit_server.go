@@ -103,3 +103,41 @@ func DeletePaymentSplit(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+func UserAmountOwed(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	db, err1 := database.NewExpenseStoreSQL()
+	log.Print("in amount function")
+	//output{}
+	if err1 != nil {
+		log.Printf("couldn't get UserID from URL path: '%v'", err)
+	}
+
+	utils.AddCorsHeaders(w, r)
+
+	enc := json.NewEncoder(w)
+
+	username, err := params["name"]
+
+	if !err {
+		log.Printf("couldn't get UserName from URL path: '%v'", err)
+		w.WriteHeader(http.StatusNotFound)
+		errorJSON := CreateErrorNotFound(fmt.Sprintf("Couldn't get UserID from URL path: %v", username))
+		enc.Encode(errorJSON)
+		return
+	}
+
+	amount := db.GetAmount(username)
+	// output := {
+	// 	"u" : username
+	// 	"amount" : amount
+	// }
+	// if user == nil {
+	// 	w.WriteHeader(http.StatusNotFound)
+	// 	errorJSON := CreateErrorNotFound(fmt.Sprintf("Requested user %v not found.", username))
+	// 	enc.Encode(errorJSON)
+	// 	return
+	// }
+	log.Print(amount)
+	w.WriteHeader(http.StatusOK)
+	enc.Encode(amount)
+}
