@@ -52,6 +52,39 @@ const Profile = (props) => {
       backgroundRepeat: 'no-repeat',
       };
 
+      const updatePwd = (data) => {
+        setSubmitting(true);
+        axios.post(authApiEndpoints.updatePwd,data)
+          .then(response => {
+            console.log('success');
+            console.log(response.data);
+            if (response.status === 200) {
+              messages.clear();
+              messages.show({ severity: 'success', detail: "Password updated successfully", sticky: true });
+              reset();
+              setSubmitting(false);
+            }
+    
+          })
+          .catch(error => {
+            console.log('error', error.response);
+    
+            if (error.response.status === 422) {
+              // Set validation errors returned from backend
+              let errors = Object.entries(error.response.data).map(([key, value]) => {
+                return { name: key, message: value[0] }
+              });
+              // setError(errors);
+            }
+            else {
+              messages.show({ severity: 'error', detail: 'Something went wrong. Try again.', sticky: true });
+            }
+    
+            setSubmitting(false);
+    
+          })
+      };
+
   return (
     <div>
       <Helmet title="Profile" />
@@ -111,10 +144,10 @@ const Profile = (props) => {
             <br />
 
             <form onSubmit={handleSubmit(updatePwd)}>
-            <div className="p-fluid">
-                <input type="text" ref={register} placeholder="userid" name="userid" value= {uid} className="p-inputtext p-component p-filled" />
+            {/* <div className="p-fluid">
+                <input type="text" ref={register} placeholder="userid" name="userid" value= {} className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
-              </div>
+              </div> */}
               <div className="p-fluid">
                 <input type='password' name='new_password' ref={register} autoComplete="off" placeholder="New Password" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.new_password?.message}</p>
