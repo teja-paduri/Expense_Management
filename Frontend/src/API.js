@@ -11,3 +11,5 @@ export const authApiEndpoints = {
 export const incomeApiEndpoints ={
   insertIncome:'http://localhost:8080/expense/insertincome',
 }
+
+
