@@ -16,7 +16,7 @@ import (
 // var paymentsplit models.Paymentsplit
 
 func InsertPaymentSplitRecord(w http.ResponseWriter, r *http.Request) {
-	log.Printf("Inside insert paymentsplit method")
+	log.Printf("Inside insert Paymentsplit method")
 	db, err := database.NewExpenseStoreSQL()
 	utils.AddCorsHeaders(w, r)
 
