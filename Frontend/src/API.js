@@ -5,6 +5,7 @@ export const authApiEndpoints = {
   register: 'http://localhost:8080/user/register',
   expense : 'http://localhost:8080/expense',
   updatePwd : 'http://localhost:8080/user/passwordudpate',
+  paymentsplit : 'http://localhost:8080/expense/insertpaymentsplit',
   // userData:'http://localhost:8080/users/'
 };
 
