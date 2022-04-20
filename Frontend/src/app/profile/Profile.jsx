@@ -16,9 +16,8 @@ document.body.setAttribute('style', 'background: black;');
 let messages;
 
 const passwordValidationSchema = yup.object().shape({
-  old_password: yup.string().required('This field is required').min(6, 'Password must be at most 6 character'),
   new_password: yup.string().required('This field is required').min(6, 'Password must be at most 6 character'),
-  confirm_password: yup.string().required('This field is required').oneOf([yup.ref('new_password')], 'Confirm password does not match')
+  password: yup.string().required('This field is required').oneOf([yup.ref('new_password')], 'Confirm password does not match')
 });
 
 const Profile = (props) => {
@@ -111,13 +110,17 @@ const Profile = (props) => {
             </div>
             <br />
 
-            <form onSubmit={handleSubmit()}>
+            <form onSubmit={handleSubmit(updatePwd)}>
+            <div className="p-fluid">
+                <input type="text" ref={register} placeholder="userid" name="userid" value= {uid} className="p-inputtext p-component p-filled" />
+                <p className="text-error">{errors.description?.message}</p>
+              </div>
               <div className="p-fluid">
                 <input type='password' name='new_password' ref={register} autoComplete="off" placeholder="New Password" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.new_password?.message}</p>
               </div>
               <div className="p-fluid">
-                <input type='password' name='confirm_password' ref={register} autoComplete="off" placeholder="Confirm Password" className="p-inputtext p-component p-filled" />
+                <input type='password' name='password' ref={register} autoComplete="off" placeholder="Confirm Password" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.confirm_password?.message}</p>
               </div>
               <div className="p-fluid">
