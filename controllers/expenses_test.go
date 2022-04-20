@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"bytes"
+	//"net/http"
 	"net/http/httptest"
 	"testing"
 
@@ -10,11 +11,12 @@ import (
 
 func TestCreateExpense1(t *testing.T) {
 
-	var jsonstr = []byte(`{"Name":"springbreak","category":"food","userid":"4","amount":"100"}`)
+	var jsonstr = []byte(`{"Name":"springbreak","category":"food","userid":"4","amount":"100","spent_on":"sb"}`)
 	w := httptest.NewRecorder()
 	response := httptest.NewRequest("POST", "localhost:8080/expense", bytes.NewBuffer(jsonstr))
 	InsertExpense(w, response)
-	assert.Equal(t, w.Result().Status, "Expense Created")
+	//log.Print(w.Result().Status)
+	assert.Equal(t, w.Result().Status, "200 OK")
 
 }
 func TestCreateExpense2(t *testing.T) {

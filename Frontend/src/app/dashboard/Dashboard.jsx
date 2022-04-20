@@ -1,214 +1,147 @@
-import React, { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
-import { useForm, Controller } from 'react-hook-form';
-import * as yup from 'yup';
-import * as dayjs from 'dayjs';
+import React, { useState } from 'react'
+import classNames from 'classnames';
+import { Route, Switch } from 'react-router-dom';
 
-import { Messages } from 'primereact/messages';
-import { Card } from 'primereact/card';
-import { Dropdown } from 'primereact/dropdown';
-import { Calendar } from 'primereact/calendar';
-import { Button } from 'primereact/button';
-import { ProgressSpinner } from 'primereact/progressspinner';
+import { ScrollPanel } from 'primereact/scrollpanel';
 
-// import CurrencySidebar from '../common/CurrencySidebar';
-// import ExpenseListItem from '../expense/ExpenseListItem';
-// import IncomeListItem from '../income/IncomeListItem';
-import { authApiEndpoints } from './../../API';
-import { expenseApiEndpoints, incomeApiEndpoints, reportApiEndpoints,  } from './../../API';
-import axios from './../../Axios';
+import AppTopbar from '../dashboard/AppTopbar';
+import AppInlineProfile from '../dashboard/AppInlineProfile';
+import AppMenu from '../dashboard/AppMenu';
+import AppFooter from '../dashboard/AppFooter';
+
+import Dashboard from '../dashboard/Dashboard';
+import ExpenseCategory from '../expense/ExpenseCategory';
+import Expense from '../expense/Expense';
+import EditExpense from '../expense/EditExpense';
+import Income from '../income/Income';
+import EditIncome from '../income/EditIncome';
+import Profile from '../profile/Profile';
+import EditProfile from '../profile/EditProfile';
+import EditExpenseCategory from '../expense/EditExpenseCategory';
+import EditIncomeCategory from '../income/EditIncomeCategory';
+import TransactionCalendar from '../calendar/TransactionCalendar';
+import Setting from '../setting/Setting';
+import Splitwise from '../Splitwise/Splitwise';
+import ScrollToTop from '../dashboard/ScrollToTop';
+import PageNotFound from '../errors/404';
+import { PrivateRoute } from './../../Routes';
 import { useTracked } from './../../Store';
-import background from './../../assets/login_background.jpeg';
+// import background from './../../assets/landing_logo.png';
 
-let messages;
+const isDesktop = () => {
+  return window.innerWidth > 1024;
+};
 
-const addExpenseValidationSchema = yup.object().shape({
-  expense_date: yup.string().required('Expense date field is required'),
-  category: yup.string().required('Expense category field is required'),
-  amount: yup.string().required('Expense amount field is required'),
-  spent_on: yup.string().required('Spent on field is required').max(100, 'Spent on must be at most 100 characters'),
-  // remarks: yup.string().max(200, 'Remarks must be at most 200 characters'),
-});
+const menu = [
+  { label: 'Dashboard', url: '/dashboard', icon: 'pi pi-fw pi-home', command: () => { } },
+  {
+    label: 'Expense', id:'eexpense', url: '', icon: 'pi pi-fw pi-dollar',
+    items: [
+      { label: 'View Expenses',id:'eviewexpenses', url: '/expense', icon: 'pi pi-fw pi-plus', command: () => { } },
+    ]
+  },
+  {
+    label: 'Income', url: '/income', icon: 'pi pi-fw pi-money-bill',
+    items: [
+      { label: 'Manage', url: '/income', icon: 'pi pi-fw pi-plus', command: () => { } },
+    ]
+  },
+  {
+    label: 'Splitwise', url: '/splitwise', icon: 'pi pi-fw pi-money-bill',
+    items: [
+      { label: 'Manage', url: '/splitwise', icon: 'pi pi-fw pi-dollar', command: () => { } },
+      { label: 'Owe and Owed', url: '/split', icon: 'pi pi-fw pi-plus', command: () => { } },
+    ]
+  },
+  { label: 'Settings', url: '/setting', icon: 'pi pi-fw pi-cog', command: () => { } },
+  { label: 'Profile', id:'bprofile',url: '/profile', icon: 'pi pi-fw pi-user', command: () => { } },
+];
 
-const Dashboard = (props) => {
+const DashboardLayout = (props) => {
 
   const [state] = useTracked();
-  const { register, handleSubmit, setValue, errors, setError, reset, control } = useForm({
-    validationSchema: addExpenseValidationSchema
+
+  const [staticMenuInactive, setStaticMenuInactive] = useState(false);
+  const [overlayMenuActive, setOverlayMenuActive] = useState(false);
+  const [mobileMenuActive, setMobileMenuActive] = useState(false);
+
+  const onToggleMenu = () => {
+    if (isDesktop()) {
+      if (state.layoutMode === 'overlay') {
+        setOverlayMenuActive(!overlayMenuActive);
+      }
+      else if (state.layoutMode === 'static') {
+        setStaticMenuInactive(!staticMenuInactive);
+      }
+    }
+    else {
+      setMobileMenuActive(!mobileMenuActive)
+    }
+  }
+
+  /**
+   * If menu item has no child, this function will
+   * close the menu on item click. Else it will
+   * open the child drawer.
+   */
+  const onMenuItemClick = (event) => {
+    if (!event.item.items) {
+      setOverlayMenuActive(false);
+      setMobileMenuActive(false);
+    }
+  }
+
+  let logo = state.layoutColorMode === 'dark' ? require('./../../assets/landing_logo.png') : require('./../../assets/landing_logo.png');
+  let wrapperClass = classNames('layout-wrapper', {
+    'layout-overlay': state.layoutMode === 'overlay',
+    'layout-static': state.layoutMode === 'static',
+    'layout-static-sidebar-inactive': staticMenuInactive && state.layoutMode === 'static',
+    'layout-overlay-sidebar-active': overlayMenuActive && state.layoutMode === 'overlay',
+    'layout-mobile-sidebar-active': mobileMenuActive
   });
-  const [submitting, setSubmitting] = useState(false);
-  const [currencyVisible, setCurrencyVisible] = useState(false);
-  const [recentExpense, setRecentExpense] = useState({ expense: [], expenseLoading: true });
-  const [recentIncome, setRecentIncome] = useState({ income: [], incomeLoading: true });
-  const [monthlyExpenseSummary, setMonthlyExpenseSummary] = useState({});
-  const [monthlyIncomeSummary, setMonthlyIncomeSummary] = useState({});
-  const [expenseCategories, setExpenseCategories] = useState({});
-
-
-  const submitExpense = (data) => {
-    setSubmitting(true);
-    axios.post(authApiEndpoints.expense,data)
-      .then(response => {
-        console.log('success');
-        console.log(response.data);
-        if (response.status === 200) {
-          messages.clear();
-          messages.show({ severity: 'success', detail: "Expense Added Successfully", sticky: true });
-          reset();
-          setSubmitting(false);
-        }
-
-      })
-      .catch(error => {
-        console.log('error', error.response);
-
-        if (error.response.status === 422) {
-          // Set validation errors returned from backend
-          let errors = Object.entries(error.response.data).map(([key, value]) => {
-            return { name: key, message: value[0] }
-          });
-          setError(errors);
-        }
-        else {
-          messages.show({ severity: 'error', detail: 'Something went wrong. Try again.', sticky: true });
-        }
-
-        setSubmitting(false);
-
-      })
-  };
-
-  const uname = localStorage.getItem('name');
-  const uid = localStorage.getItem('id');
-
-  const myStyle={
-    backgroundImage:`url(${background})`,
-      height:'110vh',
-      marginTop:'-70px',
-      fontSize:'50px',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      };
-
+  let sidebarClassName = classNames("layout-sidebar", { 'layout-sidebar-dark': state.layoutColorMode === 'dark' });
 
   return (
-    <div>
-    
-      <Helmet title="Dashboard" />
-      {/* <CurrencySidebar visible={currencyVisible} onHide={(e) => setCurrencyVisible(false)} /> */}
+    <div className={wrapperClass}>
+      <AppTopbar onToggleMenu={onToggleMenu} />
 
-      <div className="p-grid p-nogutter">
-        <div className="p-col-12">
-          <div className="p-fluid">
-            <Messages ref={(el) => messages = el} />
-          </div>
-        </div>
-      </div>
-
-      <div className="p-grid">
-        <div className="p-col-12">
-          <div className="p-fluid">
-            {/* <div className="p-grid" >
-              <div className="p-col-6 p-md-3">
-                <div className="p-panel p-component">
-                  <div className="p-panel-titlebar"><span className="color-title text-bold">Total Expenses Last Month</span>
-                  </div>
-                  <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
-                    aria-labelledby="pr_id_1_label" aria-hidden="false">
-                    <div className="p-panel-content">
-                      <p>0</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-              <div className="p-col-6 p-md-3">
-                <div className="p-panel p-component">
-                  <div className="p-panel-titlebar"><span className="color-title text-bold">Total Expenses This Month</span></div>
-                  <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
-                    aria-labelledby="pr_id_1_label" aria-hidden="false">
-                    <div className="p-panel-content">
-                    <p>0</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-
-          </div>
-        </div>
-      </div>
-
-      <div className="p-grid p-nogutter p-align-center p-justify-center" >
-        <div className="p-col-12 p-md-10 p-lg-4">
-          <Card className="rounded-border">
-            <div>
-              <div className="p-card-title p-grid p-nogutter p-justify-between">Expenses Info</div>
-              <div className="p-card-subtitle">Enter your expenses </div>
+      <div className={sidebarClassName}>
+        <ScrollPanel style={{ height: '100%' }}>
+          <div className="layout-sidebar-scroll-content">
+            <div className="layout-logo">
+              <img alt="Logo" src={logo} style={{ height: '80px' }} />
             </div>
-            <br />
-            <form onSubmit={handleSubmit(submitExpense)}>
-            <div className="p-fluid">
-                <input type="text" ref={register} placeholder="name" id='ename' name="name" value= {uname} className="p-inputtext p-component p-filled" />
-                <p className="text-error">{errors.description?.message}</p>
-              </div>
-
-            <div className="p-fluid">
-                <input type="text" ref={register} placeholder="userid" id='euserid' name="userid" value= {uid} className="p-inputtext p-component p-filled" />
-                <p className="text-error">{errors.description?.message}</p>
-              </div>
-              <div className="p-fluid">
-                <Controller
-                id='etimestamp'
-                  name="expense_date"
-                  defaultValue={new Date()}
-                  onChange={([e]) => {
-                    // console.log(e);
-                    return e.value;
-                  }}
-                  control={control}
-                  as={
-                    <Calendar
-                      dateFormat="yy-mm-dd"
-                      showTime={true}
-                      hourFormat="12"
-                      showButtonBar={true}
-                      maxDate={new Date()}
-                      touchUI={window.innerWidth < 768}
-                    />
-                  }
-                />
-                <p className="text-error">{errors.expense_date?.message}</p>
-              </div>
-              <div className="p-fluid">
-                <input type="text" ref={register} placeholder="category" id='ecategory' name="category" className="p-inputtext p-component p-filled" />
-                <p className="text-error">{errors.category?.message}</p>
-              </div>
-              <div className="p-fluid">
-                <input type="text" ref={register} placeholder="description" id='edescription' name="spent_on" className="p-inputtext p-component p-filled" />
-                <p className="text-error">{errors.description?.message}</p>
-              </div>
-              <div className="p-fluid">
-                <div className="p-inputgroup">
-                  <input type="number" step="0.00" id='amountInputExpense' ref={register} keyfilter="money" placeholder="Amount" name="amount" className="p-inputtext p-component p-filled" />
-                  <Button
-                    label={"$"}
-                    type="button" />
-                </div>
-                <p className="text-error">{errors.amount?.message}</p>
-              </div>
-              <div className="p-fluid">
-                <Button id='eaddexpense'disabled={submitting} type="submit" label="Add Expense" icon="pi pi-plus"
-                  className="p-button-raised" />
-              </div>
-            </form>
-          </Card>
-        </div>
+            <AppInlineProfile />
+            <AppMenu model={menu} onMenuItemClick={onMenuItemClick} />
+          </div>
+        </ScrollPanel>
       </div>
+      <div className="layout-main" style={{ minHeight: '100vh', marginBottom: '-55px' }}>
+        <Switch>
+          <PrivateRoute exact strict path={'/dashboard'} component={Dashboard} />
+          <PrivateRoute exact strict path={'/expense'} component={Expense} />
+          <PrivateRoute exact strict path={'/expense/:expense_id/edit'} component={EditExpense} />
+          <PrivateRoute exact strict path={'/expenseCategory'} component={ExpenseCategory} />
+          <PrivateRoute exact strict path={'/expense/category/:category_id/edit'} component={EditExpenseCategory} />
+          <PrivateRoute exact strict path={'/income'} component={Income} />
+          <PrivateRoute exact strict path={'/income/:income_id/edit'} component={EditIncome} />
+          <PrivateRoute exact strict path={'/income/category/:category_id/edit'} component={EditIncomeCategory} />
+          <PrivateRoute exact strict path={'/calendar'} component={TransactionCalendar} />
+          <PrivateRoute exact strict path={'/setting'} component={Setting} />
+          <PrivateRoute exact strict path={'/splitwise'} component={Splitwise} />
+          <PrivateRoute exact strict path={'/profile'} component={Profile} />
+          <PrivateRoute exact strict path={'/profile/edit'} component={EditProfile} />
+          <Route render={props => <PageNotFound {...props} />} />
+        </Switch>
+        <div style={{ height: '55px' }}>
+          {/* For footer adjustment */}
+        </div>
+        <ScrollToTop />
+      </div>
+      <AppFooter />
+      <div className="layout-mask" />
     </div>
-    
-  )
+  );
 }
 
-export default React.memo(Dashboard);
+export default DashboardLayout;
