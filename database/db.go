@@ -78,23 +78,23 @@ func (es *ExpenseStoreSQL) LoginUser(requestEmail string, requestPassword string
 	return user
 }
 
-func (es *ExpenseStoreSQL) GetUsers() []*models.User {
-	log.Print("hei hi heloo")
-	rows, err := es.Query("SELECT * FROM user")
+func (es *ExpenseStoreSQL) GetUsers() []string {
+	rows, err := es.Query("SELECT name FROM user")
 	if err != nil {
 		return nil
 	}
 	defer rows.Close()
-	usersArr := []*models.User{}
+
+	var usersArr []string
+
 	for rows.Next() {
-		var i *models.User
-		err = rows.Scan(&i.Id, &i.Name)
+		var user string
+		err := rows.Scan(&user)
 		if err != nil {
 			return nil
 		}
-		usersArr = append(usersArr, i)
+		usersArr = append(usersArr, user)
 	}
-	log.Println(usersArr)
 	return usersArr
 }
 

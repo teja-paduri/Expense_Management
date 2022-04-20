@@ -27,6 +27,29 @@ type ExpenseServer struct {
 	Store ExpenseStore
 }
 
+func GetAllUsers(w http.ResponseWriter, r *http.Request) {
+	db, err := database.NewExpenseStoreSQL()
+	utils.AddCorsHeaders(w, r)
+	if err != nil {
+		log.Printf("Failed connection to the database: '%v'", err)
+	}
+
+	output := db.GetUsers()
+	log.Printf("output '%v'", output)
+
+	if output != nil {
+		w.WriteHeader(http.StatusOK)
+		enc := json.NewEncoder(w)
+		enc.Encode(output)
+
+	} else {
+		k := "Login Error"
+		w.WriteHeader(http.StatusBadRequest)
+		enc := json.NewEncoder(w)
+		enc.Encode(k)
+	}
+}
+
 func RetrieveUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	db, err1 := database.NewExpenseStoreSQL()
@@ -110,30 +133,6 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	log.Printf("entered p'%v'", password)
 
 	output := db.LoginUser(email, password)
-	log.Printf("output '%v'", output)
-
-	if output != nil {
-		w.WriteHeader(http.StatusOK)
-		enc := json.NewEncoder(w)
-		enc.Encode(output)
-
-	} else {
-		k := "Login Error"
-		w.WriteHeader(http.StatusBadRequest)
-		enc := json.NewEncoder(w)
-		enc.Encode(k)
-	}
-}
-
-func GetAllUsers(w http.ResponseWriter, r *http.Request) {
-	db, err := database.NewExpenseStoreSQL()
-	utils.AddCorsHeaders(w, r)
-	log.Printf("entered GetAllUsers")
-	if err != nil {
-		log.Printf("Failed connection to the database: '%v'", err)
-	}
-
-	output := db.GetUsers()
 	log.Printf("output '%v'", output)
 
 	if output != nil {

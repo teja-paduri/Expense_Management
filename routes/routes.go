@@ -7,10 +7,10 @@ import (
 )
 
 func Setup(r *mux.Router) {
+	r.HandleFunc("/users/all", controllers.GetAllUsers).Methods("GET", "OPTIONS")
 	r.HandleFunc("/users/{id}", controllers.RetrieveUser).Methods("GET", "OPTIONS")
 	r.HandleFunc("/user/register", controllers.InsertUser).Methods("POST", "OPTIONS")
 	r.HandleFunc("/user/login", controllers.LoginUser).Methods("POST", "OPTIONS")
-	r.HandleFunc("/users/all", controllers.GetAllUsers).Methods("GET", "OPTIONS")
 	r.HandleFunc("/user/passwordudpate", controllers.UpdateUserPassword).Methods("PUT", "OPTIONS")
 
 	//Expense routes
