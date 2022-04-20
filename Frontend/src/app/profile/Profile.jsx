@@ -43,6 +43,7 @@ const Profile = (props) => {
         }
       })
   };
+  const uid = localStorage.getItem('id');
   const myStyle={
     backgroundImage:`url(${background})`,
       height:'110vh',
@@ -144,10 +145,10 @@ const Profile = (props) => {
             <br />
 
             <form onSubmit={handleSubmit(updatePwd)}>
-            {/* <div className="p-fluid">
-                <input type="text" ref={register} placeholder="userid" name="userid" value= {} className="p-inputtext p-component p-filled" />
+            <div className="p-fluid">
+                <input type="text" ref={register} placeholder="userid" name="userid" value= {uid} className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
-              </div> */}
+              </div>
               <div className="p-fluid">
                 <input type='password' name='new_password' ref={register} autoComplete="off" placeholder="New Password" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.new_password?.message}</p>
