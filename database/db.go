@@ -161,6 +161,7 @@ func (es *ExpenseStoreSQL) DeletePaymentRecord(paymentID string) bool {
 	}
 	return true
 }
+
 func (es *ExpenseStoreSQL) UpdateIncomeRecord(IncomeObj map[string]string) bool {
 	log.Println(IncomeObj)
 	_, err := es.Exec("UPDATE income SET amount = ? where ID = ?", IncomeObj["amount"], IncomeObj["ID"])
@@ -171,10 +172,21 @@ func (es *ExpenseStoreSQL) UpdateIncomeRecord(IncomeObj map[string]string) bool 
 	}
 	return true
 }
+func (es *ExpenseStoreSQL) DeleteIncomeRecord(incomeID int) bool {
+	stmt, err := es.Prepare("DELETE from income where ID=?")
+	_, err1 := stmt.Exec(incomeID)
+	defer stmt.Close()
+	// log.Fatalln(err)
+	log.Println(err, err1)
+	if err != nil || err1 != nil {
+		return false
+	}
+	return true
+}
 
-func (es *ExpenseStoreSQL) RecordPaymentSplit(paymentsplitObj map[string]string) bool {
-	stmt, err := es.Prepare("INSERT into payment_split(ID, borrowers, amount, user_id, expense_id, timestamp) values(?,?,?,?,?,?)")
-	_, err1 := stmt.Exec(nil, paymentsplitObj["borrowers"], paymentsplitObj["amount"], paymentsplitObj["user_id"], paymentsplitObj["expense_id"], paymentsplitObj["timestamp"])
+func (es *ExpenseStoreSQL) RecordPaymentSplit(borrowers string, amount float64, user_id string, username string, description string, timestamp string) bool {
+	stmt, err := es.Prepare("INSERT into payment_split(ID, borrowers, amount, user_id, username, description, timestamp) values(?,?,?,?,?,?,?)")
+	_, err1 := stmt.Exec(nil, borrowers, amount, user_id, username, description, timestamp)
 	defer stmt.Close()
 	// log.Fatalln(err)
 	log.Println(err, err1)
@@ -197,9 +209,9 @@ func (es *ExpenseStoreSQL) DeletePaymentSplitRecord(paymentID int) bool {
 	return true
 }
 
-func (es *ExpenseStoreSQL) UpdatePassword(paymentObj map[string]string) bool {
-	stmt, err := es.Prepare("UPDATE into user(ID, name, description, category_id, amount) values(?,?,?,?,?)")
-	_, err1 := stmt.Exec(nil, paymentObj["name"], paymentObj["description"], paymentObj["category_id"], paymentObj["amount"])
+func (es *ExpenseStoreSQL) UpdatePassword(incomeObj map[string]string) bool {
+	stmt, err := es.Prepare("UPDATE user SET password=? where ID=?")
+	_, err1 := stmt.Exec(incomeObj["password"], incomeObj["userid"])
 	defer stmt.Close()
 	// log.Fatalln(err)
 	log.Println(err, err1)

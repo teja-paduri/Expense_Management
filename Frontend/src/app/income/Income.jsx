@@ -43,7 +43,7 @@ let messages;
 
 const addIncomeValidationSchema = yup.object().shape({
   source: yup.string().required('Income source field is required').max(100, 'Income source must be at most 100 characters'),
-  category: yup.object().required('Income category field is required'),
+  // category: yup.object().required('Income category field is required'),
   notes: yup.string().max(200, 'Income notes must be at most 200 characters'),
   amount: yup.string().required('Income amount field is required'),
 });
@@ -65,7 +65,44 @@ const Income = (props) => {
   const [submitting, setSubmitting] = useState(false);
   const [incomeCategories, setIncomeCategories] = useState([]);
   const [income, setIncome] = useState({ incomes: {}, fetching: true });
+  const [incomeCategory,setIncomeCategory] = useState();
+  const uid= localStorage.getItem('id');
 
+  const setIncomeCategoryFun=(e)=>{
+    setIncomeCategory(e);
+  }
+  const sendIncome = (data) => {
+    setSubmitting(true);
+    axios.post(incomeApiEndpoints.insertIncome,data)
+      .then(response => {
+        console.log('success');
+        console.log(response.data);
+        if (response.status === 200) {
+          messages.clear();
+          messages.show({ severity: 'success', detail: "Income Added Successfully", sticky: true });
+          reset();
+          setSubmitting(false);
+        }
+
+      })
+      .catch(error => {
+        console.log('error', error.response);
+
+        if (error.response.status === 422) {
+          // Set validation errors returned from backend
+          let errors = Object.entries(error.response.data).map(([key, value]) => {
+            return { name: key, message: value[0] }
+          });
+          setError(errors);
+        }
+        else {
+          messages.show({ severity: 'error', detail: 'Something went wrong. Try again.', sticky: true });
+        }
+
+        setSubmitting(false);
+
+      })
+  };
 
   const renderIncomeSummary = (data) => {
     if (data && data.length > 0) {
@@ -106,6 +143,7 @@ const Income = (props) => {
         </div>
       </div>
 
+      
       <div className="p-grid">
 
         <div className="p-col-12 p-md-6">
@@ -115,10 +153,14 @@ const Income = (props) => {
               <div className="p-card-subtitle">Add your income information below.</div>
             </div>
             <br />
-            <form onSubmit={handleSubmit()}>
+            <form onSubmit={handleSubmit(sendIncome)}>
+            <div className="p-fluid">
+                <input type="text" ref={register} placeholder="userid" name="user_id" value= {uid} className="p-inputtext p-component p-filled" />
+                <p className="text-error">{errors.description?.message}</p>
+              </div>
               <div className="p-fluid">
                 <Controller
-                  name="income_date"
+                  name="timestamp"
                   defaultValue={new Date()}
                   onChange={([e]) => {
                     // console.log(e);
@@ -138,28 +180,13 @@ const Income = (props) => {
                 />
                 <p className="text-error">{errors.income_date?.message}</p>
               </div>
+              
+              
               <div className="p-fluid">
-                <Controller
-                  name="category"
-                  onChange={([e]) => {
-                    return e.value
-                  }}
-                  control={control}
-                  as={
-                    <Dropdown
-                      filter={true}
-                      filterPlaceholder="Search here"
-                      showClear={true}
-                      filterInputAutoFocus={false}
-                      options={incomeCategories}
-                      style={{ width: '100%' }}
-                      placeholder="Income Category"
-                      optionLabel="category_name"
-                    />
-                  }
-                />
+                <Dropdown optionLabel="label" name='income_source' value={incomeCategory} options={[{ label: 'Stocks', value: 'STK' }, { label: 'Rent', value: 'R' }, { label: 'Salary', value: 'SL' }]} onChange={(e) => setIncomeCategoryFun(e.value)} placeholder="Select Category Of Income" />
                 <p className="text-error">{errors.category?.message}</p>
               </div>
+              
               <div className="p-fluid">
                 <input type="text" ref={register} placeholder="Income Source" name="source" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.source?.message}</p>
@@ -175,7 +202,7 @@ const Income = (props) => {
                 <p className="text-error">{errors.amount?.message}</p>
               </div>
               <div className="p-fluid">
-                <textarea ref={register} rows={5} placeholder="Income Notes" name="notes" className="p-inputtext p-inputtextarea p-component p-inputtextarea-resizable" />
+                <textarea ref={register} rows={5} placeholder="Income Notes" name="description" className="p-inputtext p-inputtextarea p-component p-inputtextarea-resizable" />
                 <p className="text-error">{errors.notes?.message}</p>
               </div>
               <div className="p-fluid">

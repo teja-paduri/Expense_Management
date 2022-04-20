@@ -17,6 +17,7 @@ import CurrencySidebar from './../common/CurrencySidebar';
 
 import { expenseApiEndpoints } from './../../API';
 import { useTracked } from './../../Store';
+import axios from 'axios';
 
 
 const StyledSwal = Swal.mixin({
@@ -49,7 +50,7 @@ const Expense = (props) => {
     currentPage: 1
   });
   const [currencyVisible, setCurrencyVisible] = useState(false);
-  const [expenseSummary, setExpenseSummary] = useState({});
+  const [expenseSummary, setExpenseSummary] = useState([{name:'Test',category:'stock',amount:'$200',date:'2022-04-16'},{name:'Test2',category:'stock',amount:'$400',date:'2022-04-16'}]);
   const [submitting, setSubmitting] = useState(false);
   const [expenseCategories, setExpenseCategories] = useState([]);
   const [expense, setExpense] = useState({ expenses: {}, fetching: true });
@@ -70,6 +71,16 @@ const Expense = (props) => {
       </div>
     }
   };
+
+
+  // useEffect(async ()=>{
+  //   var expenseData = await axios.get('/expense/get');
+  //   if(expenseData.data)
+  //   {
+  //     expenseData =expenseData;
+  //     setExpenseSummary(expenseData);
+  //   }
+  // })
 
   return (
     <div>
@@ -99,7 +110,7 @@ const Expense = (props) => {
             </div>
             <br />
             <DataTable
-              value={expense.expenses.data}
+              value={expenseSummary}
               sortField={datatable.sortField}
               sortOrder={datatable.sortOrder}
               responsive={true}
@@ -127,20 +138,20 @@ const Expense = (props) => {
               }}
               className="text-center"
             >
-              <Column field="id" header="Serial" sortable={true} />
-              <Column field="spent_on" header="Spent On" sortable={true} />
-              <Column field="category_name" header="Category" sortable={true} />
-              <Column field="amount" header="Amount" sortable={true}
+              <Column field="name" header="Serial" sortable={true} />
+              <Column field="category" header="Spent On" sortable={true} />
+              <Column field="amount" header="Category" sortable={true} />
+              <Column field="date" header="Amount" sortable={true}
                 body={(rowData, column) => {
                   return rowData.amount.toLocaleString() + ' ' + rowData.currency_name
                 }}
               />
-              <Column field="transaction_date" header="Date" sortable={true}
+              {/* <Column field="transaction_date" header="Date" sortable={true}
                 body={(rowData, column) => {
                   return dayjs(rowData.transaction_date).format('YYYY-MM-DD hh:mm a')
                 }}
-              />
-              <Column
+              /> */}
+              {/* <Column
                 body={(rowData, column) => {
                   // console.log(rowData);
                   return (
@@ -159,7 +170,7 @@ const Expense = (props) => {
                 }}
                 header="Action"
                 style={{ textAlign: 'center', width: '8em' }}
-              />
+              /> */}
             </DataTable>
           </Card>
         </div>

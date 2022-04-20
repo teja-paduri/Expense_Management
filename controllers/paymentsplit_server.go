@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gorilla/mux"
 )
@@ -28,20 +29,37 @@ func InsertPaymentSplitRecord(w http.ResponseWriter, r *http.Request) {
 	if keyVal["options"] == "true" {
 		w.WriteHeader(http.StatusOK)
 	} else {
-		output := db.RecordPaymentSplit(keyVal)
 
-		log.Printf("Output '%v'", output)
-		if output {
-			k := `PaymentSplit record created Successfully`
-			w.WriteHeader(http.StatusOK)
-			enc := json.NewEncoder(w)
-			enc.Encode(k)
+		user_id := keyVal["user_id"]
+		username := keyVal["username"]
+		description := keyVal["description"]
+		timestamp := keyVal["timestamp"]
+		borrowers := keyVal["borrowers"]
+		amount, err := strconv.Atoi(keyVal["amount"])
+		if err != nil {
+			log.Printf("Failed during converting amount " + err.Error())
+			return
+		}
 
-		} else {
-			k := "Failied creating PaymentSplit record"
-			w.WriteHeader(http.StatusBadRequest)
-			enc := json.NewEncoder(w)
-			enc.Encode(k)
+		borr_arr := strings.Split(borrowers, ",")
+
+		for i := 0; i < len(borr_arr); i++ {
+
+			output := db.RecordPaymentSplit(borr_arr[i], float64(amount)/float64(len(borr_arr)), user_id, username, description, timestamp)
+			log.Printf("Output '%v'", output)
+			if output {
+				k := `PaymentSplit record created Successfully`
+				w.WriteHeader(http.StatusOK)
+				enc := json.NewEncoder(w)
+				enc.Encode(k)
+
+			} else {
+				k := "Failied creating PaymentSplit record"
+				w.WriteHeader(http.StatusBadRequest)
+				enc := json.NewEncoder(w)
+				enc.Encode(k)
+			}
+
 		}
 
 	}

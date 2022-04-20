@@ -11,7 +11,7 @@ func Setup(r *mux.Router) {
 	r.HandleFunc("/user/register", controllers.InsertUser).Methods("POST", "OPTIONS")
 	r.HandleFunc("/user/login", controllers.LoginUser).Methods("POST", "OPTIONS")
 	r.HandleFunc("/users/all", controllers.GetAllUsers).Methods("GET", "OPTIONS")
-	// r.HandleFunc("/user/passwordudpate", controllers.UpdateUserPassword).Methods("POST", "OPTIONS")
+	r.HandleFunc("/user/passwordudpate", controllers.UpdateUserPassword).Methods("PUT", "OPTIONS")
 
 	//Expense routes
 	r.HandleFunc("/expense/get", controllers.GetExpense).Methods("GET", "OPTIONS")
@@ -26,6 +26,7 @@ func Setup(r *mux.Router) {
 	//Income routes
 	r.HandleFunc("/expense/insertincome", controllers.InsertIncome).Methods("POST", "OPTIONS")
 	r.HandleFunc("/expense/updateincome", controllers.UpdateIncome).Methods("PUT", "OPTIONS")
+	r.HandleFunc("/expense/deleteincome", controllers.DeleteIncome).Methods("DELETE", "OPTIONS")
 
 	//PaymentSplit routes
 	r.HandleFunc("/expense/insertpaymentsplit", controllers.InsertPaymentSplitRecord).Methods("POST", "OPTIONS")

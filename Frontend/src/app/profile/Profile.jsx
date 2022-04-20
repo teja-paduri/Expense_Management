@@ -16,9 +16,8 @@ document.body.setAttribute('style', 'background: black;');
 let messages;
 
 const passwordValidationSchema = yup.object().shape({
-  old_password: yup.string().required('This field is required').min(6, 'Password must be at most 6 character'),
   new_password: yup.string().required('This field is required').min(6, 'Password must be at most 6 character'),
-  confirm_password: yup.string().required('This field is required').oneOf([yup.ref('new_password')], 'Confirm password does not match')
+  password: yup.string().required('This field is required').oneOf([yup.ref('new_password')], 'Confirm password does not match')
 });
 
 const Profile = (props) => {
@@ -44,6 +43,7 @@ const Profile = (props) => {
         }
       })
   };
+  const uid = localStorage.getItem('id');
   const myStyle={
     backgroundImage:`url(${background})`,
       height:'110vh',
@@ -51,6 +51,39 @@ const Profile = (props) => {
       fontSize:'50px',
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
+      };
+
+      const updatePwd = (data) => {
+        setSubmitting(true);
+        axios.post(authApiEndpoints.updatePwd,data)
+          .then(response => {
+            console.log('success');
+            console.log(response.data);
+            if (response.status === 200) {
+              messages.clear();
+              messages.show({ severity: 'success', detail: "Password updated successfully", sticky: true });
+              reset();
+              setSubmitting(false);
+            }
+    
+          })
+          .catch(error => {
+            console.log('error', error.response);
+    
+            if (error.response.status === 422) {
+              // Set validation errors returned from backend
+              let errors = Object.entries(error.response.data).map(([key, value]) => {
+                return { name: key, message: value[0] }
+              });
+              // setError(errors);
+            }
+            else {
+              messages.show({ severity: 'error', detail: 'Something went wrong. Try again.', sticky: true });
+            }
+    
+            setSubmitting(false);
+    
+          })
       };
 
   return (
@@ -92,11 +125,11 @@ const Profile = (props) => {
               </h3>
             </div>
 
-            <div className="p-card-footer p-fluid">
+            {/* <div className="p-card-footer p-fluid">
               <Link to={'/profile/edit'}>
                 <Button label="Edit" className="" icon="pi pi-pencil" />
               </Link>
-            </div>
+            </div> */}
           </Card>
         </div>
         </div>
@@ -111,17 +144,17 @@ const Profile = (props) => {
             </div>
             <br />
 
-            <form onSubmit={handleSubmit()}>
-              <div className="p-fluid">
-                <input type='password' name='old_password' ref={register} autoComplete="off" placeholder="Old Password" className="p-inputtext p-component p-filled" />
-                <p className="text-error">{errors.old_password?.message}</p>
+            <form onSubmit={handleSubmit(updatePwd)}>
+            <div className="p-fluid">
+                <input type="text" ref={register} placeholder="userid" name="userid" value= {uid} className="p-inputtext p-component p-filled" />
+                <p className="text-error">{errors.description?.message}</p>
               </div>
               <div className="p-fluid">
                 <input type='password' name='new_password' ref={register} autoComplete="off" placeholder="New Password" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.new_password?.message}</p>
               </div>
               <div className="p-fluid">
-                <input type='password' name='confirm_password' ref={register} autoComplete="off" placeholder="Confirm Password" className="p-inputtext p-component p-filled" />
+                <input type='password' name='password' ref={register} autoComplete="off" placeholder="Confirm Password" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.confirm_password?.message}</p>
               </div>
               <div className="p-fluid">

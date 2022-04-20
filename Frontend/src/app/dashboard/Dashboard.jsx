@@ -150,16 +150,17 @@ const Dashboard = (props) => {
             <br />
             <form onSubmit={handleSubmit(submitExpense)}>
             <div className="p-fluid">
-                <input type="text" ref={register} placeholder="name" name="name" value= {uname} className="p-inputtext p-component p-filled" />
+                <input type="text" ref={register} placeholder="name" id='ename' name="name" value= {uname} className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
               </div>
 
             <div className="p-fluid">
-                <input type="text" ref={register} placeholder="userid" name="userid" value= {uid} className="p-inputtext p-component p-filled" />
+                <input type="text" ref={register} placeholder="userid" id='euserid' name="userid" value= {uid} className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
               </div>
               <div className="p-fluid">
                 <Controller
+                id='etimestamp'
                   name="expense_date"
                   defaultValue={new Date()}
                   onChange={([e]) => {
@@ -181,11 +182,11 @@ const Dashboard = (props) => {
                 <p className="text-error">{errors.expense_date?.message}</p>
               </div>
               <div className="p-fluid">
-                <input type="text" ref={register} placeholder="category" name="category" className="p-inputtext p-component p-filled" />
+                <input type="text" ref={register} placeholder="category" id='ecategory' name="category" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.category?.message}</p>
               </div>
               <div className="p-fluid">
-                <input type="text" ref={register} placeholder="description" name="spent_on" className="p-inputtext p-component p-filled" />
+                <input type="text" ref={register} placeholder="description" id='edescription' name="spent_on" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
               </div>
               <div className="p-fluid">
@@ -198,7 +199,7 @@ const Dashboard = (props) => {
                 <p className="text-error">{errors.amount?.message}</p>
               </div>
               <div className="p-fluid">
-                <Button disabled={submitting} type="submit" label="Add Expense" icon="pi pi-plus"
+                <Button id='eaddexpense'disabled={submitting} type="submit" label="Add Expense" icon="pi pi-plus"
                   className="p-button-raised" />
               </div>
             </form>
