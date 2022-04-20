@@ -93,6 +93,26 @@ func (es *ExpenseStoreSQL) LoginUser(requestEmail string, requestPassword string
 	return user
 }
 
+func (es *ExpenseStoreSQL) GetUsers() []string {
+	rows, err := es.Query("SELECT name FROM user")
+	if err != nil {
+		return nil
+	}
+	defer rows.Close()
+
+	var usersArr []string
+
+	for rows.Next() {
+		var user string
+		err := rows.Scan(&user)
+		if err != nil {
+			return nil
+		}
+		usersArr = append(usersArr, user)
+	}
+	return usersArr
+}
+
 func (es *ExpenseStoreSQL) CreateExpense(expenseObj map[string]string) bool {
 	stmt, err := es.Prepare("INSERT into expense(ID, name, description, category, amount, userid) values(?,?,?,?,?,?)")
 	_, err1 := stmt.Exec(nil, expenseObj["name"], expenseObj["spent_on"], expenseObj["category"], expenseObj["amount"], expenseObj["userid"])
@@ -204,6 +224,18 @@ func (es *ExpenseStoreSQL) DeletePaymentSplitRecord(paymentID int) bool {
 	return true
 }
 
+func (es *ExpenseStoreSQL) UpdatePassword(incomeObj map[string]string) bool {
+	stmt, err := es.Prepare("UPDATE user SET password=? where ID=?")
+	_, err1 := stmt.Exec(incomeObj["password"], incomeObj["userid"])
+	defer stmt.Close()
+	// log.Fatalln(err)
+	log.Println(err, err1)
+	if err != nil || err1 != nil {
+		return false
+	}
+	return true
+}
+
 // NewExpenseStoreSQL returns a pointer to an initialized ExpenseStoreSQL
 func NewExpenseStoreSQL() (*ExpenseStoreSQL, error) {
 	e := ExpenseStoreSQL{}
@@ -216,15 +248,4 @@ func NewExpenseStoreSQL() (*ExpenseStoreSQL, error) {
 	e.DB = db
 
 	return &e, nil
-}
-func (es *ExpenseStoreSQL) UpdatePassword(incomeObj map[string]string) bool {
-	stmt, err := es.Prepare("UPDATE user SET password=? where ID=?")
-	_, err1 := stmt.Exec(incomeObj["password"], incomeObj["userid"])
-	defer stmt.Close()
-	// log.Fatalln(err)
-	log.Println(err, err1)
-	if err != nil || err1 != nil {
-		return false
-	}
-	return true
 }
