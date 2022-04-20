@@ -54,7 +54,7 @@ func InsertPaymentSplitRecord(w http.ResponseWriter, r *http.Request) {
 				enc.Encode(k)
 
 			} else {
-				k := "Failied creating PaymentSplit record"
+				k := "Failed creating PaymentSplit record"
 				w.WriteHeader(http.StatusBadRequest)
 				enc := json.NewEncoder(w)
 				enc.Encode(k)
