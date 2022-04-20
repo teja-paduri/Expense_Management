@@ -16,7 +16,7 @@ import (
 // var paymentsplit models.Paymentsplit
 
 func InsertPaymentSplitRecord(w http.ResponseWriter, r *http.Request) {
-	log.Printf("Inside insert paymentsplit method")
+	log.Printf("Inside insert Paymentsplit method")
 	db, err := database.NewExpenseStoreSQL()
 	utils.AddCorsHeaders(w, r)
 
@@ -54,7 +54,7 @@ func InsertPaymentSplitRecord(w http.ResponseWriter, r *http.Request) {
 				enc.Encode(k)
 
 			} else {
-				k := "Failied creating PaymentSplit record"
+				k := "Failed creating PaymentSplit record"
 				w.WriteHeader(http.StatusBadRequest)
 				enc := json.NewEncoder(w)
 				enc.Encode(k)

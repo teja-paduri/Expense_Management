@@ -21,7 +21,6 @@ func ParsePostBody(r *http.Request, keyVal map[string]string) map[string]string 
 		var colorMap = map[string]string{"options": "true"}
 		return colorMap
 	} else {
-		log.Println("hey hoo")
 		body, errRead := ioutil.ReadAll(r.Body)
 		bodyString := string(body)
 		log.Print(bodyString)
