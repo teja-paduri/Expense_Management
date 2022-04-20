@@ -103,6 +103,7 @@ func DeletePaymentSplit(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
 func UserAmountOwed(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	db, err1 := database.NewExpenseStoreSQL()
@@ -138,6 +139,43 @@ func UserAmountOwed(w http.ResponseWriter, r *http.Request) {
 	// 	return
 	// }
 	log.Print(amount)
+	w.WriteHeader(http.StatusOK)
+	enc.Encode(amount)
+}
+
+func AmountUserOwes(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	db, err1 := database.NewExpenseStoreSQL()
+
+	if err1 != nil {
+		log.Printf("Failed connection to the database: '%v'", err)
+	}
+
+	utils.AddCorsHeaders(w, r)
+
+	enc := json.NewEncoder(w)
+
+	username, err := params["username"]
+
+	if !err {
+		log.Printf("Couldn't get UserName from URL path: '%v'", err)
+		w.WriteHeader(http.StatusNotFound)
+		errorJSON := CreateErrorNotFound(fmt.Sprintf("Couldn't get UserName from URL path: %v", username))
+		enc.Encode(errorJSON)
+		return
+	}
+
+	amount := db.GetAmountUserOwes(username)
+	// output := {
+	// 	"u" : username
+	// 	"amount" : amount
+	// }
+	// if user == nil {
+	// 	w.WriteHeader(http.StatusNotFound)
+	// 	errorJSON := CreateErrorNotFound(fmt.Sprintf("Requested user %v not found.", username))
+	// 	enc.Encode(errorJSON)
+	// 	return
+	// }
 	w.WriteHeader(http.StatusOK)
 	enc.Encode(amount)
 }
