@@ -39,21 +39,6 @@ func (es *ExpenseStoreSQL) GetUser(inputid int) *models.User {
 
 	return user
 }
-func (es *ExpenseStoreSQL) GetAmount(username string) float32 {
-	//var user *models.User
-	var total float32
-	log.Print("in db function")
-
-	err := es.QueryRow("SELECT SUM(amount) from payment_split where username=? GROUP by username", username).Scan(&total)
-
-	log.Print(total)
-
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	return total
-}
 
 func (es *ExpenseStoreSQL) CreateUser(Name string, Email string, Password string) bool {
 	stmt, err := es.Prepare("INSERT into user(ID, name, email, password) values(?,?,?,?)")
@@ -234,6 +219,33 @@ func (es *ExpenseStoreSQL) UpdatePassword(incomeObj map[string]string) bool {
 		return false
 	}
 	return true
+}
+
+func (es *ExpenseStoreSQL) GetAmount(username string) float32 {
+	//var user *models.User
+	var total float32
+
+	err := es.QueryRow("SELECT SUM(amount) from payment_split where username=? GROUP by username", username).Scan(&total)
+
+	log.Print(total)
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	return total
+}
+
+func (es *ExpenseStoreSQL) GetAmountUserOwes(username string) float32 {
+	var totalAmount float32
+	err := es.QueryRow("SELECT SUM(amount) from payment_split where borrowers=? GROUP by borrowers", username).Scan(&totalAmount)
+
+	log.Print(totalAmount)
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return totalAmount
 }
 
 // NewExpenseStoreSQL returns a pointer to an initialized ExpenseStoreSQL
