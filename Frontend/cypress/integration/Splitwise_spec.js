@@ -108,6 +108,6 @@ describe('Splitwise Page Test Cases Suite', () => {
         cy.get('#menubutton').click()
         cy.get('a[href*="/splitwise"]').click({ multiple: true })
         cy.url().should('eq', 'http://localhost:3000/#/splitwise')
-      //cy.get('#susername.value').type(name).contains(name).should('exist')
+      cy.get('#susername').should('have.value',name)
       
   }
