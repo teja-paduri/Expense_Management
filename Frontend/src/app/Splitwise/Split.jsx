@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import axios from './../../Axios';
 import { useTracked } from './../../Store';
+import { authApiEndpoints  } from './../../API';
 
 const uname = localStorage.getItem('name');
 const uid = localStorage.getItem('id');
@@ -12,6 +13,14 @@ const fetchDataOwed = () => {
   return axios.get("");}
 
 const Split = (props) => {
+  const [owed,setOwed]=useState('');
+const [owes,setOwes]=useState('');
+  useEffect(async ()=>{
+    var owesAPi=await axios.get(authApiEndpoints.owedApiUrl+uname);
+    var owedApi =await axios.get(authApiEndpoints.owesApiUrl+uname)
+    setOwed('$'+owedApi.data);
+    setOwes('$'+owesAPi.data);
+  },[]);
 return (
   
 <div className="p-grid">
@@ -35,7 +44,7 @@ return (
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
-                      <p></p>
+                      <p>{owed}</p>
                     </div>
                   </div>
                 </div>
@@ -59,7 +68,7 @@ return (
                   <div className="p-panel-content-wrapper p-panel-content-wrapper-expanded" id="pr_id_1_content"
                     aria-labelledby="pr_id_1_label" aria-hidden="false">
                     <div className="p-panel-content">
-                    <p></p>
+                    <p>{owes}</p>
                     </div>
                   </div>
                 </div>
