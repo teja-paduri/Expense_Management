@@ -37,13 +37,13 @@ func GetExpense(w http.ResponseWriter, r *http.Request) {
 		log.Println(keyVal)
 		name := keyVal["name"]
 		category := keyVal["category"]
-		description := keyVal["description"]
+		description := keyVal["spent_on"]
 
 		op := db.RetrieveExpense(name, category, description)
 		log.Printf("GetExpense output: '%v'", op)
 
 		if op == nil {
-			w.WriteHeader(http.StatusNotFound)
+			w.WriteHeader(http.StatusBadRequest)
 			errorJSON := CreateErrorNotFound(fmt.Sprintf("Requested expense %v not found.", name))
 			enc.Encode(errorJSON)
 		} else {
@@ -130,17 +130,17 @@ func UpdateExpense(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	} else {
 
-		output := db.CreateExpense(keyVal)
+		output := db.UpdateExpense(keyVal)
 
 		log.Printf("output '%v'", output)
 		if output {
-			k := `Expense created Successfully`
+			k := `Expense updation Successfully`
 			w.WriteHeader(http.StatusOK)
 			enc := json.NewEncoder(w)
 			enc.Encode(k)
 
 		} else {
-			k := "Expense creation failed"
+			k := "Expense updation failed"
 			w.WriteHeader(http.StatusBadRequest)
 			enc := json.NewEncoder(w)
 			enc.Encode(k)
