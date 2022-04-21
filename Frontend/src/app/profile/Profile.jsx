@@ -55,7 +55,7 @@ const Profile = (props) => {
 
       const updatePwd = (data) => {
         setSubmitting(true);
-        axios.put(authApiEndpoints.updatePwd,data)
+        axios.post(authApiEndpoints.updatePwd,data)
           .then(response => {
             console.log('success');
             console.log(response.data);
@@ -64,6 +64,8 @@ const Profile = (props) => {
               messages.show({ severity: 'success', detail: "Password updated successfully", sticky: true });
               reset();
               setSubmitting(false);
+
+              
             }
     
           })

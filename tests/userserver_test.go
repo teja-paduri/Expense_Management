@@ -47,7 +47,7 @@ func TestCreateEvent3(t *testing.T) {
 
 	var jsonstr = []byte(`{"Email":"anusha@gmail.com","Password":"expensemanagement"}`)
 	w := httptest.NewRecorder()
-	response := httptest.NewRequest("PUT", "localhost:8080/user/passwordudpate", bytes.NewBuffer(jsonstr))
+	response := httptest.NewRequest("POST", "localhost:8080/user/passwordudpate", bytes.NewBuffer(jsonstr))
 	controllers.UpdateUserPassword(w, response)
 	assert.Equal(t, w.Result().Status, "200 OK")
 

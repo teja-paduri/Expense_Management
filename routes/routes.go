@@ -11,7 +11,7 @@ func Setup(r *mux.Router) {
 	r.HandleFunc("/users/{id}", controllers.RetrieveUser).Methods("GET", "OPTIONS")
 	r.HandleFunc("/user/register", controllers.InsertUser).Methods("POST", "OPTIONS")
 	r.HandleFunc("/user/login", controllers.LoginUser).Methods("POST", "OPTIONS")
-	r.HandleFunc("/user/passwordudpate", controllers.UpdateUserPassword).Methods("PUT", "OPTIONS")
+	r.HandleFunc("/user/passwordudpate", controllers.UpdateUserPassword).Methods("POST", "OPTIONS")
 
 	//Expense routes
 	r.HandleFunc("/expense/get", controllers.GetExpense).Methods("GET", "OPTIONS")
