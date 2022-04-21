@@ -3,15 +3,13 @@ package controllers
 import (
 	"encoding/json"
 	"expenseManagement/database"
-
-	"github.com/gorilla/mux"
-
-	//"expenseManagement/models"
 	"expenseManagement/utils"
 	"fmt"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 func InsertIncome(w http.ResponseWriter, r *http.Request) {
