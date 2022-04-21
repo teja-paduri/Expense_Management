@@ -112,6 +112,25 @@ func (es *ExpenseStoreSQL) CreateExpense(expenseObj map[string]string) bool {
 	}
 	return true
 }
+func (es *ExpenseStoreSQL) UpdateExpense(expenseObj map[string]string) bool {
+
+	// stmt0, err0:= es.QueryRow("SELECT COUNT(*) FROM expense WHERE name=?",expenseObj["name"])
+	// if err0 != nil || {
+	// 	return false
+	// }
+	stmt, err := es.Prepare("UPDATE expense SET amount=? WHERE name=?")
+	_, err1 := stmt.Exec(expenseObj["amount"], expenseObj["name"])
+	if err1 != nil {
+		return false
+	}
+	defer stmt.Close()
+	// log.Fatalln(err)
+	log.Println(err, err1)
+	if err != nil || err1 != nil {
+		return false
+	}
+	return true
+}
 
 func (es *ExpenseStoreSQL) RetrieveExpense(reqName string, reqCategory string, reqDesc string) *models.Expense {
 	var expense *models.Expense
