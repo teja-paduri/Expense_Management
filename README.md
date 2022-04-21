@@ -40,6 +40,11 @@ The following functions are implemented int the final version of the project.
 ```
 go run main.go
 ```
+2. Running Backend Unit Testcases.   
+```
+cd tests
+go test -v
+```
 ### Start Frontend
 1. start frontend by running the following commands
 ```
@@ -47,6 +52,7 @@ cd Frontend
 npm install
 npm start
 ```
+
 
 ## References
 
@@ -64,12 +70,12 @@ https://user-images.githubusercontent.com/90812081/164535097-b6d0a471-15aa-4744-
 
 ### Backend Unit Test Video:
 ```
-
+https://github.com/teja-paduri/Expense_Management/blob/main/Sprint4/Backend%20Unit%20Tests%20Demo.mp4
 ```
 
 ### Link to API Documentation:
 ```
-
+https://github.com/teja-paduri/Expense_Management/blob/main/Sprint4/SPRINT%204%20Backend%20Documentation.pdf
 ```
 
 ### Link to Project board:
