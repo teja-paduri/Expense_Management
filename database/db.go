@@ -86,7 +86,6 @@ func (es *ExpenseStoreSQL) GetUsers() []string {
 	defer rows.Close()
 
 	var usersArr []string
-
 	for rows.Next() {
 		var user string
 		err := rows.Scan(&user)
