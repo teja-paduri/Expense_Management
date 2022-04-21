@@ -42,10 +42,10 @@ func InsertPaymentSplitRecord(w http.ResponseWriter, r *http.Request) {
 		}
 
 		borr_arr := strings.Split(borrowers, ",")
+		length := len(borr_arr)
+		for i := 0; i < length; i++ {
 
-		for i := 0; i < len(borr_arr); i++ {
-
-			output := db.RecordPaymentSplit(borr_arr[i], float64(amount)/float64(len(borr_arr)), user_id, username, description, timestamp)
+			output := db.RecordPaymentSplit(borr_arr[i], float64(amount)/float64(length+1), user_id, username, description, timestamp)
 			log.Printf("Output '%v'", output)
 			if output {
 				k := `PaymentSplit record created Successfully`
