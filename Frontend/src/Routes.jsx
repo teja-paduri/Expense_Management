@@ -18,6 +18,7 @@ import { isLoggedIn } from './Helpers';
 import EditProfile from './app/profile/EditProfile';
 import Income from './app/income/Income';
 import Expense from './app/expense/Expense';
+import ManageSplit from './app/Splitwise/ManageSplit';
 
 
 
@@ -66,7 +67,7 @@ const Routes = () => (
       <GuestRoute exact path={'/login'} component={Login} />
       <GuestRoute exact path={'/profile'} component={Profile} />
       <GuestRoute exact path={'/setting'} component={Setting} />
-      <GuestRoute exact path={'/splitwise'} component={Splitwise} />
+      <GuestRoute exact path={'/splitwise'} component={ManageSplit} />
       <GuestRoute exact path={'/profile/edit'} component={EditProfile} />
       <GuestRoute exact path={'/income'} component={Income} />
       <GuestRoute exact path={'/expense'} component={Expense} />
