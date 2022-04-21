@@ -61,12 +61,14 @@ npm start
 https://user-images.githubusercontent.com/90812081/164535097-b6d0a471-15aa-4744-b8e8-df336d0bb00a.mp4
 
 
-```
+
 
 ### Cypress Test Video:
-```
 
-```
+
+https://user-images.githubusercontent.com/37012026/164549858-6e8c2e5b-cd8d-497d-9868-bc0d2bbdcab8.mp4
+
+
 
 ### Backend Unit Test Video:
 ```
