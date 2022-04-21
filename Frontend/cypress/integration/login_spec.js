@@ -41,7 +41,7 @@ it("Validating the sign up link, which redirects to register page ",()=>{
 })
 
 it(' Checking Invalid Login credentials', () => {
-  loginWith('Srisai123@gmail.com','12345678')
+  loginWith('Srisai123@gmail.com','1234567899')
   cy.url().should('eq', 'http://localhost:3000/#/login')
   cy.contains('Incorrect email or password.').should('exist')
 })

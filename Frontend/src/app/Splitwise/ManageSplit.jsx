@@ -49,7 +49,7 @@ const Dashboard = (props) => {
         console.log(response.data);
         if (response.status === 200) {
           messages.clear();
-          messages.show({ severity: 'success', detail: "Expense Added Successfully", sticky: true });
+          messages.show({ severity: 'success', detail: "Split Expense Added Successfully", sticky: true });
           reset();
           setSubmitting(false);
         }
@@ -106,17 +106,17 @@ const Dashboard = (props) => {
             <br />
             <form onSubmit={handleSubmit(submitExpense)}>
             <div className="p-fluid">
-                <input type="text" ref={register} placeholder="name" id='ename' name="username" value= {uname} className="p-inputtext p-component p-filled" />
+                <input type="text" ref={register} placeholder="name" id='susername' name="username" value= {uname} className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
               </div>
 
             <div className="p-fluid">
-                <input type="text" ref={register} placeholder="userid" id='euserid' name="user_id" value= {uid} className="p-inputtext p-component p-filled" />
+                <input type="text" ref={register} placeholder="userid" id='suserid' name="user_id" value= {uid} className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
               </div>
               <div className="p-fluid">
                 <Controller
-                id='etimestamp'
+                id='stimestamp'
                   name="timestamp"
                   defaultValue={new Date()}
                   onChange={([e]) => {
@@ -138,16 +138,16 @@ const Dashboard = (props) => {
                 <p className="text-error">{errors.expense_date?.message}</p>
               </div>
               <div className="p-fluid">
-                <input type="text" ref={register} placeholder="borrowers" id='ecategory' name="borrowers" className="p-inputtext p-component p-filled" />
+                <input type="text" ref={register} placeholder="borrowers" id='sborrowers' name="borrowers" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.category?.message}</p>
               </div>
               <div className="p-fluid">
-                <input type="text" ref={register} placeholder="description" id='edescription' name="description" className="p-inputtext p-component p-filled" />
+                <input type="text" ref={register} placeholder="description" id='sdescription' name="description" className="p-inputtext p-component p-filled" />
                 <p className="text-error">{errors.description?.message}</p>
               </div>
               <div className="p-fluid">
                 <div className="p-inputgroup">
-                  <input type="number" step="0.00" id='amountInputExpense' ref={register} keyfilter="money" placeholder="Amount" name="amount" className="p-inputtext p-component p-filled" />
+                  <input type="number" step="0.00" id='samount' ref={register} keyfilter="money" placeholder="Amount" name="amount" className="p-inputtext p-component p-filled" />
                   <Button
                     label={"$"}
                     type="button" />
@@ -155,7 +155,7 @@ const Dashboard = (props) => {
                 <p className="text-error">{errors.amount?.message}</p>
               </div>
               <div className="p-fluid">
-                <Button disabled={submitting} type="submit" label="Add Split Expense" icon="pi pi-plus"
+                <Button id='saddsplitexpense'disabled={submitting} type="submit" label="Add Split Expense" icon="pi pi-plus"
                   className="p-button-raised" />
               </div>
             </form>
