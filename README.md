@@ -52,7 +52,23 @@ cd Frontend
 npm install
 npm start
 ```
+2. Running Frontend Cypress Tests.   
+```
+cd Frontend
+npx cypress open
+```
+## Frontend Info
 
+* Frontend/src/app/landing/Website.jsx- Home page of the website which shows basic information about the website.
+* Frontend/src/app/auth/Register.jsx- Register page of the website. Takes details like name, email, password and checks for uniqueness with DB and makes successful registeration
+* Frontend/src/app/auth/Login.jsx- Login page of the website. Takes email and password to authenticate the user.
+* Frontend/src/app/dashboard/Dashboard.jsx- The Main page of the Website. It contains the menu, which contains Income, Expense, Splitwise, Settings, Profile in the menu. This Page takes the inputs related to Expenses from user, such as amount,category,time, and inserts them in the DB.This page also has an inbuilt calculator for manual calculation of Expenses.
+* Frontend/src/app/income/Expense.jsx- This Page retrieves the expenses made by user with their categories of expenses.
+* Frontend/src/app/income/Income.jsx- This Page takes the inputs related to Income from user, such as source,amount,category,time, and inserts them in the DB.
+* Frontend/src/app/income/Splitwise.jsx- It is the Splitwise page, It takes the inputs from user, such as borrowers name, amount, spent on, description. And then it splits the amount equally between everyone(user and the borrowers given) and inserts them into DB.  
+* Frontend/src/app/income/Split.jsx- This page shows the amount,others owe to the user, and the amount,the user owes to others. 
+* Frontend/src/app/income/Setting.jsx- This Page enables to change the menu color, menu mode and language of the Application Dashboard.
+* Frontend/src/app/income/Profile.jsx- This page displays the Username  and email id of the user. And it also gives us the option to change the password for the user profile
 
 ## References
 
